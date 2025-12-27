@@ -1,0 +1,23 @@
+# 编译输出
+build/
+sdkconfig
+sdkconfig.old
+*.bin
+*.elf
+*.map
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+

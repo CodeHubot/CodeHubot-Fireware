@@ -1,0 +1,234 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "IoT设备控制",
+    "description": "传感器查询、设备控制（LED/继电器/舵机/PWM）、预设指令",
+    "version": "1.2.0"
+  },
+  "servers": [
+    {
+      "url": "https://plugin.example.com",
+      "description": "生产服务器"
+    }
+  ],
+  "paths": {
+    "/plugin/sensor-data": {
+      "get": {
+        "summary": "查询传感器",
+        "description": "获取各类传感器数据（温度、湿度、雨水、DS18B20等）",
+        "operationId": "getSensorData",
+        "tags": ["传感器"],
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "query",
+            "description": "UUID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "test"
+            }
+          },
+          {
+            "name": "sensor",
+            "in": "query",
+            "description": "传感器类型",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "温度",
+                "湿度",
+                "雨水",
+                "雨水级别",
+                "DS18B20",
+                "DS18B20温度",
+                "temperature",
+                "humidity",
+                "rain",
+                "rain_level"
+              ],
+              "example": "温度"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                  "code": {"type": "integer", "example": 200},
+                  "msg": {"type": "string", "example": "成功"},
+                    "data": {
+                      "type": "object",
+                    "properties": {
+                      "value": {"type": "number", "example": 24.5},
+                      "unit": {"type": "string", "example": "°C"}
+                    }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "msg": "成功",
+                  "data": {
+                    "value": 24.5,
+                    "unit": "°C"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/control": {
+      "post": {
+        "summary": "控制设备",
+        "description": "控制LED、继电器、舵机、PWM等设备",
+        "operationId": "controlDevice",
+        "tags": ["设备控制"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["device_uuid", "port_type", "port_id", "action"],
+                "properties": {
+                  "device_uuid": {
+                    "type": "string",
+                    "description": "设备UUID",
+                    "example": "test"
+                  },
+                  "port_type": {
+                    "type": "string",
+                    "description": "设备类型：led(LED灯)、relay(继电器)、servo(舵机)、pwm(PWM输出)",
+                    "enum": ["led", "relay", "servo", "pwm"],
+                    "example": "led"
+                  },
+                  "port_id": {
+                    "type": "integer",
+                    "description": "端口ID：LED和继电器为1-4，舵机为1-4，PWM为1-2",
+                    "minimum": 1,
+                    "maximum": 4,
+                    "example": 1
+                  },
+                  "action": {
+                    "type": "string",
+                    "description": "动作：on(打开)/off(关闭)/set(设置值，用于舵机角度或PWM占空比)",
+                    "enum": ["on", "off", "set"],
+                    "example": "on"
+                  },
+                  "value": {
+                    "type": "integer",
+                    "description": "设置值：舵机角度(0-180)或PWM占空比(0-100)，仅当action为set时需要",
+                    "minimum": 0,
+                    "maximum": 180,
+                    "example": 90
+                  }
+                }
+              },
+              "example": {
+                "device_uuid": "test",
+                "port_type": "led",
+                "port_id": 1,
+                "action": "on"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                  "code": {"type": "integer", "example": 200},
+                  "msg": {"type": "string", "example": "成功"},
+                    "data": {
+                      "type": "object",
+                    "properties": {
+                      "result": {"type": "string", "example": "success"}
+                    }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/preset": {
+      "post": {
+        "summary": "执行预设",
+        "description": "通过preset_key执行用户自定义预设",
+        "operationId": "executePreset",
+        "tags": ["预设指令"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["device_uuid", "preset_name"],
+                "properties": {
+                  "device_uuid": {
+                    "type": "string",
+                    "description": "设备UUID",
+                    "example": "test"
+                  },
+                  "preset_name": {
+                    "type": "string",
+                    "description": "预设标识(preset_key)，如：led_blink_k8x9y2",
+                    "example": "led_blink_k8x9y2"
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "description": "可选参数（通常为空）",
+                    "additionalProperties": true,
+                    "example": {}
+                  }
+                }
+              },
+              "example": {
+                "device_uuid": "test",
+                "preset_name": "led_blink_k8x9y2",
+                "parameters": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                  "code": {"type": "integer", "example": 200},
+                  "msg": {"type": "string", "example": "成功"},
+                    "data": {
+                      "type": "object",
+                    "properties": {
+                      "result": {"type": "string", "example": "success"}
+                    }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

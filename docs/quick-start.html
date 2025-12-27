@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快速开始 - AIOT系统使用指南</title>
+    <meta name="description" content="10分钟快速上手AIOT系统，从开箱到完成配网">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🤖</span>
+                <span>AIOT系统指南</span>
+            </a>
+            <button class="menu-toggle">☰</button>
+            <ul class="nav-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="quick-start.html" class="active">快速开始</a></li>
+                <li><a href="admin-panel.html">管理后台</a></li>
+                <li><a href="ai-control.html">Coze插件</a></li>
+                <li><a href="ai-creation.html">智能体构建平台</a></li>
+                <li><a href="firmware-flash.html">固件烧录</a></li>
+                <li><a href="serial-monitor.html">串口调试</a></li>
+                <li><a href="troubleshooting.html">帮助中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="main-container">
+        <!-- 面包屑 -->
+        <div class="breadcrumb">
+            <a href="index.html">首页</a>
+            <span class="breadcrumb-separator">/</span>
+            <span>快速开始</span>
+        </div>
+
+        <!-- 页面头部 -->
+        <div class="page-header fade-in">
+            <h1 class="page-title">🎯 快速开始</h1>
+            <p class="page-description">
+                10分钟完成设备配置，开始您的AIOT之旅
+            </p>
+        </div>
+
+        <!-- 进度指示 -->
+        <div class="card fade-in">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <div style="text-align: center; flex: 1; min-width: 120px;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">📦</div>
+                    <div style="font-weight: 600;">步骤1</div>
+                    <div style="font-size: 0.875rem; color: var(--text-light);">准备工作</div>
+                </div>
+                <div style="font-size: 1.5rem; color: var(--text-light);">→</div>
+                <div style="text-align: center; flex: 1; min-width: 120px;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🔌</div>
+                    <div style="font-weight: 600;">步骤2</div>
+                    <div style="font-size: 0.875rem; color: var(--text-light);">设备上电</div>
+                </div>
+                <div style="font-size: 1.5rem; color: var(--text-light);">→</div>
+                <div style="text-align: center; flex: 1; min-width: 120px;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">📝</div>
+                    <div style="font-weight: 600;">步骤3</div>
+                    <div style="font-size: 0.875rem; color: var(--text-light);">注册设备</div>
+                </div>
+                <div style="font-size: 1.5rem; color: var(--text-light);">→</div>
+                <div style="text-align: center; flex: 1; min-width: 120px;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">📱</div>
+                    <div style="font-weight: 600;">步骤4</div>
+                    <div style="font-size: 0.875rem; color: var(--text-light);">配网连接</div>
+                </div>
+                <div style="font-size: 1.5rem; color: var(--text-light);">→</div>
+                <div style="text-align: center; flex: 1; min-width: 120px;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">📊</div>
+                    <div style="font-weight: 600;">步骤5</div>
+                    <div style="font-size: 0.875rem; color: var(--text-light);">查看数据</div>
+                </div>
+                <div style="font-size: 1.5rem; color: var(--text-light);">→</div>
+                <div style="text-align: center; flex: 1; min-width: 120px;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🎮</div>
+                    <div style="font-weight: 600;">步骤6</div>
+                    <div style="font-size: 0.875rem; color: var(--text-light);">控制端口</div>
+                </div>
+                <div style="font-size: 1.5rem; color: var(--text-light);">→</div>
+                <div style="text-align: center; flex: 1; min-width: 120px;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">✅</div>
+                    <div style="font-weight: 600;">完成</div>
+                    <div style="font-size: 0.875rem; color: var(--text-light);">开始使用</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 准备工作 -->
+        <div class="card fade-in" id="step1">
+            <h2 class="card-title">📦 步骤1：准备工作</h2>
+            <div class="card-content">
+                <h3 style="margin-bottom: 15px;">硬件清单</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>物品</th>
+                            <th>数量</th>
+                            <th>说明</th>
+                            <th>必需</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ESP32-S3设备</td>
+                            <td>1</td>
+                            <td>主控设备，带LCD屏幕</td>
+                            <td>✅ 必需</td>
+                        </tr>
+                        <tr>
+                            <td>USB-C数据线</td>
+                            <td>1</td>
+                            <td>供电及烧录</td>
+                            <td>✅ 必需</td>
+                        </tr>
+                        <tr>
+                            <td>电源适配器</td>
+                            <td>1</td>
+                            <td>5V 1A规格</td>
+                            <td>✅ 必需</td>
+                        </tr>
+                        <tr>
+                            <td>传感器/舵机等</td>
+                            <td>若干</td>
+                            <td>根据需求选配</td>
+                            <td>⭕ 可选</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="margin: 30px 0 15px;">软件/网络准备</h3>
+                <ul>
+                    <li><strong>WiFi网络</strong>：2.4GHz频段，支持WPA2（不支持5GHz和企业网络）</li>
+                    <li><strong>管理后台</strong>：记录管理后台的网址（如：https://demo.example.com）</li>
+                    <li><strong>浏览器</strong>：Chrome、Safari、Edge等现代浏览器</li>
+                    <li><strong>手机</strong>：用于配网</li>
+                </ul>
+
+                <div class="alert alert-info" style="margin-top: 20px;">
+                    <div class="alert-icon">💡</div>
+                    <div class="alert-content">
+                        <div class="alert-title">小提示</div>
+                        <p>首次使用建议先在电脑旁边配置，方便查看LCD显示和调试。配置成功后可随意放置。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设备上电 -->
+        <div class="card fade-in" id="step2">
+            <h2 class="card-title">🔌 步骤2：设备开箱与上电</h2>
+            <div class="card-content">
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">检查设备外观</div>
+                            <div class="step-description">
+                                <ul>
+                                    <li><strong>LCD屏幕</strong>：位于设备正面，240×240像素，用于显示状态信息</li>
+                                    <li><strong>Boot按键</strong>：通常位于设备侧面，长按进入配网模式</li>
+                                    <li><strong>USB-C接口</strong>：用于供电和固件烧录</li>
+                                    <li><strong>GPIO引脚</strong>：用于连接外设（传感器、舵机、LED等）</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">连接电源</div>
+                            <div class="step-description">
+                                <p>使用USB-C数据线连接设备与电源适配器（或电脑USB口），设备会立即启动。</p>
+                                <div class="alert alert-warning" style="margin-top: 10px;">
+                                    <div class="alert-icon">⚠️</div>
+                                    <div class="alert-content">
+                                        <p>请使用至少1A电流的电源，电流不足可能导致设备工作不稳定或LCD显示异常。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">观察LCD显示</div>
+                            <div class="step-description">
+                                <p>上电后，LCD屏幕会显示启动信息：</p>
+                                <div style="background: #f0f0f0; padding: 15px; border-radius: 8px; margin: 15px 0; font-family: monospace;">
+                                    <div>Product: ESP32-S3-Dev-01</div>
+                                    <div>MAC: **:**:**:**:**</div>
+                                </div>
+                                <p style="color: #10b981; font-weight: 600; margin-top: 10px;">
+                                    ✓ 如果看到以上信息，说明设备启动正常！如果没有注册，使用MAC地址进行注册，具体见步骤3。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 注册设备 -->
+        <div class="card fade-in" id="step3">
+            <h2 class="card-title">📝 步骤3：在管理后台注册设备（如已注册，请跳过）</h2>
+            <div class="card-content">
+                <p>设备上电后，可以在LCD屏幕上看到MAC地址等信息。接下来需要在管理后台注册设备，才能进行远程控制和数据查看。</p>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">登录管理后台</div>
+                            <div class="step-description">
+                                <ol>
+                                    <li>打开浏览器，访问管理后台地址（如：https://demo.example.com）</li>
+                                    <li>输入用户名和密码登录</li>
+                                    <li>首次使用请先注册账号</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">进入设备管理</div>
+                            <div class="step-description">
+                                <ol>
+                                    <li>登录后，点击左侧菜单的<strong>"设备管理"</strong></li>
+                                    <li>点击右上角的<strong>"添加设备"</strong>按钮</li>
+                                    <li>选择<strong>"注册已有设备"</strong></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">获取设备信息</div>
+                            <div class="step-description">
+                                <p>在设备LCD屏幕上查找以下信息：</p>
+                                <ul>
+                                    <li><strong>MAC地址</strong>：12位十六进制数（如：AA:BB:CC:DD:EE:FF）</li>
+                                    <li><strong>UUID</strong>：设备唯一标识符（自动生成）</li>
+                                    <li><strong>产品代码</strong>：如ESP32-S3-Dev-01或ESP32-S3-Rain-01</li>
+                                </ul>
+                                <div class="alert alert-info" style="margin-top: 10px;">
+                                    <div class="alert-icon">💡</div>
+                                    <div class="alert-content">
+                                        <p>通常只需要输入MAC地址，其他信息会自动识别。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">填写设备信息</div>
+                            <div class="step-description">
+                                <p>在注册页面填写：</p>
+                                <ul>
+                                    <li><strong>MAC地址</strong>：输入设备的MAC地址</li>
+                                    <li><strong>设备名称</strong>：给设备起个好记的名字（如：智能家居网关）</li>
+                                    <li><strong>设备描述</strong>：备注信息（可选）</li>
+                                </ul>
+                                <p style="margin-top: 10px;">填写完成后，点击<strong>"提交注册"</strong>按钮。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <div class="step-title">验证注册成功</div>
+                            <div class="step-description">
+                                <p>注册成功后：</p>
+                                <ul>
+                                    <li>页面显示"注册成功"提示</li>
+                                    <li>设备列表中会出现新注册的设备</li>
+                                    <li>设备状态显示为"离线"（灰色，因为还未配网）</li>
+                                </ul>
+                                <p style="color: #10b981; font-weight: 600; margin-top: 10px;">
+                                    ✓ 设备注册完成！接下来进行配网连接。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning" style="margin-top: 20px;">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-content">
+                        <div class="alert-title">注意事项</div>
+                        <ul style="margin: 10px 0 0 0;">
+                            <li>每个设备只能注册一次，重复注册会提示"设备已存在"</li>
+                            <li>如需重新注册，请先在设备管理中解绑设备</li>
+                            <li>MAC地址必须准确，输入错误会导致注册失败</li>
+                            <li>注册后设备显示"离线"是正常的，完成配网后会变为"在线"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 配网连接 -->
+        <div class="card fade-in" id="step4">
+            <h2 class="card-title">📱 步骤4：配网连接WiFi</h2>
+            <div class="card-content">
+                <p>设备注册完成后，需要进行配网，连接WiFi和服务器。有两种方式可以进入配网模式：</p>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">方式1</div>
+                        <div class="step-content">
+                            <div class="step-title">自动进入配网模式（首次启动）</div>
+                            <div class="step-description">
+                                <p>如果设备是全新的或未保存WiFi信息，上电后会自动进入配网模式：</p>
+                                <ul>
+                                    <li>LCD显示"Config Mode"或"WiFi: Config..."</li>
+                                    <li>设备会创建一个WiFi热点，名称类似：<code>AIOT-ESP32-XXXXXX</code></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">方式2</div>
+                        <div class="step-content">
+                            <div class="step-title">手动进入配网模式（重新配网）</div>
+                            <div class="step-description">
+                                <p>如果需要更换WiFi或重新配置：</p>
+                                <ol>
+                                    <li>长按设备上的<strong>Boot按键</strong>约3秒</li>
+                                    <li>LCD显示"Entering Config Mode..."</li>
+                                    <li>松开按键，设备会重启并进入配网模式</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">连接配网热点</div>
+                            <div class="step-description">
+                                <ol>
+                                    <li>打开手机或电脑的WiFi设置</li>
+                                    <li>找到名为<code>AIOT-ESP32-XXXXXX</code>的WiFi热点</li>
+                                    <li>点击连接（无需密码）</li>
+                                    <li>连接后，系统会自动弹出配网页面</li>
+                                </ol>
+                                <div class="alert alert-info" style="margin-top: 10px;">
+                                    <div class="alert-icon">💡</div>
+                                    <div class="alert-content">
+                                        <p>如果没有自动弹出，请手动打开浏览器访问：<code>http://192.168.4.1</code></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">填写配网信息</div>
+                            <div class="step-description">
+                                <p>在配网页面填写以下信息：</p>
+                                <ul>
+                                    <li><strong>WiFi SSID</strong>：您的WiFi网络名称</li>
+                                    <li><strong>WiFi密码</strong>：WiFi密码（支持中文和特殊字符）</li>
+                                    <li><strong>服务器地址</strong>：管理后台地址（如：http://conf.example.com:8001）</li>
+                                </ul>
+                                <p style="margin-top: 10px;">填写完成后，点击<strong>"提交"</strong>按钮。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <div class="step-title">等待连接成功</div>
+                            <div class="step-description">
+                                <p>提交后，设备会尝试连接WiFi和服务器：</p>
+                                <ul>
+                                    <li>LCD显示"Connecting WiFi..."</li>
+                                    <li>连接成功后显示"WiFi: Connected"</li>
+                                    <li>接着显示"MQTT: Connected"</li>
+                                    <li>配网热点会自动关闭</li>
+                                    <li>您的手机/电脑会自动重连原来的WiFi</li>
+                                </ul>
+                                <p style="color: #10b981; font-weight: 600; margin-top: 10px;">
+                                    ✓ 如果LCD显示"WiFi: Connected"和"MQTT: Connected"，说明配网成功！
+                                </p>
+                                <p style="margin-top: 10px;">此时回到管理后台，设备状态应该从"离线"变为<strong>"在线"（绿色）</strong>。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning" style="margin-top: 20px;">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-content">
+                        <div class="alert-title">常见问题</div>
+                        <ul style="margin: 10px 0 0 0;">
+                            <li>如果配网失败，设备会在30秒后自动重启并重新进入配网模式</li>
+                            <li>请确认WiFi密码正确，特别注意大小写</li>
+                            <li>确保WiFi是2.4GHz频段（不支持5GHz）</li>
+                            <li>服务器地址要填写完整，包括http://前缀和端口号</li>
+                            <li>如果多次失败，可以尝试重启设备后重新配网</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert alert-success" style="margin-top: 20px;">
+                    <div class="alert-icon">🎉</div>
+                    <div class="alert-content">
+                        <div class="alert-title">恭喜！配网完成</div>
+                        <p>设备现在已经连接到WiFi和服务器，可以开始远程控制和数据查看了！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 查看传感器数据 -->
+        <div class="card fade-in" id="step5">
+            <h2 class="card-title">📊 步骤5：查看传感器数据</h2>
+            <div class="card-content">
+                <p>设备注册成功后，首先学习如何查看传感器数据，了解设备当前状态和环境信息。</p>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">进入设备详情</div>
+                            <div class="step-description">
+                                <ol>
+                                    <li>在"设备管理"页面，找到您注册的设备</li>
+                                    <li>点击设备名称或右侧的<strong>"查看详情"</strong>按钮</li>
+                                    <li>进入设备详情页面</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">查看实时传感器数据</div>
+                            <div class="step-description">
+                                <p>在"传感器数据"标签页，您可以看到各种传感器的实时数据：</p>
+                                <table style="margin-top: 15px;">
+                                    <thead>
+                                        <tr>
+                                            <th>传感器类型</th>
+                                            <th>数据示例</th>
+                                            <th>说明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>DHT11温湿度</td>
+                                            <td>24.5C / 50%</td>
+                                            <td>温度和湿度</td>
+                                        </tr>
+                                        <tr>
+                                            <td>DS18B20</td>
+                                            <td>25.0C</td>
+                                            <td>防水温度传感器</td>
+                                        </tr>
+                                        <tr>
+                                            <td>雨水传感器</td>
+                                            <td>Dry / Raining</td>
+                                            <td>是否检测到雨水</td>
+                                        </tr>
+                                        <tr>
+                                            <td>光照传感器</td>
+                                            <td>1200 lux</td>
+                                            <td>环境光照强度</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="alert alert-info" style="margin-top: 15px;">
+                                    <div class="alert-icon">💡</div>
+                                    <div class="alert-content">
+                                        <div class="alert-title">小提示</div>
+                                        <p>传感器数据每10秒自动上报一次，页面会实时更新显示。如果显示"--"或"N/A"，说明该端口未连接传感器。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">查看历史数据</div>
+                            <div class="step-description">
+                                <ol>
+                                    <li>点击"历史记录"标签</li>
+                                    <li>选择时间范围（最近1小时、24小时、7天等）</li>
+                                    <li>查看数据趋势图表</li>
+                                    <li>可以导出数据为CSV文件</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">实际操作示例</div>
+                            <div class="step-description">
+                                <p><strong>试试这个简单测试：</strong></p>
+                                <ol>
+                                    <li>找到DHT11温度传感器的数值（如果已连接）</li>
+                                    <li>用手轻轻捂住传感器，等待10-15秒</li>
+                                    <li>观察页面上的温度数值是否上升</li>
+                                    <li>松开手，等待温度恢复正常</li>
+                                </ol>
+                                <p style="margin-top: 10px; color: #10b981; font-weight: 600;">
+                                    ✓ 如果温度有变化，说明传感器工作正常，数据传输无误！
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-success" style="margin-top: 20px;">
+                    <div class="alert-icon">🎉</div>
+                    <div class="alert-content">
+                        <div class="alert-title">太棒了！</div>
+                        <p>您已经学会了如何查看传感器数据。接下来，让我们学习如何控制设备的各种端口。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 控制端口 -->
+        <div class="card fade-in" id="step6">
+            <h2 class="card-title">🎮 步骤6：控制设备端口</h2>
+            <div class="card-content">
+                <p>掌握了传感器数据查看后，接下来学习如何远程控制设备。让我们通过最简单的LED测试来体验远程控制功能。</p>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">进入远程控制页面</div>
+                            <div class="step-description">
+                                <ol>
+                                    <li>在设备详情页面，点击<strong>"远程控制"</strong>标签</li>
+                                    <li>页面会显示该设备支持的所有控制端口</li>
+                                    <li>找到<strong>"LED控制"</strong>面板</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">测试LED开关</div>
+                            <div class="step-description">
+                                <p>让我们控制板载的LED灯：</p>
+                                <ol>
+                                    <li>在LED控制面板中，选择<strong>LED1</strong></li>
+                                    <li>点击<strong>"开"</strong>按钮，LED1应该会亮起 💡</li>
+                                    <li>点击<strong>"关"</strong>按钮，LED1应该会熄灭</li>
+                                    <li>可以尝试控制LED2、LED3、LED4</li>
+                                </ol>
+                                <div class="alert alert-info" style="margin-top: 10px;">
+                                    <div class="alert-icon">💡</div>
+                                    <div class="alert-content">
+                                        <p><strong>提示：</strong>控制命令会立即发送到设备，通常1秒内生效。观察设备板上的LED是否响应。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">验证控制成功</div>
+                            <div class="step-description">
+                                <p>如果LED能够正常开关，说明远程控制功能工作正常！🎉</p>
+                                <ul style="margin-top: 10px;">
+                                    <li>✅ 设备能够接收并执行远程命令</li>
+                                    <li>✅ 网络通信正常</li>
+                                    <li>✅ 系统运行稳定</li>
+                                </ul>
+                                <p style="margin-top: 15px; color: #10b981; font-weight: 600;">
+                                    ✓ 恭喜！您已经完成了基本的远程控制测试。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-success" style="margin-top: 20px;">
+                    <div class="alert-icon">🎓</div>
+                    <div class="alert-content">
+                        <div class="alert-title">了解更多控制功能</div>
+                        <p>除了LED，系统还支持控制舵机、继电器、PWM输出等更多端口类型。</p>
+                        <p style="margin-top: 5px;">详细使用方法请查看：<a href="admin-panel.html#设备控制" style="color: #3b82f6; text-decoration: underline;">管理后台使用指南</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 AIOT智能设备管理系统 | <a href="https://gitee.com/OSABC/aiot" target="_blank">Gitee</a> | <a href="troubleshooting.html">文档反馈</a></p>
+            <p style="margin-top: 10px; font-size: 0.875rem;">
+                基于ESP32-S3 · Made with ❤️
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

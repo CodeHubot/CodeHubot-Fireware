@@ -1,0 +1,127 @@
+menu "Bluetooth Provisioning Configuration"
+
+    config BT_PROVISION_ENABLED
+        bool "Enable Bluetooth Provisioning"
+        default y
+        depends on BT_ENABLED && BLUEDROID_ENABLED
+        help
+            Enable Bluetooth provisioning functionality for WiFi and server configuration.
+            This allows devices to be configured via Bluetooth Low Energy (BLE).
+
+    config BT_PROVISION_DEVICE_NAME
+        string "Bluetooth Device Name"
+        default "AIOT-Device"
+        depends on BT_PROVISION_ENABLED
+        help
+            The name that will be advertised when the device is in provisioning mode.
+            This name will be visible to users when scanning for devices.
+
+    config BT_PROVISION_SECURITY_ENABLED
+        bool "Enable Provisioning Security"
+        default y
+        depends on BT_PROVISION_ENABLED
+        help
+            Enable security features for Bluetooth provisioning including
+            authentication and encryption of provisioning data.
+
+    config BT_PROVISION_SECURITY_KEY
+        string "Provisioning Security Key"
+        default "AIOT2024"
+        depends on BT_PROVISION_SECURITY_ENABLED
+        help
+            The security key used for provisioning authentication.
+            This should be changed for production deployments.
+
+    config BT_PROVISION_TIMEOUT_MS
+        int "Provisioning Timeout (milliseconds)"
+        default 300000
+        range 30000 600000
+        depends on BT_PROVISION_ENABLED
+        help
+            Timeout for the provisioning process in milliseconds.
+            After this timeout, the device will stop advertising and
+            return to normal operation mode.
+
+    config BT_PROVISION_RETRY_COUNT
+        int "WiFi Connection Retry Count"
+        default 3
+        range 1 10
+        depends on BT_PROVISION_ENABLED
+        help
+            Number of times to retry WiFi connection during provisioning
+            before reporting failure.
+
+    config BT_PROVISION_RETRY_DELAY_MS
+        int "Retry Delay (milliseconds)"
+        default 5000
+        range 1000 30000
+        depends on BT_PROVISION_ENABLED
+        help
+            Delay between WiFi connection retry attempts in milliseconds.
+
+    config BT_PROVISION_AUTO_START
+        bool "Auto Start Provisioning"
+        default y
+        depends on BT_PROVISION_ENABLED
+        help
+            Automatically start provisioning mode if the device is not
+            configured when the system boots up.
+
+    config BT_PROVISION_FORCE_PROVISION_GPIO
+        int "Force Provisioning GPIO Pin"
+        default -1
+        range -1 39
+        depends on BT_PROVISION_ENABLED
+        help
+            GPIO pin number that can be used to force provisioning mode.
+            Set to -1 to disable this feature.
+            When this pin is pulled low during boot, the device will
+            enter provisioning mode regardless of current configuration.
+
+    config BT_PROVISION_STATUS_LED_GPIO
+        int "Status LED GPIO Pin"
+        default -1
+        range -1 39
+        depends on BT_PROVISION_ENABLED
+        help
+            GPIO pin number for status LED indication during provisioning.
+            Set to -1 to disable LED status indication.
+            The LED will blink to indicate provisioning status.
+
+    config BT_PROVISION_NVS_NAMESPACE
+        string "NVS Namespace"
+        default "bt_provision"
+        depends on BT_PROVISION_ENABLED
+        help
+            NVS namespace used to store provisioning configuration data.
+            This should be unique to avoid conflicts with other components.
+
+    config BT_PROVISION_LOG_LEVEL
+        int "Log Level"
+        default 3
+        range 0 5
+        depends on BT_PROVISION_ENABLED
+        help
+            Log level for Bluetooth provisioning module:
+            0 = None, 1 = Error, 2 = Warning, 3 = Info, 4 = Debug, 5 = Verbose
+
+    config BT_PROVISION_GATT_MTU_SIZE
+        int "GATT MTU Size"
+        default 512
+        range 23 512
+        depends on BT_PROVISION_ENABLED
+        help
+            Maximum Transmission Unit (MTU) size for GATT characteristics.
+            Larger values allow for more data to be sent in a single packet
+            but may not be supported by all clients.
+
+    config BT_PROVISION_MAX_CONNECTIONS
+        int "Maximum BLE Connections"
+        default 1
+        range 1 4
+        depends on BT_PROVISION_ENABLED
+        help
+            Maximum number of simultaneous BLE connections during provisioning.
+            Usually 1 is sufficient for most use cases.
+
+endmenu

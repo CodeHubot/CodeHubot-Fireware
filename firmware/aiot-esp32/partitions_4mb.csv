@@ -1,0 +1,34 @@
+# ESP32-S3 AIOT设备管理系统 - OTA分区表 (4MB Flash)
+# 适用于4MB Flash的ESP32-S3设备
+# 支持双OTA分区、NVS存储等基本功能
+
+# Name,   Type, SubType, Offset,  Size,    Flags
+# NVS分区 - 存储WiFi配置、设备配置等
+nvs,        data, nvs,     0x9000,  0x6000,
+
+# PHY初始化数据分区
+phy_init,   data, phy,     0xf000,  0x1000,
+
+# Factory应用分区 - 出厂固件
+factory,    app,  factory, 0x10000, 0x100000,
+
+# OTA_0分区 - 第一个OTA应用分区
+ota_0,      app,  ota_0,   0x110000, 0x100000,
+
+# OTA_1分区 - 第二个OTA应用分区  
+ota_1,      app,  ota_1,   0x210000, 0x100000,
+
+# OTA数据分区 - 存储OTA状态信息
+otadata,    data, ota,     0x310000, 0x2000,
+
+# SPIFFS文件系统分区 - 存储Web页面、配置文件等
+spiffs,     data, spiffs,  0x312000, 0x80000,
+
+# 用户数据分区 - 存储传感器数据、日志等
+userdata,   data, 0x40,    0x392000, 0x60000,
+
+# 系统配置分区 - 存储系统配置、证书等
+syscfg,     data, 0x41,    0x3F2000, 0xC000,
+
+# 日志分区 - 存储系统日志
+logs,       data, 0x43,    0x3FE000, 0x2000,

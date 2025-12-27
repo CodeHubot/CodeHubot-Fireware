@@ -1,0 +1,46 @@
+# ESP32-S3 AIOT设备管理系统 - OTA分区表 (16MB Flash)
+# 适用于16MB Flash的ESP32-S3设备
+# 支持双OTA分区、大容量存储、完整功能
+
+# Name,   Type, SubType, Offset,  Size,    Flags
+# NVS分区 - 存储WiFi配置、设备配置等
+nvs,        data, nvs,     0x9000,  0x6000,
+
+# PHY初始化数据分区
+phy_init,   data, phy,     0xf000,  0x1000,
+
+# Factory应用分区 - 出厂固件
+factory,    app,  factory, 0x10000, 0x200000,
+
+# OTA_0分区 - 第一个OTA应用分区
+ota_0,      app,  ota_0,   0x210000, 0x200000,
+
+# OTA_1分区 - 第二个OTA应用分区  
+ota_1,      app,  ota_1,   0x410000, 0x200000,
+
+# OTA数据分区 - 存储OTA状态信息
+otadata,    data, ota,     0x610000, 0x2000,
+
+# SPIFFS文件系统分区 - 存储Web页面、配置文件等
+spiffs,     data, spiffs,  0x612000, 0x200000,
+
+# 用户数据分区 - 存储传感器数据、历史记录等
+userdata,   data, 0x40,    0x812000, 0x300000,
+
+# 系统配置分区 - 存储系统配置、证书等
+syscfg,     data, 0x41,    0xB12000, 0x20000,
+
+# 固件备份分区 - 存储固件备份信息
+fwbackup,   data, 0x42,    0xB32000, 0x10000,
+
+# 日志分区 - 存储系统日志
+logs,       data, 0x43,    0xB42000, 0x20000,
+
+# AI模型分区 - 存储AI模型数据(可选)
+aimodel,    data, 0x44,    0xB62000, 0x400000,
+
+# 缓存分区 - 存储临时数据、缓存等
+cache,      data, 0x45,    0xF62000, 0x90000,
+
+# 预留分区 - 未来扩展使用
+reserved,   data, 0x46,    0xFF2000, 0xE000,

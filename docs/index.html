@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIOT系统使用指南 - 首页</title>
+    <meta name="description" content="AIOT智能设备管理系统完整使用指南，从入门到精通">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🤖</span>
+                <span>AIOT系统指南</span>
+            </a>
+            <button class="menu-toggle">☰</button>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">首页</a></li>
+                <li><a href="quick-start.html">快速开始</a></li>
+                <li><a href="admin-panel.html">管理后台</a></li>
+                <li><a href="ai-control.html">Coze插件</a></li>
+                <li><a href="ai-creation.html">智能体构建平台</a></li>
+                <li><a href="firmware-flash.html">固件烧录</a></li>
+                <li><a href="serial-monitor.html">串口调试</a></li>
+                <li><a href="troubleshooting.html">帮助中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="main-container">
+        <!-- 页面头部 -->
+        <div class="page-header fade-in">
+            <h1 class="page-title">🎉 欢迎使用AIOT智能设备管理系统</h1>
+            <p class="page-description">
+                一套完整的物联网设备管理解决方案，支持实时控制、数据采集和AI智能交互
+            </p>
+        </div>
+
+        <!-- 系统简介 -->
+        <div class="card fade-in">
+            <h2 class="card-title">📱 系统简介</h2>
+            <div class="card-content">
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 25px;">
+                    AIOT智能设备管理系统是一套<strong>融合人工智能的物联网设备控制平台</strong>，基于ESP32-S3硬件和Coze AI引擎，
+                    让您能够<strong>用自然语言控制智能设备</strong>，真正实现"能说会做"的智能家居体验。
+                </p>
+                
+                <div style="background: linear-gradient(135deg, #e0e7ff 0%, #fce7f3 100%); padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                        <span style="font-size: 2.5rem;">🤖</span>
+                        <div>
+                            <div style="font-size: 1.2rem; font-weight: 600; color: #5b21b6;">AI驱动的智能控制</div>
+                            <div style="color: #6b7280; margin-top: 5px;">无需记忆指令，像聊天一样控制设备</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 200px;">
+                            <strong style="color: #5b21b6;">🗣️ 自然语言交互</strong>
+                            <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: #6b7280;">
+                                "打开灯"、"太热了"、"我要睡觉了"，AI都能理解
+                            </p>
+                        </div>
+                        <div style="flex: 1; min-width: 200px;">
+                            <strong style="color: #5b21b6;">🧠 智能场景联动</strong>
+                            <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: #6b7280;">
+                                一句话触发多个动作，AI自动编排执行顺序
+                            </p>
+                        </div>
+                        <div style="flex: 1; min-width: 200px;">
+                            <strong style="color: #5b21b6;">💡 上下文理解</strong>
+                            <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: #6b7280;">
+                                根据环境、时间、用户习惯智能判断意图
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-bottom: 15px;">完整功能体系</h3>
+                <div class="grid grid-2">
+                    <ul>
+                        <li><strong>🤖 AI智能控制</strong>：Coze平台自然语言交互，智能理解复杂指令</li>
+                        <li><strong>🎮 实时设备控制</strong>：LED、继电器、舵机、PWM等多种端口</li>
+                        <li><strong>📊 数据采集监测</strong>：温湿度、光照等传感器实时上报</li>
+                    </ul>
+                    <ul>
+                        <li><strong>📋 场景预设指令</strong>：一键执行复杂操作组合</li>
+                        <li><strong>🚀 OTA远程升级</strong>：无线推送固件更新</li>
+                        <li><strong>📱 LCD可视反馈</strong>：设备状态实时显示</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 系统架构 -->
+        <div class="card fade-in">
+            <h2 class="card-title">🏗️ 系统整体架构</h2>
+            <div class="card-content">
+                <div style="overflow-x: auto; margin: 20px 0;">
+                    <div style="min-width: 800px; padding: 30px; background: #f8f9fa; border-radius: 12px;">
+                        <!-- 用户层 -->
+                        <div style="text-align: center; margin-bottom: 30px;">
+                            <div style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px; font-weight: 600; font-size: 1.1rem;">
+                                👤 用户层
+                            </div>
+                        </div>
+
+                        <!-- 前端应用层 -->
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px;">
+                            <div style="background: white; border: 2px solid #667eea; border-radius: 8px; padding: 20px; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 10px;">🖥️</div>
+                                <div style="font-weight: 600; color: #667eea; margin-bottom: 5px;">管理后台</div>
+                                <div style="font-size: 0.85rem; color: #666;">设备管理、数据监控</div>
+                            </div>
+                            <div style="background: white; border: 2px solid #22c55e; border-radius: 8px; padding: 20px; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 10px;">🤖</div>
+                                <div style="font-weight: 600; color: #22c55e; margin-bottom: 5px;">智能体构建平台</div>
+                                <div style="font-size: 0.85rem; color: #666;">知识库、工作流、插件</div>
+                            </div>
+                            <div style="background: white; border: 2px solid #eab308; border-radius: 8px; padding: 20px; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 10px;">💬</div>
+                                <div style="font-weight: 600; color: #eab308; margin-bottom: 5px;">AI对话界面</div>
+                                <div style="font-size: 0.85rem; color: #666;">自然语言交互</div>
+                            </div>
+                        </div>
+
+                        <!-- 连接线 -->
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="display: inline-block; width: 3px; height: 30px; background: #667eea;"></div>
+                        </div>
+
+                        <!-- 后端服务层 -->
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 30px;">
+                            <div style="background: white; border: 2px solid #ef4444; border-radius: 8px; padding: 20px; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 10px;">⚙️</div>
+                                <div style="font-weight: 600; color: #ef4444; margin-bottom: 5px;">管理后台API</div>
+                                <div style="font-size: 0.85rem; color: #666;">FastAPI</div>
+                            </div>
+                            <div style="background: white; border: 2px solid #f59e0b; border-radius: 8px; padding: 20px; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 10px;">📡</div>
+                                <div style="font-weight: 600; color: #f59e0b; margin-bottom: 5px;">MQTT服务</div>
+                                <div style="font-size: 0.85rem; color: #666;">消息通信</div>
+                            </div>
+                            <div style="background: white; border: 2px solid #8b5cf6; border-radius: 8px; padding: 20px; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 10px;">🔌</div>
+                                <div style="font-weight: 600; color: #8b5cf6; margin-bottom: 5px;">Plugin服务</div>
+                                <div style="font-size: 0.85rem; color: #666;">设备控制API</div>
+                            </div>
+                            <div style="background: white; border: 2px solid #06b6d4; border-radius: 8px; padding: 20px; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 10px;">🧠</div>
+                                <div style="font-weight: 600; color: #06b6d4; margin-bottom: 5px;">智能体引擎</div>
+                                <div style="font-size: 0.85rem; color: #666;">LLM、RAG、工作流</div>
+                            </div>
+                        </div>
+
+                        <!-- 连接线 -->
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="display: inline-block; width: 3px; height: 30px; background: #667eea;"></div>
+                        </div>
+
+                        <!-- 数据层 -->
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px;">
+                            <div style="background: white; border: 2px solid #10b981; border-radius: 8px; padding: 20px; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 10px;">🗄️</div>
+                                <div style="font-weight: 600; color: #10b981; margin-bottom: 5px;">MySQL</div>
+                                <div style="font-size: 0.85rem; color: #666;">关系数据库</div>
+                            </div>
+                            <div style="background: white; border: 2px solid #dc2626; border-radius: 8px; padding: 20px; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 10px;">⚡</div>
+                                <div style="font-weight: 600; color: #dc2626; margin-bottom: 5px;">Redis</div>
+                                <div style="font-size: 0.85rem; color: #666;">缓存、队列</div>
+                            </div>
+                            <div style="background: white; border: 2px solid #7c3aed; border-radius: 8px; padding: 20px; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 10px;">📚</div>
+                                <div style="font-weight: 600; color: #7c3aed; margin-bottom: 5px;">向量数据库</div>
+                                <div style="font-size: 0.85rem; color: #666;">知识库存储</div>
+                            </div>
+                        </div>
+
+                        <!-- 连接线 -->
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="display: inline-block; width: 3px; height: 30px; background: #667eea;"></div>
+                        </div>
+
+                        <!-- 硬件层 -->
+                        <div style="text-align: center;">
+                            <div style="display: inline-block; padding: 20px 40px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border-radius: 8px; font-weight: 600; font-size: 1.1rem;">
+                                🔌 硬件层：ESP32-S3设备
+                            </div>
+                            <div style="margin-top: 20px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
+                                <div style="background: white; border: 2px solid #10b981; border-radius: 8px; padding: 15px; text-align: center;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 5px;">💡</div>
+                                    <div style="font-size: 0.85rem; color: #666;">LED控制</div>
+                                </div>
+                                <div style="background: white; border: 2px solid #10b981; border-radius: 8px; padding: 15px; text-align: center;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 5px;">🌡️</div>
+                                    <div style="font-size: 0.85rem; color: #666;">传感器</div>
+                                </div>
+                                <div style="background: white; border: 2px solid #10b981; border-radius: 8px; padding: 15px; text-align: center;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 5px;">⚙️</div>
+                                    <div style="font-size: 0.85rem; color: #666;">执行器</div>
+                                </div>
+                                <div style="background: white; border: 2px solid #10b981; border-radius: 8px; padding: 15px; text-align: center;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 5px;">📺</div>
+                                    <div style="font-size: 0.85rem; color: #666;">LCD显示</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px; padding: 20px; background: #f0f4ff; border-radius: 8px; border-left: 4px solid #667eea;">
+                    <h4 style="margin: 0 0 15px 0; color: #667eea;">架构说明</h4>
+                    <div class="grid grid-2" style="font-size: 0.9rem; line-height: 1.8;">
+                        <div>
+                            <strong>前端层：</strong>提供用户交互界面，包括设备管理、智能体构建和AI对话
+                        </div>
+                        <div>
+                            <strong>后端层：</strong>提供API服务、消息通信、设备控制和智能体引擎
+                        </div>
+                        <div>
+                            <strong>数据层：</strong>存储设备数据、缓存和知识库向量数据
+                        </div>
+                        <div>
+                            <strong>硬件层：</strong>ESP32-S3设备，执行实际的控制和采集任务
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心特性 -->
+        <div class="card fade-in">
+            <h2 class="card-title">✨ 核心特性</h2>
+            <div class="card-content">
+                <!-- 主打特性：AI智能控制 -->
+                <div class="alert" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; margin-bottom: 30px;">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div style="font-size: 4rem;">🤖</div>
+                        <div style="flex: 1; color: white;">
+                            <div style="font-size: 1.5rem; font-weight: 600; margin-bottom: 10px;">AI智能语音控制</div>
+                            <p style="margin: 0; font-size: 1.1rem; line-height: 1.6; opacity: 0.95;">
+                                <strong>解放双手，用说话控制设备！</strong>集成Coze AI平台，支持自然语言交互，无需记忆复杂指令。
+                            </p>
+                            <div style="margin-top: 15px; display: flex; gap: 15px; flex-wrap: wrap; font-size: 0.9rem;">
+                                <div>💬 <strong>自然对话</strong>：像聊天一样控制</div>
+                                <div>🧠 <strong>智能理解</strong>：识别口语化表达</div>
+                                <div>🎯 <strong>场景联动</strong>：一句话控制多设备</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 其他特性 -->
+                <div class="grid grid-3" style="margin-top: 20px;">
+                    <div class="alert alert-info">
+                        <div class="alert-icon">📱</div>
+                        <div class="alert-content">
+                            <div class="alert-title">LCD实时显示</div>
+                            <p>设备状态一目了然</p>
+                        </div>
+                    </div>
+                    <div class="alert alert-success">
+                        <div class="alert-icon">📡</div>
+                        <div class="alert-content">
+                            <div class="alert-title">WiFi智能适配</div>
+                            <p>支持多种WiFi类型</p>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning">
+                        <div class="alert-icon">🚀</div>
+                        <div class="alert-content">
+                            <div class="alert-title">OTA无线升级</div>
+                            <p>远程推送固件更新</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- 行动号召 -->
+        <div style="text-align: center; margin: 60px 0; padding: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; color: white;">
+            <h2 style="color: white; margin-bottom: 20px;">🚀 准备好开始了吗？</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9;">
+                
+            </p>
+            <a href="quick-start.html" class="btn btn-primary" style="background: white; color: #667eea; font-size: 1.1rem; padding: 15px 40px;">
+                立即开始 →
+            </a>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 AIOT智能设备管理系统 | <a href="#">GitHub</a> | <a href="#">文档反馈</a></p>
+            <p style="margin-top: 10px; font-size: 0.875rem;">
+                基于ESP32-S3 · Made with ❤️
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
+

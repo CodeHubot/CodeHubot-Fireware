@@ -1,0 +1,11 @@
+# ESP32-S3 教学简化版分区表
+# 专为教学和学习目的设计，简化了分区配置
+# Name,   Type, SubType, Offset,  Size,    Flags
+nvs,      data, nvs,     0x9000,  0x6000,
+phy_init, data, phy,     0xf000,  0x1000,
+factory,  app,  factory, 0x10000, 1M,
+ota_0,    app,  ota_0,   0x110000,1M,
+ota_1,    app,  ota_1,   0x210000,1M,
+nvs_key,  data, nvs_keys,0x310000,0x1000,
+config,   data, 0x40,    0x311000,0x10000,
+spiffs,   data, spiffs,  0x321000,0x100000,

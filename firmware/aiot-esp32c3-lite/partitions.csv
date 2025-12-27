@@ -1,0 +1,35 @@
+# ESP32-C3 AIOT精简版 - 分区表 (4MB Flash, 无OTA)
+# 适用于4MB Flash的ESP32-C3设备
+# 单分区设计，节省空间，无OTA升级功能
+
+# Name,     Type, SubType,  Offset,   Size,     Flags
+# NVS分区 - 存储WiFi配置、设备配置等
+nvs,        data, nvs,      0x9000,   0x6000,
+
+# PHY初始化数据分区
+phy_init,   data, phy,      0xf000,   0x1000,
+
+# Factory应用分区 - 主应用 (3MB，足够精简固件)
+factory,    app,  factory,  0x10000,  0x300000,
+
+# SPIFFS文件系统分区 - 存储配网Web页面等 (512KB)
+spiffs,     data, spiffs,   0x310000, 0x80000,
+
+# 用户数据分区 - 存储传感器数据、历史记录等 (192KB)
+userdata,   data, 0x40,     0x390000, 0x30000,
+
+# 系统配置分区 - 存储系统配置 (32KB)
+syscfg,     data, 0x41,     0x3C0000, 0x8000,
+
+# 日志分区 - 存储系统日志 (32KB)
+logs,       data, 0x43,     0x3C8000, 0x8000,
+
+# 预留空间 (160KB，未来扩展使用)
+# reserved,   data, 0x46,     0x3D0000, 0x28000,
+
+# 说明:
+# - 无OTA分区，节省约2MB空间
+# - Factory应用分区3MB，足够精简固件使用
+# - 总计使用约3.8MB / 4MB
+# - 预留约200KB未分配空间
+

@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帮助中心 - AIOT系统使用指南</title>
+    <meta name="description" content="AIOT系统帮助中心：故障排查、常见问题、使用技巧">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🤖</span>
+                <span>AIOT系统指南</span>
+            </a>
+            <button class="menu-toggle">☰</button>
+            <ul class="nav-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="quick-start.html">快速开始</a></li>
+                <li><a href="admin-panel.html">管理后台</a></li>
+                <li><a href="ai-control.html">Coze插件</a></li>
+                <li><a href="ai-creation.html">智能体构建平台</a></li>
+                <li><a href="firmware-flash.html">固件烧录</a></li>
+                <li><a href="serial-monitor.html">串口调试</a></li>
+                <li><a href="troubleshooting.html" class="active">帮助中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="main-container">
+        <!-- 面包屑 -->
+        <div class="breadcrumb">
+            <a href="index.html">首页</a>
+            <span class="breadcrumb-separator">/</span>
+            <span>帮助中心</span>
+        </div>
+
+        <!-- 页面头部 -->
+        <div class="page-header fade-in">
+            <h1 class="page-title">🆘 帮助中心</h1>
+            <p class="page-description">
+                故障排查、常见问题、使用技巧 - 一站式帮助文档
+            </p>
+        </div>
+
+        <!-- 快速诊断 -->
+        <div class="card fade-in">
+            <h2 class="card-title">⚡ 快速诊断</h2>
+            <div class="card-content">
+                <p style="margin-bottom: 15px;">根据设备状态快速定位问题：</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>现象</th>
+                            <th>可能原因</th>
+                            <th>快速跳转</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>找不到配网热点</td>
+                            <td>设备未进入配网模式</td>
+                            <td><a href="#配网问题">→ 配网问题</a></td>
+                        </tr>
+                        <tr>
+                            <td>无法连接WiFi</td>
+                            <td>密码错误/信号弱</td>
+                            <td><a href="#配网问题">→ 配网问题</a></td>
+                        </tr>
+                        <tr>
+                            <td>设备显示离线</td>
+                            <td>网络/MQTT问题</td>
+                            <td><a href="#连接问题">→ 连接问题</a></td>
+                        </tr>
+                        <tr>
+                            <td>控制指令无响应</td>
+                            <td>设备离线/端口错误</td>
+                            <td><a href="#控制问题">→ 控制问题</a></td>
+                        </tr>
+                        <tr>
+                            <td>传感器无数据</td>
+                            <td>传感器未连接/故障</td>
+                            <td><a href="#控制问题">→ 控制问题</a></td>
+                        </tr>
+                        <tr>
+                            <td>设备反复重启</td>
+                            <td>电源/固件问题</td>
+                            <td><a href="#系统问题">→ 系统问题</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 配网问题 -->
+        <div class="card fade-in" id="配网问题">
+            <h2 class="card-title">📱 配网问题</h2>
+            <div class="card-content">
+                <h3 style="margin-bottom: 15px;">问题1：找不到配网热点</h3>
+                
+                <div class="alert alert-warning">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-content">
+                        <div class="alert-title">症状</div>
+                        <p>手机WiFi列表中找不到 <code>AIOT_xxxxxx</code> 热点</p>
+                    </div>
+                </div>
+
+                <p><strong>可能原因及解决方案：</strong></p>
+                <table style="margin: 15px 0;">
+                    <thead>
+                        <tr>
+                            <th>原因</th>
+                            <th>检查方法</th>
+                            <th>解决方案</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>设备未进入配网模式</td>
+                            <td>查看LCD显示</td>
+                            <td>按住Boot键重启设备</td>
+                        </tr>
+                        <tr>
+                            <td>手机WiFi未开启</td>
+                            <td>检查手机设置</td>
+                            <td>开启手机WiFi</td>
+                        </tr>
+                        <tr>
+                            <td>WiFi列表未刷新</td>
+                            <td>-</td>
+                            <td>下拉刷新WiFi列表</td>
+                        </tr>
+                        <tr>
+                            <td>设备WiFi模块故障</td>
+                            <td>查看串口日志</td>
+                            <td>重启设备/更换设备</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="alert alert-info">
+                    <div class="alert-icon">💡</div>
+                    <div class="alert-content">
+                        <div class="alert-title">快速解决</div>
+                        <ol style="margin-top: 10px;">
+                            <li>断开设备电源</li>
+                            <li>按住Boot按键不放</li>
+                            <li>重新上电</li>
+                            <li>松开Boot按键</li>
+                            <li>等待5秒后刷新手机WiFi列表</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <h3 style="margin: 30px 0 15px;">问题2：连接热点后无法访问配网页面</h3>
+                
+                <div class="alert alert-warning">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-content">
+                        <div class="alert-title">症状</div>
+                        <p>手机已连接配网热点，但无法打开配网页面</p>
+                    </div>
+                </div>
+
+                <p><strong>解决步骤：</strong></p>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">确认真正连接</div>
+                            <div class="step-description">
+                                <p>检查手机WiFi设置，确认已连接到 <code>AIOT_xxxxxx</code>，不是家里的WiFi</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">关闭移动数据</div>
+                            <div class="step-description">
+                                <p>关闭手机的移动数据（4G/5G），强制使用WiFi</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">手动输入地址</div>
+                            <div class="step-description">
+                                <p>打开浏览器，手动输入：<code>http://192.168.4.1</code></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">尝试其他浏览器</div>
+                            <div class="step-description">
+                                <p>如果还是不行，尝试使用其他浏览器（Chrome/Safari/Firefox）</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin: 30px 0 15px;">问题3：保存配置后无法连接WiFi</h3>
+                
+                <div class="alert alert-danger">
+                    <div class="alert-icon">❌</div>
+                    <div class="alert-content">
+                        <div class="alert-title">症状</div>
+                        <p>配置保存成功，设备重启后LCD显示"WiFi Connect Failed"</p>
+                    </div>
+                </div>
+
+                <p><strong>常见原因（按频率排序）：</strong></p>
+                <table style="margin: 15px 0;">
+                    <thead>
+                        <tr>
+                            <th>原因</th>
+                            <th>出现频率</th>
+                            <th>解决方案</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>WiFi密码错误</td>
+                            <td>⭐⭐⭐⭐⭐ 90%</td>
+                            <td>重新配网，仔细核对密码</td>
+                        </tr>
+                        <tr>
+                            <td>WiFi信号太弱</td>
+                            <td>⭐⭐⭐ 5%</td>
+                            <td>将设备靠近路由器</td>
+                        </tr>
+                        <tr>
+                            <td>WiFi是5GHz</td>
+                            <td>⭐⭐ 3%</td>
+                            <td>使用2.4GHz WiFi</td>
+                        </tr>
+                        <tr>
+                            <td>SSID输入错误</td>
+                            <td>⭐ 1%</td>
+                            <td>确认SSID大小写、空格</td>
+                        </tr>
+                        <tr>
+                            <td>路由器MAC过滤</td>
+                            <td>⭐ 1%</td>
+                            <td>路由器添加设备MAC白名单</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-language">查看错误码</span>
+                    </div>
+                    <pre>通过串口查看详细错误信息：
+I (xxx) wifi: WiFi连接失败，错误码：2
+  错误码2 = AUTH_EXPIRE（密码错误）
+
+I (xxx) wifi: WiFi连接失败，错误码：201
+  错误码201 = NO_AP_FOUND（找不到SSID或信号弱）</pre>
+                </div>
+
+                <p><strong>完整错误码列表：</strong></p>
+                <a href="#错误码" style="display: inline-block; margin-top: 10px;">→ 查看完整WiFi错误码说明</a>
+            </div>
+        </div>
+
+        <!-- 连接问题 -->
+        <div class="card fade-in" id="连接问题">
+            <h2 class="card-title">🌐 连接问题</h2>
+            <div class="card-content">
+                <h3 style="margin-bottom: 15px;">问题1：设备显示离线</h3>
+                
+                <p><strong>排查步骤：</strong></p>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">检查LCD显示</div>
+                            <div class="step-description">
+                                <table style="margin-top: 10px;">
+                                    <thead>
+                                        <tr>
+                                            <th>LCD显示</th>
+                                            <th>说明</th>
+                                            <th>处理</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>WiFi: Disconnected</td>
+                                            <td>WiFi断开</td>
+                                            <td>检查WiFi</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WiFi: Connected</td>
+                                            <td>WiFi正常</td>
+                                            <td>检查MQTT</td>
+                                        </tr>
+                                        <tr>
+                                            <td>MQTT: Disconnected</td>
+                                            <td>MQTT断开</td>
+                                            <td>检查服务器</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">检查WiFi连接</div>
+                            <div class="step-description">
+                                <ul>
+                                    <li>路由器是否正常工作？</li>
+                                    <li>其他设备能否连接WiFi？</li>
+                                    <li>WiFi密码是否更改？</li>
+                                    <li>设备是否离路由器太远？</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">检查服务器连接</div>
+                            <div class="step-description">
+                                <ul>
+                                    <li>服务器是否在线？</li>
+                                    <li>网络是否能访问服务器地址？</li>
+                                    <li>防火墙是否阻止连接？</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">尝试重启设备</div>
+                            <div class="step-description">
+                                <p>断电重启，观察能否自动重连</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin: 30px 0 15px;">问题2：设备频繁断线</h3>
+                
+                <p><strong>可能原因：</strong></p>
+                <ul>
+                    <li>🔋 <strong>电源不稳定</strong>：使用至少1A的电源适配器</li>
+                    <li>📡 <strong>WiFi信号弱</strong>：将设备靠近路由器或增加中继器</li>
+                    <li>🌐 <strong>网络不稳定</strong>：检查网络质量</li>
+                    <li>🔥 <strong>设备过热</strong>：确保良好散热</li>
+                    <li>🔌 <strong>线路干扰</strong>：远离强电磁干扰源</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 控制问题 -->
+        <div class="card fade-in" id="控制问题">
+            <h2 class="card-title">🎮 控制问题</h2>
+            <div class="card-content">
+                <h3 style="margin-bottom: 15px;">问题1：发送指令无响应</h3>
+                
+                <p><strong>检查清单：</strong></p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>检查项</th>
+                            <th>如何检查</th>
+                            <th>正常状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>设备在线</td>
+                            <td>查看管理后台</td>
+                            <td>🟢 在线</td>
+                        </tr>
+                        <tr>
+                            <td>端口号正确</td>
+                            <td>检查配置</td>
+                            <td>端口号1-4</td>
+                        </tr>
+                        <tr>
+                            <td>设备类型正确</td>
+                            <td>LED/继电器/舵机</td>
+                            <td>与实际硬件匹配</td>
+                        </tr>
+                        <tr>
+                            <td>外设已连接</td>
+                            <td>检查接线</td>
+                            <td>连接牢固</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="margin: 30px 0 15px;">问题2：传感器无数据</h3>
+                
+                <p><strong>排查步骤：</strong></p>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">检查传感器连接</div>
+                            <div class="step-description">
+                                <ul>
+                                    <li>VCC连接到3.3V或5V</li>
+                                    <li>GND连接正确</li>
+                                    <li>DATA引脚连接到正确的GPIO</li>
+                                    <li>接线牢固，无松动</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">检查传感器电源</div>
+                            <div class="step-description">
+                                <p>用万用表测量传感器VCC引脚电压，应为3.3V或5V</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">查看串口日志</div>
+                            <div class="step-description">
+                                <div class="code-block">
+                                    <pre>正常日志：
+I (xxx) DHT11: 温度: 25.0°C, 湿度: 60%
+
+异常日志：
+E (xxx) DHT11: 读取超时
+→ 检查接线或更换传感器</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin: 30px 0 15px;">问题3：舵机抖动或不转</h3>
+                
+                <p><strong>可能原因：</strong></p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>现象</th>
+                            <th>原因</th>
+                            <th>解决方案</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>舵机抖动</td>
+                            <td>电源不足</td>
+                            <td>使用独立5V电源</td>
+                        </tr>
+                        <tr>
+                            <td>舵机不转</td>
+                            <td>信号线未连接</td>
+                            <td>检查信号线连接</td>
+                        </tr>
+                        <tr>
+                            <td>转动异常</td>
+                            <td>角度超出范围</td>
+                            <td>设置0-180度范围内</td>
+                        </tr>
+                        <tr>
+                            <td>无反应</td>
+                            <td>舵机损坏</td>
+                            <td>更换舵机</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="alert alert-warning">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-content">
+                        <div class="alert-title">重要</div>
+                        <p>舵机需要独立供电！不要从ESP32的3.3V引脚取电，会导致电流不足或设备重启。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 系统问题 -->
+        <div class="card fade-in" id="系统问题">
+            <h2 class="card-title">⚙️ 系统问题</h2>
+            <div class="card-content">
+                <h3 style="margin-bottom: 15px;">问题1：设备反复重启</h3>
+                
+                <p><strong>可能原因：</strong></p>
+                <ul>
+                    <li>⚡ <strong>电源问题</strong>：电流不足，使用≥1A电源</li>
+                    <li>🔥 <strong>过热</strong>：改善散热条件</li>
+                    <li>💾 <strong>固件损坏</strong>：重新烧录固件</li>
+                    <li>🔌 <strong>短路</strong>：检查外设接线</li>
+                    <li>💥 <strong>看门狗超时</strong>：查看崩溃日志</li>
+                </ul>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-language">查看崩溃日志</span>
+                    </div>
+                    <pre>串口输出示例：
+***ERROR*** A stack overflow...
+→ 栈溢出，需要升级固件
+
+Guru Meditation Error...
+→ 严重错误，记录错误信息联系技术支持</pre>
+                </div>
+
+                <h3 style="margin: 30px 0 15px;">问题2：LCD显示异常</h3>
+                
+                <p><strong>排查方法：</strong></p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>现象</th>
+                            <th>原因</th>
+                            <th>解决方案</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>LCD无显示</td>
+                            <td>背光/电源问题</td>
+                            <td>检查连接，重启设备</td>
+                        </tr>
+                        <tr>
+                            <td>显示乱码</td>
+                            <td>初始化失败</td>
+                            <td>重新烧录固件</td>
+                        </tr>
+                        <tr>
+                            <td>显示闪烁</td>
+                            <td>电源不稳定</td>
+                            <td>更换电源</td>
+                        </tr>
+                        <tr>
+                            <td>部分不显示</td>
+                            <td>硬件故障</td>
+                            <td>更换LCD模块</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="margin: 30px 0 15px;">问题3：OTA升级失败</h3>
+                
+                <p><strong>常见原因：</strong></p>
+                <ul>
+                    <li>网络不稳定，下载中断</li>
+                    <li>存储空间不足</li>
+                    <li>固件文件损坏</li>
+                    <li>升级过程中断电</li>
+                </ul>
+
+                <p><strong>解决方案：</strong></p>
+                <ul>
+                    <li>✅ 确保网络稳定</li>
+                    <li>✅ 确保设备有足够电量</li>
+                    <li>✅ 升级过程中不要断电</li>
+                    <li>✅ 如果失败，设备会自动回滚到旧版本</li>
+                    <li>✅ 多次失败可以尝试手动烧录</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- WiFi错误码 -->
+        <div class="card fade-in" id="错误码">
+            <h2 class="card-title">📋 WiFi错误码说明</h2>
+            <div class="card-content">
+                <p>通过串口查看WiFi连接错误码，快速定位问题：</p>
+                <table style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>错误码</th>
+                            <th>含义</th>
+                            <th>常见原因</th>
+                            <th>解决方案</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>2</code></td>
+                            <td>AUTH_EXPIRE</td>
+                            <td>密码错误</td>
+                            <td>重新配网，输入正确密码</td>
+                        </tr>
+                        <tr>
+                            <td><code>15</code></td>
+                            <td>4WAY_HANDSHAKE_TIMEOUT</td>
+                            <td>握手超时（密码错误）</td>
+                            <td>确认密码，检查加密方式</td>
+                        </tr>
+                        <tr>
+                            <td><code>201</code></td>
+                            <td>NO_AP_FOUND</td>
+                            <td>找不到SSID</td>
+                            <td>检查SSID、信号强度</td>
+                        </tr>
+                        <tr>
+                            <td><code>202</code></td>
+                            <td>AUTH_FAIL</td>
+                            <td>认证失败</td>
+                            <td>检查加密方式、密码</td>
+                        </tr>
+                        <tr>
+                            <td><code>203</code></td>
+                            <td>ASSOC_FAIL</td>
+                            <td>关联失败</td>
+                            <td>路由器拒绝连接，检查MAC过滤</td>
+                        </tr>
+                        <tr>
+                            <td><code>204</code></td>
+                            <td>HANDSHAKE_TIMEOUT</td>
+                            <td>握手超时</td>
+                            <td>信号太弱或路由器繁忙</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="alert alert-info" style="margin-top: 20px;">
+                    <div class="alert-icon">💡</div>
+                    <div class="alert-content">
+                        <div class="alert-title">如何查看错误码</div>
+                        <p>使用串口工具（如Arduino IDE串口监视器）连接设备，波特率115200，查看日志输出。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 获取帮助 -->
+        <div class="card fade-in">
+            <h2 class="card-title">📞 获取帮助</h2>
+            <div class="card-content">
+                <h3 style="margin-bottom: 15px;">问题仍未解决？</h3>
+                <p>联系技术支持时，请提供以下信息：</p>
+                <ul>
+                    <li>📱 设备型号和固件版本</li>
+                    <li>🔍 问题详细描述和复现步骤</li>
+                    <li>📊 LCD显示内容（拍照）</li>
+                    <li>💻 串口完整日志</li>
+                    <li>🌐 网络环境（路由器型号、WiFi加密方式）</li>
+                    <li>🔌 外设连接情况</li>
+                </ul>
+
+                <div style="margin-top: 30px; padding: 20px; background: var(--bg-color); border-radius: 8px;">
+                    <h4 style="margin-bottom: 15px;">技术支持渠道</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 10px 0;">📧 <strong>邮箱</strong>: support@aiot.example.com</li>
+                        <li style="margin: 10px 0;">💬 <strong>在线客服</strong>: 工作日 9:00-18:00</li>
+                        <li style="margin: 10px 0;">🐛 <strong>问题反馈</strong>: <a href="#">GitHub Issues</a></li>
+                        <li style="margin: 10px 0;">📖 <strong>文档反馈</strong>: <a href="#">文档改进建议</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 下一步 -->
+        <div class="card fade-in" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+            <h2 class="card-title" style="color: white;">💡 还有疑问？</h2>
+            <div class="card-content">
+                <p style="font-size: 1.1rem; margin-bottom: 30px;">
+                    查看常见问题解答，或许能找到答案
+                </p>
+                <div style="text-align: center;">
+                    <a href="troubleshooting.html" class="btn btn-primary" style="background: white; color: #667eea; font-size: 1.1rem; padding: 15px 40px;">
+                        查看常见问题 →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 AIOT智能设备管理系统 | <a href="#">GitHub</a> | <a href="#">文档反馈</a></p>
+            <p style="margin-top: 10px; font-size: 0.875rem;">
+                基于ESP32-S3 · Made with ❤️
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,278 @@
+menu "MQTT Configuration"
+
+    config MQTT_ENABLE
+        bool "Enable MQTT functionality"
+        default y
+        help
+            Enable MQTT communication functionality.
+
+    config MQTT_BROKER_URL
+        string "Default MQTT broker URL"
+        default "mqtt://broker.example.com"
+        depends on MQTT_ENABLE
+        help
+            Default MQTT broker URL.
+
+    config MQTT_BROKER_PORT
+        int "Default MQTT broker port"
+        default 1883
+        range 1 65535
+        depends on MQTT_ENABLE
+        help
+            Default MQTT broker port.
+
+    config MQTT_USERNAME
+        string "Default MQTT username"
+        default ""
+        depends on MQTT_ENABLE
+        help
+            Default MQTT username (leave empty if not required).
+
+    config MQTT_PASSWORD
+        string "Default MQTT password"
+        default ""
+        depends on MQTT_ENABLE
+        help
+            Default MQTT password (leave empty if not required).
+
+    config MQTT_CLIENT_ID_PREFIX
+        string "MQTT client ID prefix"
+        default "AIOT"
+        depends on MQTT_ENABLE
+        help
+            Prefix for MQTT client ID. Device MAC will be appended.
+
+    config MQTT_KEEPALIVE_SEC
+        int "MQTT keepalive interval (seconds)"
+        default 60
+        range 10 300
+        depends on MQTT_ENABLE
+        help
+            MQTT keepalive interval in seconds.
+
+    config MQTT_RECONNECT_TIMEOUT_MS
+        int "MQTT reconnect timeout (milliseconds)"
+        default 5000
+        range 1000 60000
+        depends on MQTT_ENABLE
+        help
+            MQTT reconnect timeout in milliseconds.
+
+    config MQTT_MAX_RETRY_COUNT
+        int "Maximum retry count"
+        default 3
+        range 1 10
+        depends on MQTT_ENABLE
+        help
+            Maximum number of retry attempts for MQTT operations.
+
+    menu "MQTT Topics"
+        depends on MQTT_ENABLE
+
+        config MQTT_TOPIC_PREFIX
+            string "Topic prefix"
+            default "aiot"
+            help
+                Prefix for all MQTT topics.
+
+        config MQTT_TOPIC_SENSOR_DATA
+            string "Sensor data topic"
+            default "sensor/data"
+            help
+                Topic for publishing sensor data.
+
+        config MQTT_TOPIC_DEVICE_STATUS
+            string "Device status topic"
+            default "device/status"
+            help
+                Topic for publishing device status.
+
+        config MQTT_TOPIC_ALARM
+            string "Alarm topic"
+            default "alarm"
+            help
+                Topic for publishing alarms.
+
+        config MQTT_TOPIC_HEARTBEAT
+            string "Heartbeat topic"
+            default "heartbeat"
+            help
+                Topic for publishing heartbeat messages.
+
+        config MQTT_TOPIC_LOG
+            string "Log topic"
+            default "log"
+            help
+                Topic for publishing log messages.
+
+        config MQTT_TOPIC_COMMAND
+            string "Command topic"
+            default "command"
+            help
+                Topic for receiving commands.
+
+        config MQTT_TOPIC_OTA
+            string "OTA topic"
+            default "ota"
+            help
+                Topic for OTA update commands.
+
+    endmenu
+
+    menu "MQTT Security (教学简化版)"
+        depends on MQTT_ENABLE
+
+        config MQTT_SSL_ENABLE
+            bool "启用SSL/TLS (教学环境建议关闭)"
+            default n
+            help
+                启用MQTT的SSL/TLS连接。教学环境建议关闭以简化配置。
+
+        config MQTT_SSL_VERIFY_PEER
+            bool "验证服务器证书 (教学环境可关闭)"
+            default n
+            depends on MQTT_SSL_ENABLE
+            help
+                验证服务器的SSL证书。教学环境可关闭以简化配置。
+
+        config MQTT_SSL_VERIFY_HOSTNAME
+            bool "验证主机名 (教学环境可关闭)"
+            default n
+            depends on MQTT_SSL_ENABLE
+            help
+                验证服务器证书中的主机名。教学环境可关闭以简化配置。
+
+        config MQTT_CLIENT_CERT_ENABLE
+            bool "启用客户端证书 (教学环境建议关闭)"
+            default n
+            depends on MQTT_SSL_ENABLE
+            help
+                启用客户端证书认证。教学环境建议关闭以简化配置。
+
+    endmenu
+
+    menu "MQTT Data Management"
+        depends on MQTT_ENABLE
+
+        config MQTT_DATA_CACHE_ENABLE
+            bool "Enable data caching"
+            default y
+            help
+                Enable caching of data when MQTT is disconnected.
+
+        config MQTT_DATA_CACHE_SIZE
+            int "Data cache size"
+            default 100
+            range 10 1000
+            depends on MQTT_DATA_CACHE_ENABLE
+            help
+                Maximum number of cached data items.
+
+        config MQTT_DATA_COMPRESSION_ENABLE
+            bool "Enable data compression"
+            default n
+            help
+                Enable compression for MQTT data.
+
+        config MQTT_SENSOR_DATA_INTERVAL_MS
+            int "Sensor data publish interval (milliseconds)"
+            default 30000
+            range 1000 300000
+            help
+                Interval for publishing sensor data.
+
+        config MQTT_STATUS_DATA_INTERVAL_MS
+            int "Status data publish interval (milliseconds)"
+            default 60000
+            range 5000 600000
+            help
+                Interval for publishing status data.
+
+        config MQTT_HEARTBEAT_INTERVAL_MS
+            int "Heartbeat interval (milliseconds)"
+            default 30000
+            range 5000 300000
+            help
+                Interval for publishing heartbeat messages.
+
+    endmenu
+
+    menu "MQTT QoS Settings"
+        depends on MQTT_ENABLE
+
+        choice MQTT_DEFAULT_QOS
+            prompt "Default QoS level"
+            default MQTT_QOS_1
+            help
+                Default Quality of Service level for MQTT messages.
+
+            config MQTT_QOS_0
+                bool "QoS 0 (At most once)"
+            config MQTT_QOS_1
+                bool "QoS 1 (At least once)"
+            config MQTT_QOS_2
+                bool "QoS 2 (Exactly once)"
+        endchoice
+
+        config MQTT_SENSOR_DATA_QOS
+            int "Sensor data QoS"
+            default 1
+            range 0 2
+            help
+                QoS level for sensor data messages.
+
+        config MQTT_STATUS_DATA_QOS
+            int "Status data QoS"
+            default 1
+            range 0 2
+            help
+                QoS level for status data messages.
+
+        config MQTT_ALARM_QOS
+            int "Alarm QoS"
+            default 2
+            range 0 2
+            help
+                QoS level for alarm messages.
+
+        config MQTT_COMMAND_QOS
+            int "Command QoS"
+            default 1
+            range 0 2
+            help
+                QoS level for command messages.
+
+    endmenu
+
+    config MQTT_DEBUG_ENABLE
+        bool "Enable MQTT debug output"
+        default n
+        depends on MQTT_ENABLE
+        help
+            Enable debug output for MQTT operations.
+
+    config MQTT_TASK_STACK_SIZE
+        int "MQTT task stack size"
+        default 6144
+        range 4096 16384
+        depends on MQTT_ENABLE
+        help
+            Stack size for MQTT task.
+
+    config MQTT_TASK_PRIORITY
+        int "MQTT task priority"
+        default 5
+        range 1 25
+        depends on MQTT_ENABLE
+        help
+            Priority for MQTT task.
+
+    config MQTT_EVENT_QUEUE_SIZE
+        int "MQTT event queue size"
+        default 32
+        range 8 128
+        depends on MQTT_ENABLE
+        help
+            Size of MQTT event queue.
+
+endmenu

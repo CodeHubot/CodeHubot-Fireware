@@ -1,0 +1,80 @@
+# 编译输出和构建产物
+build/
+**/build/
+*.bin
+*.elf
+*.map
+*.o
+*.a
+*.so
+*.dylib
+
+# ESP-IDF 配置文件
+sdkconfig
+sdkconfig.old
+**/sdkconfig
+**/sdkconfig.old
+
+# IDE 配置文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.code-workspace
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# 环境变量和配置文件
+.env
+.env.local
+.env.*.local
+*.env
+config.env
+**/config.env
+
+# 操作系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# 备份文件
+*.bak
+*.backup
+*.old
+*.tmp
+*.temp
+
+# 日志文件
+*.log
+logs/
+**/log/
+
+# 固件二进制文件（保留docs中的示例）
+!docs/firmware/*.bin
+
+# 个人路径和敏感信息
+# 注意：如果构建文件中包含个人路径，这些文件应该在build目录中，已被忽略
+
+# 依赖锁定文件（可选，根据项目需要）
+# dependencies.lock
+
+# 其他
+*.orig
+*.rej
+.cache/
+*.cache
+

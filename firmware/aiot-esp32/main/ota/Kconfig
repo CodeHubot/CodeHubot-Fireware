@@ -1,0 +1,220 @@
+menu "OTA Configuration"
+
+    config OTA_ENABLE
+        bool "Enable OTA functionality"
+        default y
+        help
+            Enable Over-The-Air (OTA) update functionality.
+
+    config OTA_BUFFER_SIZE
+        int "OTA buffer size"
+        default 4096
+        range 1024 8192
+        depends on OTA_ENABLE
+        help
+            Buffer size for OTA data transfer.
+
+    config OTA_TIMEOUT_MS
+        int "OTA timeout (milliseconds)"
+        default 30000
+        range 5000 120000
+        depends on OTA_ENABLE
+        help
+            Timeout for OTA operations in milliseconds.
+
+    config OTA_MAX_RETRY_COUNT
+        int "Maximum retry count"
+        default 3
+        range 1 10
+        depends on OTA_ENABLE
+        help
+            Maximum number of retry attempts for failed OTA operations.
+
+    config OTA_AUTO_REBOOT
+        bool "Auto reboot after successful OTA"
+        default y
+        depends on OTA_ENABLE
+        help
+            Automatically reboot the device after successful OTA update.
+
+    config OTA_ROLLBACK_ENABLE
+        bool "Enable rollback functionality"
+        default y
+        depends on OTA_ENABLE
+        help
+            Enable automatic rollback to previous firmware on boot failure.
+
+    config OTA_ROLLBACK_TIMEOUT_SEC
+        int "Rollback timeout (seconds)"
+        default 60
+        range 30 300
+        depends on OTA_ROLLBACK_ENABLE
+        help
+            Time to wait for firmware validation before rollback.
+
+    menu "OTA Security"
+        depends on OTA_ENABLE
+
+        config OTA_SECURITY_ENABLE
+            bool "Enable OTA security verification"
+            default y
+            help
+                Enable security verification for OTA updates.
+
+        choice OTA_HASH_ALGORITHM
+            prompt "Hash algorithm"
+            default OTA_HASH_SHA256
+            depends on OTA_SECURITY_ENABLE
+            help
+                Select hash algorithm for firmware verification.
+
+            config OTA_HASH_SHA256
+                bool "SHA256"
+            config OTA_HASH_SHA1
+                bool "SHA1"
+            config OTA_HASH_MD5
+                bool "MD5"
+        endchoice
+
+        config OTA_SIGNATURE_VERIFY
+            bool "Enable signature verification"
+            default n
+            depends on OTA_SECURITY_ENABLE
+            help
+                Enable digital signature verification for OTA updates.
+
+        choice OTA_SIGNATURE_ALGORITHM
+            prompt "Signature algorithm"
+            default OTA_SIGN_RSA
+            depends on OTA_SIGNATURE_VERIFY
+            help
+                Select signature algorithm for firmware verification.
+
+            config OTA_SIGN_RSA
+                bool "RSA"
+            config OTA_SIGN_ECDSA
+                bool "ECDSA"
+        endchoice
+
+        config OTA_ROLLBACK_PROTECTION
+            bool "Enable rollback protection"
+            default n
+            depends on OTA_SECURITY_ENABLE
+            help
+                Prevent downgrade to older firmware versions.
+
+    endmenu
+
+    menu "OTA Network"
+        depends on OTA_ENABLE
+
+        config OTA_HTTP_ENABLE
+            bool "Enable HTTP OTA"
+            default y
+            help
+                Enable OTA updates via HTTP.
+
+        config OTA_HTTPS_ENABLE
+            bool "Enable HTTPS OTA"
+            default y
+            depends on OTA_HTTP_ENABLE
+            help
+                Enable OTA updates via HTTPS.
+
+        config OTA_HTTP_TIMEOUT_MS
+            int "HTTP timeout (milliseconds)"
+            default 10000
+            range 3000 60000
+            depends on OTA_HTTP_ENABLE
+            help
+                HTTP request timeout for OTA operations.
+
+        config OTA_HTTP_BUFFER_SIZE
+            int "HTTP buffer size"
+            default 2048
+            range 512 4096
+            depends on OTA_HTTP_ENABLE
+            help
+                HTTP buffer size for OTA downloads.
+
+        config OTA_MQTT_ENABLE
+            bool "Enable MQTT OTA"
+            default n
+            help
+                Enable OTA updates via MQTT.
+
+        config OTA_MQTT_TOPIC_PREFIX
+            string "MQTT topic prefix"
+            default "ota"
+            depends on OTA_MQTT_ENABLE
+            help
+                MQTT topic prefix for OTA messages.
+
+    endmenu
+
+    menu "OTA Storage"
+        depends on OTA_ENABLE
+
+        config OTA_PARTITION_SIZE
+            hex "OTA partition size"
+            default 0x180000
+            help
+                Size of each OTA partition in bytes.
+
+        config OTA_DATA_PARTITION_SIZE
+            hex "OTA data partition size"
+            default 0x2000
+            help
+                Size of OTA data partition in bytes.
+
+        config OTA_INCREMENTAL_ENABLE
+            bool "Enable incremental updates"
+            default n
+            help
+                Enable incremental/delta OTA updates to save bandwidth.
+
+        config OTA_COMPRESSION_ENABLE
+            bool "Enable compression"
+            default n
+            help
+                Enable compression for OTA images.
+
+        choice OTA_COMPRESSION_TYPE
+            prompt "Compression type"
+            default OTA_COMPRESSION_GZIP
+            depends on OTA_COMPRESSION_ENABLE
+            help
+                Select compression algorithm for OTA images.
+
+            config OTA_COMPRESSION_GZIP
+                bool "GZIP"
+            config OTA_COMPRESSION_LZ4
+                bool "LZ4"
+        endchoice
+
+    endmenu
+
+    config OTA_DEBUG_ENABLE
+        bool "Enable OTA debug output"
+        default n
+        depends on OTA_ENABLE
+        help
+            Enable debug output for OTA operations.
+
+    config OTA_TASK_STACK_SIZE
+        int "OTA task stack size"
+        default 8192
+        range 4096 16384
+        depends on OTA_ENABLE
+        help
+            Stack size for OTA task.
+
+    config OTA_TASK_PRIORITY
+        int "OTA task priority"
+        default 5
+        range 1 25
+        depends on OTA_ENABLE
+        help
+            Priority for OTA task.
+
+endmenu

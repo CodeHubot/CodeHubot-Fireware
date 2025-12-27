@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台使用 - AIOT系统使用指南</title>
+    <meta name="description" content="AIOT管理后台完整使用指南，设备管理、实时控制、数据查看">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🤖</span>
+                <span>AIOT系统指南</span>
+            </a>
+            <button class="menu-toggle">☰</button>
+            <ul class="nav-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="quick-start.html">快速开始</a></li>
+                <li><a href="admin-panel.html" class="active">管理后台</a></li>
+                <li><a href="ai-control.html">Coze插件</a></li>
+                <li><a href="ai-creation.html">智能体构建平台</a></li>
+                <li><a href="firmware-flash.html">固件烧录</a></li>
+                <li><a href="serial-monitor.html">串口调试</a></li>
+                <li><a href="troubleshooting.html">帮助中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="main-container">
+        <!-- 面包屑 -->
+        <div class="breadcrumb">
+            <a href="index.html">首页</a>
+            <span class="breadcrumb-separator">/</span>
+            <span>管理后台</span>
+        </div>
+
+        <!-- 页面头部 -->
+        <div class="page-header fade-in">
+            <h1 class="page-title">💻 管理后台使用指南</h1>
+            <p class="page-description">
+                掌握设备管理、实时控制和数据查看的完整功能
+            </p>
+        </div>
+
+        <!-- 功能概览 -->
+        <div class="card fade-in">
+            <h2 class="card-title">🎯 功能概览</h2>
+            <div class="card-content">
+                <div class="grid grid-3">
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">📱</div>
+                        <h3 style="margin-bottom: 10px;">设备管理</h3>
+                        <p style="color: var(--text-light); font-size: 0.875rem;">
+                            查看、搜索、管理所有在线设备
+                        </p>
+                    </div>
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">🎮</div>
+                        <h3 style="margin-bottom: 10px;">实时控制</h3>
+                        <p style="color: var(--text-light); font-size: 0.875rem;">
+                            远程控制LED、继电器、舵机等
+                        </p>
+                    </div>
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">📊</div>
+                        <h3 style="margin-bottom: 10px;">数据查看</h3>
+                        <p style="color: var(--text-light); font-size: 0.875rem;">
+                            传感器数据实时监控和历史查询
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 登录系统 -->
+        <div class="card fade-in" id="登录系统">
+            <h2 class="card-title">🔐 登录系统</h2>
+            <div class="card-content">
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">访问后台地址</div>
+                            <div class="step-description">
+                                <p>在浏览器中输入管理后台地址（向设备提供方获取，如：https://demo.example.com）</p>
+                                <div class="alert alert-info" style="margin-top: 10px;">
+                                    <div class="alert-icon">💡</div>
+                                    <div class="alert-content">
+                                        <p>通常是一个网址，保存在浏览器书签中方便下次访问</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">输入账号密码</div>
+                            <div class="step-description">
+                                <ul>
+                                    <li>输入管理员提供的账号</li>
+                                    <li>输入对应的密码</li>
+                                    <li>勾选"记住我"（可选，7天免登录）</li>
+                                    <li>点击"登录"按钮</li>
+                                </ul>
+                                <div class="alert alert-warning" style="margin-top: 10px;">
+                                    <div class="alert-icon">🔒</div>
+                                    <div class="alert-content">
+                                        <p>首次登录后建议修改默认密码。账号密码请妥善保管，不要共享给他人。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">查看仪表盘</div>
+                            <div class="step-description">
+                                <p>登录成功后，首页显示系统概览：</p>
+                                <ul>
+                                    <li><strong>设备统计</strong>：总设备数、在线数、离线数</li>
+                                    <li><strong>今日数据</strong>：数据上报次数、控制指令数</li>
+                                    <li><strong>最近活动</strong>：最新的设备上下线记录</li>
+                                    <li><strong>告警信息</strong>：异常设备、离线设备提醒</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设备管理 -->
+        <div class="card fade-in" id="设备管理">
+            <h2 class="card-title">📱 设备管理</h2>
+            <div class="card-content">
+                <h3 style="margin-bottom: 15px;">设备列表</h3>
+                <p>在左侧导航栏点击"设备管理" → "设备列表"，查看所有设备：</p>
+                
+                <table style="margin: 20px 0;">
+                    <thead>
+                        <tr>
+                            <th>列名</th>
+                            <th>说明</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>设备名称</strong></td>
+                            <td>自定义的设备名称</td>
+                            <td>可修改</td>
+                        </tr>
+                        <tr>
+                            <td><strong>设备UUID</strong></td>
+                            <td>设备唯一标识</td>
+                            <td>不可修改</td>
+                        </tr>
+                        <tr>
+                            <td><strong>产品型号</strong></td>
+                            <td>设备类型（如ESP32-S3）</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><strong>在线状态</strong></td>
+                            <td>🟢在线 / 🔴离线</td>
+                            <td>实时更新</td>
+                        </tr>
+                        <tr>
+                            <td><strong>最后上线</strong></td>
+                            <td>最近一次连接时间</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><strong>操作</strong></td>
+                            <td>控制/查看/编辑/删除</td>
+                            <td>按钮</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <h3 style="margin: 30px 0 15px;">设备详情</h3>
+                <p>点击设备名称或"查看"按钮，进入设备详情页：</p>
+            </div>
+        </div>
+
+        <!-- 实时控制 -->
+        <div class="card fade-in" id="实时控制">
+            <h2 class="card-title">🎮 实时控制</h2>
+            <div class="card-content">
+                <div class="alert alert-info">
+                    <div class="alert-icon">⚡</div>
+                    <div class="alert-content">
+                        <div class="alert-title">实时性说明</div>
+                        <p>控制指令通过MQTT实时下发，通常在500ms内生效。确保设备在线才能成功控制。</p>
+                    </div>
+                </div>
+
+                <h3 style="margin: 20px 0 15px;">支持的控制类型</h3>
+                
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">LED灯控制</div>
+                            <div class="step-description">
+                                <p><strong>支持操作</strong>：开/关</p>
+                                <p><strong>端口数量</strong>：通常4个（可配置）</p>
+                                <p><strong>控制方法</strong>：</p>
+                                <ul>
+                                    <li>选择LED端口号（1-4）</li>
+                                    <li>点击"开"或"关"按钮</li>
+                                    <li>查看执行结果反馈</li>
+                                </ul>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span class="code-language">示例</span>
+                                    </div>
+                                    <pre>LED 1: ⚪ → 点击"开" → 🟢 LED已点亮</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">继电器控制</div>
+                            <div class="step-description">
+                                <p><strong>支持操作</strong>：开/关</p>
+                                <p><strong>应用场景</strong>：控制电器、灯光等</p>
+                                <p><strong>安全提示</strong>：</p>
+                                <div class="alert alert-warning">
+                                    <div class="alert-icon">⚠️</div>
+                                    <div class="alert-content">
+                                        <p>继电器连接强电设备时，请确保接线正确，避免触电危险。建议由专业人员操作。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">舵机控制</div>
+                            <div class="step-description">
+                                <p><strong>支持操作</strong>：设置角度</p>
+                                <p><strong>角度范围</strong>：0° - 180°（180度舵机）或 0° - 360°（360度舵机）</p>
+                                <p><strong>控制方法</strong>：</p>
+                                <ul>
+                                    <li>选择舵机端口</li>
+                                    <li>使用滑块或输入框设置角度</li>
+                                    <li>点击"执行"按钮</li>
+                                    <li>观察舵机转动到目标位置</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">PWM控制</div>
+                            <div class="step-description">
+                                <p><strong>支持操作</strong>：设置占空比</p>
+                                <p><strong>范围</strong>：0% - 100%</p>
+                                <p><strong>应用场景</strong>：调光、调速、模拟输出等</p>
+                                <p><strong>控制方法</strong>：</p>
+                                <ul>
+                                    <li>选择PWM通道</li>
+                                    <li>设置占空比百分比</li>
+                                    <li>点击"应用"查看效果</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            
+
+                <div class="alert alert-success" style="margin-top: 20px;">
+                    <div class="alert-icon">💡</div>
+                    <div class="alert-content">
+                        <div class="alert-title">小技巧</div>
+                        <p>使用预设指令可以保存常用的控制组合，一键执行多个操作。参见下方"预设指令"章节。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 传感器数据 -->
+        <div class="card fade-in" id="传感器数据">
+            <h2 class="card-title">📊 传感器数据</h2>
+            <div class="card-content">
+                <h3 style="margin-bottom: 15px;">实时数据查看</h3>
+                <p>在设备详情页的"数据"标签中，可以查看传感器实时数据：</p>
+                
+                <table style="margin: 20px 0;">
+                    <thead>
+                        <tr>
+                            <th>传感器类型</th>
+                            <th>显示内容</th>
+                            <th>更新频率</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🌡️ 温度传感器</td>
+                            <td>当前温度（°C）</td>
+                            <td>10秒</td>
+                        </tr>
+                        <tr>
+                            <td>💧 湿度传感器</td>
+                            <td>当前湿度（%）</td>
+                            <td>10秒</td>
+                        </tr>
+                        <tr>
+                            <td>☀️ 光照传感器</td>
+                            <td>光照强度（Lux）</td>
+                            <td>10秒</td>
+                        </tr>
+                        <tr>
+                            <td>📏 距离传感器</td>
+                            <td>距离（cm）</td>
+                            <td>5秒</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <!-- 预设指令 -->
+        <div class="card fade-in" id="预设指令">
+            <h2 class="card-title">⚡ 预设指令</h2>
+            <div class="card-content">
+                <h3 style="margin-bottom: 15px;">什么是预设指令？</h3>
+                <p>预设指令是预先配置好的一组设备操作，可以一键执行。适合以下场景：</p>
+                <ul>
+                    <li>🌙 <strong>场景模式</strong>：睡眠模式、离家模式、回家模式</li>
+                    <li>🎬 <strong>组合动作</strong>：同时控制多个设备的复杂操作</li>
+                    <li>⏰ <strong>定时任务</strong>：每天固定时间自动执行</li>
+                    <li>🤖 <strong>AI控制</strong>：配合Coze插件实现语音控制</li>
+                </ul>
+
+                <h3 style="margin: 30px 0 15px;">创建预设指令</h3>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">进入预设管理</div>
+                            <div class="step-description">
+                                <p>在导航栏点击"设备管理" → "预设指令" → "新建预设"</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">填写基本信息</div>
+                            <div class="step-description">
+                                <ul>
+                                    <li><strong>预设名称</strong>：如"睡眠模式"</li>
+                                    <li><strong>描述</strong>：说明预设的作用</li>
+                                    <li><strong>设备</strong>：选择要控制的设备</li>
+                                    <li><strong>图标</strong>：选择一个图标（可选）</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">配置操作</div>
+                            <div class="step-description">
+                                <p>添加一个或多个操作：</p>
+                                <div class="code-block">
+                                    <pre>示例：睡眠模式
+1. LED 1 → 关闭
+2. LED 2 → 关闭
+3. 继电器 1 → 关闭（关闭客厅灯）
+4. 舵机 1 → 转到 0°（关闭窗帘）</pre>
+                                </div>
+                                
+                                <h4 style="margin-top: 20px; margin-bottom: 10px;">📌 舵机控制配置说明</h4>
+                                
+                                <p><strong>180度舵机（位置控制）</strong>：</p>
+                                <ul style="margin-left: 20px; margin-top: 8px;">
+                                    <li><strong>设备类型</strong>：选择"PWM输出"</li>
+                                    <li><strong>设备编号</strong>：选择"M2"（通道2）</li>
+                                    <li><strong>预设类型</strong>：选择"固定输出 (Fixed)"</li>
+                                    <li><strong>PWM频率</strong>：<span style="color: #f56c6c; font-weight: bold;">必须设置为50Hz</span>（前端默认5000Hz是错误的！）</li>
+                                    <li><strong>占空比</strong>：根据目标角度设置
+                                        <ul style="margin-top: 5px;">
+                                            <li>0度 → 占空比 2.5%</li>
+                                            <li>45度 → 占空比 5.0%</li>
+                                            <li><strong>90度 → 占空比 7.5%</strong>（中间位置）</li>
+                                            <li>135度 → 占空比 10.0%</li>
+                                            <li>180度 → 占空比 12.5%</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                
+                                <p style="margin-top: 15px;"><strong>360度连续旋转舵机（速度控制）</strong>：</p>
+                                <ul style="margin-left: 20px; margin-top: 8px;">
+                                    <li><strong>设备类型</strong>：选择"PWM输出"</li>
+                                    <li><strong>设备编号</strong>：选择"M2"（通道2）</li>
+                                    <li><strong>预设类型</strong>：选择"固定输出 (Fixed)"</li>
+                                    <li><strong>PWM频率</strong>：<span style="color: #f56c6c; font-weight: bold;">必须设置为50Hz</span></li>
+                                    <li><strong>占空比</strong>：根据旋转方向和速度设置
+                                        <ul style="margin-top: 5px;">
+                                            <li><strong>停止</strong> → 占空比 7.5%</li>
+                                            <li><strong>正转（慢速）</strong> → 占空比 8.0% - 9.5%</li>
+                                            <li><strong>正转（快速）</strong> → 占空比 10.0% - 12.5%（数值越大速度越快）</li>
+                                            <li><strong>反转（慢速）</strong> → 占空比 6.0% - 7.0%</li>
+                                            <li><strong>反转（快速）</strong> → 占空比 2.5% - 5.0%（数值越小速度越快）</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                
+                                <div class="alert alert-warning" style="margin-top: 15px;">
+                                    <div class="alert-icon">⚠️</div>
+                                    <div class="alert-content">
+                                        <div class="alert-title">重要提醒</div>
+                                        <ul style="margin-top: 8px;">
+                                            <li>PWM频率<strong>必须设置为50Hz</strong>，前端默认5000Hz是错误的！</li>
+                                            <li>频率设置错误会导致舵机完全不工作</li>
+                                            <li>占空比范围建议在2.5%-12.5%之间</li>
+                                            <li>不同品牌舵机可能需要微调占空比来校准</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <h4 style="margin-top: 20px; margin-bottom: 10px;">📋 预设指令配置示例</h4>
+                                
+                                <p><strong>示例1：180度舵机转到90度</strong></p>
+                                <div class="code-block">
+                                    <pre>设备类型：PWM输出
+设备编号：M2
+预设类型：固定输出 (Fixed)
+PWM频率：50 Hz
+占空比：7.5%</pre>
+                                </div>
+                                
+                                <p style="margin-top: 15px;"><strong>示例2：360度舵机正转（中速）</strong></p>
+                                <div class="code-block">
+                                    <pre>设备类型：PWM输出
+设备编号：M2
+预设类型：固定输出 (Fixed)
+PWM频率：50 Hz
+占空比：9.5%</pre>
+                                </div>
+                                
+                                <p style="margin-top: 15px;"><strong>示例3：360度舵机停止</strong></p>
+                                <div class="code-block">
+                                    <pre>设备类型：PWM输出
+设备编号：M2
+预设类型：固定输出 (Fixed)
+PWM频率：50 Hz
+占空比：7.5%</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">保存并测试</div>
+                            <div class="step-description">
+                                <p>保存后，点击"立即执行"测试效果。确认无误后即可正常使用。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin: 30px 0 15px;">执行预设指令</h3>
+                <p>有多种方式执行预设指令：</p>
+                <ul>
+                    <li>🖱️ <strong>后台界面</strong>：在预设列表中点击"执行"按钮</li>
+                    <li>🎤 <strong>AI控制</strong>：对Coze说"执行睡眠模式"</li>
+                    <li>🔗 <strong>API调用</strong>：通过API接口触发执行</li>
+                    <li>⏰ <strong>定时任务</strong>：设置定时自动执行</li>
+                </ul>
+
+                <div class="alert alert-success" style="margin-top: 20px;">
+                    <div class="alert-icon">💡</div>
+                    <div class="alert-content">
+                        <div class="alert-title">推荐预设示例</div>
+                        <ul style="margin-top: 10px;">
+                            <li><strong>回家模式</strong>：打开玄关灯、客厅灯</li>
+                            <li><strong>离家模式</strong>：关闭所有灯光和电器</li>
+                            <li><strong>观影模式</strong>：关闭主灯、拉上窗帘、打开氛围灯</li>
+                            <li><strong>晚安模式</strong>：关闭所有设备，只保留夜灯</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 AIOT智能设备管理系统 | <a href="#">GitHub</a> | <a href="#">文档反馈</a></p>
+            <p style="margin-top: 10px; font-size: 0.875rem;">
+                基于ESP32-S3 · Made with ❤️
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
+

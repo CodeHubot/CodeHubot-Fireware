@@ -1,0 +1,146 @@
+menu "AIOT Device Configuration"
+
+    menu "Board Selection"
+        choice AIOT_BOARD_TYPE
+            prompt "Select Board Type"
+            default AIOT_BOARD_ESP32_S3_DEVKIT
+            help
+                Select the board type for this firmware build.
+                Different boards have different sensor and GPIO configurations.
+
+            config AIOT_BOARD_ESP32_S3_DEVKIT
+                bool "ESP32-S3 DevKit (Standard)"
+                help
+                    Standard ESP32-S3 DevKit board.
+                    Sensors: DHT11 (GPIO35), DS18B20 (GPIO39)
+                    Product Code: ESP32-S3-Dev-01
+
+            config AIOT_BOARD_ESP32_S3_DEVKIT_RAIN
+                bool "ESP32-S3 DevKit Rain"
+                help
+                    ESP32-S3 DevKit Rain board with rain sensor.
+                    Sensors: DHT11 (GPIO35), Rain Sensor (GPIO39)
+                    Product Code: ESP32-S3-Rain-01
+
+            config AIOT_BOARD_ESP32_S3_DEVKIT_LITE
+                bool "ESP32-S3 DevKit Lite"
+                help
+                    ESP32-S3 DevKit Lite board (精简版).
+                    Sensors: DHT11 (GPIO35)
+                    Product Code: ESP32-S3-Lite-01
+        endchoice
+
+        config AIOT_BOARD_NAME
+            string
+            default "ESP32-S3-DevKit" if AIOT_BOARD_ESP32_S3_DEVKIT
+            default "ESP32-S3-DevKit-Rain" if AIOT_BOARD_ESP32_S3_DEVKIT_RAIN
+            default "ESP32-S3-DevKit-Lite" if AIOT_BOARD_ESP32_S3_DEVKIT_LITE
+
+        config AIOT_PRODUCT_CODE
+            string
+            default "ESP32-S3-Dev-01" if AIOT_BOARD_ESP32_S3_DEVKIT
+            default "ESP32-S3-Rain-01" if AIOT_BOARD_ESP32_S3_DEVKIT_RAIN
+            default "ESP32-S3-Lite-01" if AIOT_BOARD_ESP32_S3_DEVKIT_LITE
+    endmenu
+
+    config AIOT_DEVICE_ID
+        string "Device ID"
+        default "AIOT-ESP32-001"
+        help
+            Unique identifier for this AIOT device.
+            This ID will be used for device registration and identification.
+
+    config AIOT_DEVICE_TYPE
+        string "Device Type"
+        default "ESP32-S3-DevKit"
+        help
+            Type of the AIOT device.
+            This helps identify the hardware capabilities and configuration.
+
+    config AIOT_FIRMWARE_VERSION
+        string "Firmware Version"
+        default "1.0.0"
+        help
+            Current firmware version.
+            This version will be reported to the server and used for OTA updates.
+
+    config AIOT_PRODUCT_ID
+        string "Product ID"
+        default "TEMP_HUMI_SENSOR"
+        help
+            Product ID for this device. This should match the product code in the backend.
+            This ID will be used for device registration and LCD display.
+            You can set different product IDs for different boards before flashing.
+
+    config AIOT_DEBUG_LEVEL
+        int "Debug Level"
+        default 3
+        range 0 5
+        help
+            Debug output level:
+            0 = No debug output
+            1 = Error messages only
+            2 = Error and warning messages
+            3 = Error, warning, and info messages
+            4 = Error, warning, info, and debug messages
+            5 = All messages including verbose debug
+
+    config AIOT_TASK_STACK_SIZE
+        int "Default Task Stack Size"
+        default 4096
+        range 2048 8192
+        help
+            Default stack size for AIOT tasks in bytes.
+
+    config AIOT_TASK_PRIORITY
+        int "Default Task Priority"
+        default 5
+        range 1 25
+        help
+            Default priority for AIOT tasks.
+
+    config AIOT_MAX_RETRY_COUNT
+        int "Maximum Retry Count"
+        default 3
+        range 1 10
+        help
+            Maximum number of retry attempts for network operations.
+
+    config AIOT_HEARTBEAT_INTERVAL_SEC
+        int "Heartbeat Interval (seconds)"
+        default 30
+        range 10 300
+        help
+            Interval for sending heartbeat messages to the server.
+
+    config AIOT_CONFIG_RESET_GPIO
+        int "Configuration Reset GPIO"
+        default 0
+        range -1 48
+        help
+            GPIO pin for configuration reset button.
+            Set to -1 to disable this feature.
+
+    config AIOT_STATUS_LED_GPIO
+        int "Status LED GPIO"
+        default 2
+        range -1 48
+        help
+            GPIO pin for status LED.
+            Set to -1 to disable this feature.
+
+    config AIOT_ENABLE_WATCHDOG
+        bool "Enable Watchdog Timer"
+        default y
+        help
+            Enable watchdog timer for system stability.
+
+    config AIOT_WATCHDOG_TIMEOUT_SEC
+        int "Watchdog Timeout (seconds)"
+        default 60
+        range 10 300
+        depends on AIOT_ENABLE_WATCHDOG
+        help
+            Watchdog timeout in seconds.
+
+endmenu

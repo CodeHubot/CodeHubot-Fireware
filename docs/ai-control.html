@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能体控制 - AIOT系统使用指南</title>
+    <meta name="description" content="Coze智能体插件集成指南，通过自然语言控制AIOT设备">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🤖</span>
+                <span>AIOT系统指南</span>
+            </a>
+            <button class="menu-toggle">☰</button>
+            <ul class="nav-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="quick-start.html">快速开始</a></li>
+                <li><a href="admin-panel.html">管理后台</a></li>
+                <li><a href="ai-control.html" class="active">Coze插件</a></li>
+                <li><a href="ai-creation.html">智能体构建平台</a></li>
+                <li><a href="firmware-flash.html">固件烧录</a></li>
+                <li><a href="serial-monitor.html">串口调试</a></li>
+                <li><a href="troubleshooting.html">帮助中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="main-container">
+        <!-- 面包屑 -->
+        <div class="breadcrumb">
+            <a href="index.html">首页</a>
+            <span class="breadcrumb-separator">/</span>
+            <span>智能体控制</span>
+        </div>
+
+        <!-- 页面头部 -->
+        <div class="page-header fade-in">
+            <h1 class="page-title">🤖 智能体控制指南</h1>
+            <p class="page-description">
+                通过智能体插件实现自然语言设备控制，让AI成为您的智能助手
+            </p>
+        </div>
+      
+
+        <!-- Coze插件配置指南 -->
+        <div class="card fade-in" id="Coze插件配置">
+            <h2 class="card-title">🔧 Coze插件配置指南</h2>
+            <div class="card-content">
+                <div class="alert alert-info" style="margin-bottom: 25px;">
+                    <div class="alert-icon">💡</div>
+                    <div class="alert-content">
+                        <div class="alert-title">快速开始</div>
+                        <p>通过以下步骤，在Coze平台上配置我们的IoT设备控制插件，让AI助手能够控制您的设备。整个过程大约需要5分钟。</p>
+                    </div>
+                </div>
+
+                <!-- 下载插件文件 -->
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 12px; margin-bottom: 30px; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h3 style="margin: 0 0 15px; color: white; font-size: 1.3rem;">📦 下载插件配置文件</h3>
+                    <p style="margin-bottom: 20px; opacity: 0.95;">在开始配置之前，请先下载我们为您准备好的插件配置文件。</p>
+                    <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                        <a href="coze-plugin-lite.json" download="coze-plugin-lite.json" 
+                           style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; background: white; color: #667eea; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 1.05rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.3s;"
+                           onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.2)'"
+                           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
+                            <span style="font-size: 1.3rem;">⬇️</span>
+                            <span>下载 coze-plugin-lite.json</span>
+                        </a>
+                        <div style="flex: 1; min-width: 200px;">
+                            <div style="font-size: 0.9rem; opacity: 0.9;">
+                                📄 文件大小: ~6 KB<br>
+                                📋 包含接口: 传感器查询、LED控制、预设指令
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤1：生成插件 -->
+                <h3 style="margin: 30px 0 20px; font-size: 1.4rem; color: #333; border-left: 4px solid #4CAF50; padding-left: 15px;">
+                    在Coze平台创建插件
+                </h3>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>访问Coze平台</h4>
+                            <p>打开 <a href="https://www.coze.cn/" target="_blank" style="color: #4CAF50; text-decoration: underline;">https://www.coze.cn/</a>，使用您的账号登录。</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>进入资源库</h4>
+                            <p>在左侧导航栏中，点击 <strong>"工作空间"</strong> → <strong>"资源库"</strong>。</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>添加插件</h4>
+                            <p>点击页面右上角的 <strong>"添加插件"</strong> 按钮。</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>导入配置文件</h4>
+                            <p>在新建插件窗口中，点击右上角的 <strong>"导入"</strong> 按钮。</p>
+                            <div class="code-block" style="margin-top: 10px;">
+                                <pre>📁 选择文件: coze-plugin-lite.json
+✅ 系统会自动解析插件配置</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>确认导入</h4>
+                            <p>依次点击 <strong>"下一步"</strong> → <strong>"确认"</strong>，完成插件添加。</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h4>启用工具</h4>
+                            <p>在资源库列表中找到刚添加的插件，将所有工具设置为 <strong>"启用"</strong> 状态。</p>
+                            <div class="alert alert-warning" style="margin-top: 10px;">
+                                <div class="alert-icon">⚠️</div>
+                                <div class="alert-content">
+                                    <div class="alert-title">注意</div>
+                                    <p>确保将插件中的所有工具（传感器查询、LED控制、预设指令）都设置为启用状态。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">7</div>
+                        <div class="step-content">
+                            <h4>试运行测试</h4>
+                            <p>刚添加的工具调试状态会显示为 <strong>"失败"</strong>，这是正常的。您需要进行试运行测试：</p>
+                            <ul style="margin-top: 10px;">
+                                <li>点击每个工具的 <strong>"试运行"</strong> 按钮</li>
+                                <li>输入测试参数（可以使用以下示例值）</li>
+                            </ul>
+                            <div class="code-block" style="margin-top: 10px;">
+                                <pre>测试参数示例：
+• uuid: test
+• sensor: 温度
+• port_type: led
+• port_id: 1
+• action: on
+• preset_key: led_blink_k8x9y2</pre>
+                            </div>
+                            <p style="margin-top: 10px;">试运行通过后，状态会变更为 <strong>"通过"</strong> ✅</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 插件功能说明 -->
+                <h3 style="margin: 40px 0 20px; font-size: 1.4rem; color: #333; border-left: 4px solid #FF9800; padding-left: 15px;">
+                    插件功能说明
+                </h3>
+
+                <table style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>接口名称</th>
+                            <th>功能描述</th>
+                            <th>主要参数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>查询传感器数据</strong></td>
+                            <td>获取设备的温度、湿度等传感器数据</td>
+                            <td>uuid, sensor (温度/湿度)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>控制LED</strong></td>
+                            <td>控制LED灯的开关状态</td>
+                            <td>device_uuid, port_type (led), port_id (1-4), action (on/off)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>执行预设指令</strong></td>
+                            <td>通过preset_key执行用户自定义的预设命令</td>
+                            <td>device_uuid, preset_key</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- 测试建议 -->
+                <div class="alert alert-info" style="margin-top: 30px;">
+                    <div class="alert-icon">💡</div>
+                    <div class="alert-content">
+                        <div class="alert-title">测试建议</div>
+                        <p>配置完成后，建议先使用测试设备UUID（如 "test"）进行测试，确保一切正常后再连接真实设备。</p>
+                        <p style="margin-top: 10px;"><strong>测试对话示例：</strong></p>
+                        <ul style="margin-top: 5px;">
+                            <li>"帮我查询一下温度"</li>
+                            <li>"打开1号LED灯"</li>
+                            <li>"关闭所有灯"</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 提示词配置指南 -->
+                <h3 style="margin: 40px 0 20px; font-size: 1.4rem; color: #333; border-left: 4px solid #FF5722; padding-left: 15px;">
+                    📝 提示词配置指南
+                </h3>
+
+                <!-- 推荐提示词（可直接复制） -->
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 12px; margin-top: 20px; color: white; box-shadow: 0 6px 20px rgba(0,0,0,0.15);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h4 style="color: white; margin: 0; font-size: 1.3rem;">🎯 推荐提示词（直接复制使用）</h4>
+                        <button onclick="copyPromptTemplate()" 
+                                style="padding: 10px 20px; background: white; color: #667eea; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.3s;"
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.3)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.2)'">
+                            📋 一键复制
+                        </button>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.95); padding: 25px; border-radius: 8px; color: #333;">
+                        <pre id="promptTemplate" style="margin: 0; white-space: pre-wrap; word-wrap: break-word; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6; color: #333; max-height: 600px; overflow-y: auto;">你是一个友好的智能家居助手，可以帮助用户控制IoT设备。
+
+## 设备信息
+设备UUID: 【请替换实际设备的UUID】
+
+## 你的能力
+
+### 1️⃣ 查询传感器数据
+- 温度查询：当用户问"温度多少"、"几度"、"热不热"
+- 湿度查询：当用户问"湿度多少"、"潮湿吗"、"干燥吗"
+
+### 2️⃣ 控制LED灯
+- 支持LED 1-4号
+- 开灯：当用户说"打开灯"、"开灯"、"点亮LED"
+- 关灯：当用户说"关灯"、"关闭灯"、"熄灯"
+
+### 3️⃣ 执行预设指令
+
+**可用预设列表：**
+
+| 预设名称 | 触发词 | preset_key | 说明 |
+|---------|--------|------------|------|
+| 眨眼睛 | "眨眼睛"、"眨一下" | led_seq_mi71o69r | LED1点亮3秒后熄灭 |
+
+**使用方法：**
+当用户说出触发词时，使用对应的preset_key调用预设接口。
+
+## 交互规则
+
+### ✅ 应该做的
+1. 当用户查询温度/湿度时，直接调用传感器接口
+2. 当用户要控制LED时，先确认是哪个LED（1-4），然后调用控制接口
+3. 当用户说出预设触发词（如"眨眼睛"）时，直接使用对应的preset_key调用预设接口
+4. 用简洁友好的语言回复结果
+5. 如果用户指令不明确，主动询问清楚
+
+### ❌ 不要做的
+1. 不要向用户索要设备UUID（已经通过变量传入）
+2. 不要提供超出能力范围的功能（如继电器、舵机、PWM等）
+3. 不要过度解释技术细节
+4. 不要在用户没问的情况下重复查询数据
+
+## 回复示例
+
+### 传感器查询
+用户："现在温度多少？"
+你：[调用传感器接口]
+你："当前温度是24.5°C 😊"
+
+### LED控制
+用户："帮我开灯"
+你："好的，请问要打开哪个LED灯呢？我们有LED 1到4号"
+用户："LED1"
+你：[调用控制接口]
+你："✨ LED1已打开"
+
+### 预设指令
+用户："眨眼睛"
+你：[调用预设接口，preset_name="led_seq_mi71o69r"]
+你："✅ LED1将点亮3秒后自动熄灭"
+
+## 特别提示
+- 所有操作都自动使用设备UUID变量，你无需管理
+- 如果接口返回错误，友好地告知用户"暂时无法操作，请稍后重试"
+- 保持对话自然流畅，像朋友一样交流</pre>
+                    </div>
+
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 6px; backdrop-filter: blur(10px);">
+                        <p style="margin: 0; color: rgba(255,255,255,0.95); font-size: 0.95rem;">
+                            💡 <strong>使用说明：</strong>点击上方"一键复制"按钮复制整个提示词，然后粘贴到Coze Bot的"用户提示词"区域即可。
+                        </p>
+                        <p style="margin: 10px 0 0; color: rgba(255,255,255,0.9); font-size: 0.9rem;">
+                            ⚠️ <strong>记得修改UUID。</strong>
+                        </p>
+                        <p style="margin: 10px 0 0; color: rgba(255,255,255,0.9); font-size: 0.9rem;">
+                            ⚠️ <strong>将预设列表中的示例替换为你自己的预设指令和preset_key。</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div style="background: #fff3e0; border: 2px solid #ff9800; border-radius: 12px; padding: 25px; margin-top: 20px;">
+                    <h4 style="color: #e65100; margin-bottom: 15px; font-size: 1.2rem;">✨ 如何自定义预设列表</h4>
+                    
+                    <p style="color: #5d4037; margin-bottom: 20px;">预设指令允许你通过自然语言触发复杂的设备动作序列。下面是一个完整的示例：</p>
+
+                    <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ff9800;">
+                        <h5 style="color: #333; margin-bottom: 12px;">💡 示例：LED1亮3秒预设</h5>
+                        
+                        <div style="background: #f5f5f5; padding: 15px; border-radius: 6px; margin-top: 10px;">
+                            <p style="margin: 0 0 10px; color: #666; font-size: 0.9rem;"><strong>在提示词中添加：</strong></p>
+                            <pre style="background: #263238; color: #aed581; padding: 15px; border-radius: 6px; overflow-x: auto; margin: 0; font-size: 0.9rem; line-height: 1.6;">### 3️⃣ 执行预设指令
+
+<strong style="color: #fff59d;">**可用预设列表：**</strong>
+
+| 预设名称 | 触发词 | preset_key | 说明 |
+|---------|--------|------------|------|
+| 眨眼睛 | "眨眼睛"、"眨一下" | <span style="color: #f48fb1;">led_seq_mi71o69r</span> | LED1点亮3秒后熄灭 |
+
+<strong style="color: #fff59d;">**使用方法：**</strong>
+当用户说出触发词时，使用对应的preset_key调用预设接口。</pre>
+                        </div>
+
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 6px; border-left: 4px solid #4caf50;">
+                            <p style="margin: 0 0 10px; color: #2e7d32; font-weight: 600;">💬 对话示例：</p>
+                            <div style="padding: 10px 0;">
+                                <p style="margin: 5px 0; color: #555;"><strong>用户：</strong>"眨眼睛"</p>
+                                <p style="margin: 5px 0; color: #555;"><strong>Bot：</strong>[调用预设接口，preset_name="led_seq_mi71o69r"]</p>
+                                <p style="margin: 5px 0; color: #555;"><strong>Bot：</strong>"✅ LED1将点亮3秒后自动熄灭"</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 如何获取preset_key -->
+                <h3 style="margin: 40px 0 20px; font-size: 1.4rem; color: #333; border-left: 4px solid #00BCD4; padding-left: 15px;">
+                    🔑 如何获取 preset_key（预设标识）
+                </h3>
+
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 12px; margin-top: 20px; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: white; margin-bottom: 20px; font-size: 1.2rem;">📍 在管理后台查看</h4>
+                    
+                    <div class="steps" style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                        <div class="step" style="border-left-color: rgba(255,255,255,0.5);">
+                            <div class="step-number" style="background: rgba(255,255,255,0.2); color: white;">1</div>
+                            <div class="step-content">
+                                <h4 style="color: white;">登录管理后台</h4>
+                                <p style="color: rgba(255,255,255,0.9);">访问 AIOT 管理后台，使用您的账号登录。</p>
+                            </div>
+                        </div>
+
+                        <div class="step" style="border-left-color: rgba(255,255,255,0.5);">
+                            <div class="step-number" style="background: rgba(255,255,255,0.2); color: white;">2</div>
+                            <div class="step-content">
+                                <h4 style="color: white;">进入设备配置</h4>
+                                <p style="color: rgba(255,255,255,0.9);">点击左侧菜单的 <strong>"设备管理"</strong>，选择要配置的设备。</p>
+                            </div>
+                        </div>
+
+                        <div class="step" style="border-left-color: rgba(255,255,255,0.5);">
+                            <div class="step-number" style="background: rgba(255,255,255,0.2); color: white;">3</div>
+                            <div class="step-content">
+                                <h4 style="color: white;">查看预设指令</h4>
+                                <p style="color: rgba(255,255,255,0.9);">在设备配置页面，找到 <strong>"预设指令配置"</strong> 区域。</p>
+                            </div>
+                        </div>
+
+                        <div class="step" style="border-left-color: rgba(255,255,255,0.5);">
+                            <div class="step-number" style="background: rgba(255,255,255,0.2); color: white;">4</div>
+                            <div class="step-content">
+                                <h4 style="color: white;">复制 preset_key</h4>
+                                <p style="color: rgba(255,255,255,0.9);">每个预设指令旁边都会显示其 <strong>preset_key</strong>，点击复制按钮即可复制。</p>
+                                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 6px; margin-top: 10px; font-family: monospace;">
+                                    <p style="margin: 0; color: #fff59d;">例如：<code style="background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 3px; color: #ffeb3b;">led_seq_mi71o69r</code></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 截图示例 -->
+                    <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 8px; margin-top: 25px; color: #333;">
+                        <h5 style="color: #333; margin-bottom: 15px; font-size: 1.1rem;">📸 界面示意</h5>
+                        <p style="color: #666; margin-bottom: 15px;">在设备配置页面，预设指令区域显示如下：</p>
+                        <div style="background: #f5f5f5; padding: 20px; border-radius: 6px; border: 2px solid #e0e0e0;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: white; border-radius: 4px; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <div style="flex: 1;">
+                                    <p style="margin: 0; font-weight: 600; color: #333;">眨眼睛</p>
+                                    <p style="margin: 5px 0 0; font-size: 0.9rem; color: #666;">序列指令 - LED1点亮3秒后熄灭</p>
+                                    <p style="margin: 8px 0 0; font-size: 0.85rem; color: #999;">
+                                        <strong>preset_key:</strong> 
+                                        <code style="background: #e3f2fd; padding: 4px 8px; border-radius: 3px; color: #1976d2; font-family: monospace;">led_seq_mi71o69r</code>
+                                        <button style="margin-left: 8px; padding: 4px 12px; background: #2196F3; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 0.85rem;">📋 复制</button>
+                                    </p>
+                                </div>
+                                <div style="display: flex; gap: 8px;">
+                                    <button style="padding: 6px 12px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">编辑</button>
+                                    <button style="padding: 6px 12px; background: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">删除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 使用技巧 -->
+                <div class="alert alert-info" style="margin-top: 30px;">
+                    <div class="alert-icon">💡</div>
+                    <div class="alert-content">
+                        <div class="alert-title">使用技巧</div>
+                        <ul style="margin: 10px 0 0; padding-left: 20px;">
+                            <li style="margin: 8px 0;"><strong>多个预设：</strong>如果有多个预设指令，在提示词的表格中添加多行即可</li>
+                            <li style="margin: 8px 0;"><strong>触发词优化：</strong>为每个预设配置多个自然的触发词，提高识别率</li>
+                            <li style="margin: 8px 0;"><strong>描述清晰：</strong>在"说明"列清楚描述预设的功能，帮助AI理解</li>
+                            <li style="margin: 8px 0;"><strong>测试验证：</strong>配置完成后，用多种说法测试触发词是否生效</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 常见问题 -->
+                <h3 style="margin: 40px 0 20px; font-size: 1.4rem; color: #333; border-left: 4px solid #9C27B0; padding-left: 15px;">
+                    常见问题
+                </h3>
+
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 15px;">
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #333; margin-bottom: 10px;">❓ 插件导入失败怎么办？</h4>
+                        <p style="color: #666;">确保下载的 coze-plugin-lite.json 文件完整，没有被浏览器修改。如果还是失败，可以尝试重新下载。</p>
+                    </div>
+
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #333; margin-bottom: 10px;">❓ AI响应太慢怎么办？</h4>
+                        <p style="color: #666;">检查是否关闭了大模型节点的"深度思考"开关。开启深度思考会导致每次对话耗时30秒以上。</p>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #333; margin-bottom: 10px;">❓ 如何获取设备的UUID？</h4>
+                        <p style="color: #666;">登录管理后台，在"设备管理"页面可以查看所有设备的UUID。或者在设备配置时系统会自动生成并显示。</p>
+                    </div>
+
+                    <div>
+                        <h4 style="color: #333; margin-bottom: 10px;">❓ preset_key在哪里查看？</h4>
+                        <p style="color: #666;">在管理后台的"设备配置"页面，每个预设指令都会显示其唯一的preset_key，点击旁边的复制按钮即可复制。preset_key的格式通常类似于 <code style="background: #e3f2fd; padding: 2px 6px; border-radius: 3px; color: #1976d2;">led_seq_mi71o69r</code>。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 接口调试工具 -->
+        <div class="card fade-in" id="接口调试">
+            <h2 class="card-title">🧪 接口调试工具</h2>
+            <div class="card-content">
+                <p>使用此工具可以直接测试 plugin-service 的各个接口，查看请求和响应数据，便于开发和调试。</p>
+
+                <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-top: 20px;">
+                    <!-- 服务器配置 -->
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 8px;">🌐 插件服务地址</label>
+                        <input 
+                            type="text" 
+                            id="apiBaseUrl" 
+                            value="https://plugin.example.com"
+                            placeholder="如: http://localhost:8080 或 https://plugin.aiot.example.com"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-family: monospace; font-size: 0.95rem;"
+                        />
+                        <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">⚠️ 需要先启动 plugin-service 服务</p>
+                    </div>
+
+                    <!-- 接口选择 -->
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 8px;">📡 选择接口</label>
+                        <select 
+                            id="apiEndpoint" 
+                            onchange="updateApiForm()"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; cursor: pointer; background: white;"
+                        >
+                            <option value="sensor_data">查询传感器数据</option>
+                            <option value="control">控制智能设备</option>
+                            <option value="preset">执行预设指令(preset_key)</option>
+                        </select>
+                    </div>
+
+                    <!-- 动态参数表单 -->
+                    <div id="apiParamsForm" style="margin-bottom: 20px;">
+                        <!-- 参数输入区域，由 JavaScript 动态生成 -->
+                    </div>
+
+                    <!-- 操作按钮 -->
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <button 
+                            onclick="sendApiRequest()"
+                            style="flex: 1; padding: 14px; background: #4CAF50; color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
+                            onmouseover="this.style.background='#45a049'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)'"
+                            onmouseout="this.style.background='#4CAF50'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'"
+                        >
+                            🚀 发送请求
+                        </button>
+                        <button 
+                            onclick="clearDebugLog()"
+                            style="padding: 14px 24px; background: #f44336; color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
+                            onmouseover="this.style.background='#da190b'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)'"
+                            onmouseout="this.style.background='#f44336'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'"
+                        >
+                            🗑️ 清空日志
+                        </button>
+                    </div>
+
+                    <!-- 请求详情 -->
+                    <div id="requestDetails" style="display: none; margin-bottom: 20px;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #1976d2;">📤 请求信息</label>
+                        <div style="background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 15px; font-family: monospace; font-size: 0.9rem;">
+                            <div style="margin-bottom: 10px;">
+                                <strong style="color: #666;">URL:</strong> <span id="requestUrl" style="color: #2196F3; word-break: break-all;"></span>
+                            </div>
+                            <div>
+                                <strong style="color: #666;">Payload:</strong>
+                                <pre id="requestPayload" style="margin: 5px 0 0 0; padding: 10px; background: #f5f5f5; border-radius: 4px; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;"></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 响应显示 -->
+                    <div id="responseContainer" style="display: none;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #388e3c;">📥 响应结果</label>
+                        <div id="responseBox" style="background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 15px; font-family: monospace; font-size: 0.9rem; max-height: 400px; overflow-y: auto; word-wrap: break-word;">
+                            <!-- 响应内容 -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-info" style="margin-top: 20px;">
+                    <div class="alert-icon">💡</div>
+                    <div class="alert-content">
+                        <div class="alert-title">使用提示</div>
+                        <ul style="margin: 10px 0 0 0;">
+                            <li><strong>本地测试</strong>：确保 plugin-service 服务已启动（默认端口 8080）</li>
+                            <li><strong>调试模式</strong>：使用 UUID "test" 可以返回模拟数据，不会实际控制设备</li>
+                            <li><strong>真实设备</strong>：使用实际的设备UUID来控制真实设备</li>
+                            <li><strong>详细日志</strong>：打开浏览器开发者工具（F12）查看更详细的请求日志</li>
+                            <li><strong>CORS问题</strong>：如果遇到跨域问题，请确保 plugin-service 配置了正确的CORS headers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 AIOT智能设备管理系统 | <a href="#">GitHub</a> | <a href="#">文档反馈</a></p>
+            <p style="margin-top: 10px; font-size: 0.875rem;">
+                基于ESP32-S3 · Made with ❤️
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    
+    <!-- 接口调试工具脚本 -->
+    <script>
+        // 接口配置
+        const API_CONFIGS = {
+            sensor_data: {
+                endpoint: '/plugin/sensor-data',
+                method: 'GET',
+                description: '获取设备传感器数据（温度/湿度/DS18B20）',
+                queryExample: {
+                    uuid: 'test',
+                    sensor: '温度'
+                },
+                examples: [
+                    { name: '查询温度', params: { uuid: 'test', sensor: '温度' } },
+                    { name: '查询湿度', params: { uuid: 'test', sensor: '湿度' } },
+                    { name: '查询DS18B20', params: { uuid: 'test', sensor: 'DS18B20' } }
+                ]
+            },
+            control: {
+                endpoint: '/plugin/control',
+                method: 'POST',
+                description: '控制设备端口（LED/继电器/舵机/PWM）',
+                bodyExample: {
+                    device_uuid: 'test',
+                    port_type: 'led',
+                    port_id: 1,
+                    action: 'on'
+                },
+                examples: [
+                    { name: 'LED开启', body: { device_uuid: 'test', port_type: 'led', port_id: 1, action: 'on' } },
+                    { name: 'LED关闭', body: { device_uuid: 'test', port_type: 'led', port_id: 1, action: 'off' } },
+                    { name: '继电器开启', body: { device_uuid: 'test', port_type: 'relay', port_id: 1, action: 'on' } },
+                    { name: '舵机设置角度', body: { device_uuid: 'test', port_type: 'servo', port_id: 1, action: 'set', value: 90 } },
+                    { name: 'PWM设置占空比', body: { device_uuid: 'test', port_type: 'pwm', port_id: 1, action: 'set', value: 50 } }
+                ]
+            },
+            preset: {
+                endpoint: '/plugin/preset',
+                method: 'POST',
+                description: '通过preset_key执行用户自定义的预设指令',
+                bodyExample: {
+                    device_uuid: 'test',
+                    preset_name: 'led_blink_k8x9y2',
+                    parameters: {}
+                },
+                examples: [
+                    { name: 'LED闪烁预设', body: { device_uuid: 'test', preset_name: 'led_blink_k8x9y2', parameters: {} } },
+                    { name: 'LED流水灯', body: { device_uuid: 'test', preset_name: 'led_wave_m7p3z1', parameters: {} } },
+                    { name: '继电器定时', body: { device_uuid: 'test', preset_name: 'relay_seq_n2k4x8', parameters: {} } }
+                ]
+            }
+        };
+
+        // 初始化表单
+        function updateApiForm() {
+            const endpoint = document.getElementById('apiEndpoint').value;
+            const config = API_CONFIGS[endpoint];
+            const formContainer = document.getElementById('apiParamsForm');
+            
+            let html = '<div style="background: white; padding: 15px; border-radius: 6px; border: 1px solid #ddd;">';
+            
+            // 接口描述
+            html += `<div style="margin-bottom: 15px; padding: 12px; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 4px;">`;
+            html += `<strong style="color: #1976d2;">📝 接口说明：</strong><span style="color: #424242; margin-left: 8px;">${config.description}</span>`;
+            html += `</div>`;
+            
+            // 参数输入区域
+            if (config.method === 'GET') {
+                // GET请求 - Query参数
+                html += '<label style="display: block; font-weight: 600; margin-bottom: 8px;">🔧 Query参数 (JSON格式)</label>';
+                html += '<textarea id="apiParams" rows="8" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-family: \'Courier New\', monospace; font-size: 0.9rem; background: #f8f9fa;">';
+                html += JSON.stringify(config.queryExample, null, 2);
+                html += '</textarea>';
+            } else {
+                // POST请求 - Body参数
+                html += '<label style="display: block; font-weight: 600; margin-bottom: 8px;">📦 Request Body (JSON格式)</label>';
+                html += '<textarea id="apiParams" rows="10" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-family: \'Courier New\', monospace; font-size: 0.9rem; background: #f8f9fa;">';
+                html += JSON.stringify(config.bodyExample, null, 2);
+                html += '</textarea>';
+            }
+            
+            // 快速示例
+            if (config.examples && config.examples.length > 0) {
+                html += '<div style="margin-top: 15px;">';
+                html += '<label style="display: block; font-weight: 600; margin-bottom: 8px;">💡 快速示例：</label>';
+                html += '<div style="display: flex; flex-wrap: wrap; gap: 8px;">';
+                config.examples.forEach((example, index) => {
+                    const exampleData = config.method === 'GET' ? example.params : example.body;
+                    html += `<button 
+                        onclick='document.getElementById("apiParams").value = ${JSON.stringify(JSON.stringify(exampleData, null, 2))}'
+                        style="padding: 6px 12px; background: #fff; border: 1px solid #2196f3; color: #2196f3; border-radius: 4px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                        onmouseover="this.style.background='#2196f3'; this.style.color='white';"
+                        onmouseout="this.style.background='#fff'; this.style.color='#2196f3';"
+                    >${example.name}</button>`;
+                });
+                html += '</div>';
+                html += '</div>';
+            }
+            
+            // 提示信息
+            html += '<div style="margin-top: 12px; padding: 10px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; font-size: 0.85rem; color: #856404;">';
+            html += '⚠️ 请确保JSON格式正确，可以使用上方的快速示例按钮';
+            html += '</div>';
+            
+            html += '</div>';
+            formContainer.innerHTML = html;
+        }
+
+        // 发送API请求
+        async function sendApiRequest() {
+            const baseUrl = document.getElementById('apiBaseUrl').value.trim();
+            const endpoint = document.getElementById('apiEndpoint').value;
+            const config = API_CONFIGS[endpoint];
+            const apiParamsText = document.getElementById('apiParams').value.trim();
+            
+            if (!baseUrl) {
+                alert('请输入插件服务地址');
+                return;
+            }
+            
+            if (!apiParamsText) {
+                alert('请输入接口参数');
+                return;
+            }
+            
+            // 解析JSON参数
+            let apiParams;
+            try {
+                apiParams = JSON.parse(apiParamsText);
+            } catch (e) {
+                alert(`JSON格式错误: ${e.message}\n\n请检查参数格式是否正确`);
+                return;
+            }
+            
+            // 构建URL和请求
+            let url = `${baseUrl}${config.endpoint}`;
+            
+            if (config.method === 'GET') {
+                // GET请求 - 参数放在URL中
+                const queryString = new URLSearchParams(apiParams).toString();
+                url += `?${queryString}`;
+                
+                // 显示请求信息
+                document.getElementById('requestUrl').textContent = url;
+                document.getElementById('requestPayload').textContent = 'GET请求，参数在URL中:\n' + JSON.stringify(apiParams, null, 2);
+            } else {
+                // POST请求 - 参数放在body中
+                document.getElementById('requestUrl').textContent = url;
+                document.getElementById('requestPayload').textContent = JSON.stringify(apiParams, null, 2);
+            }
+            
+            document.getElementById('requestDetails').style.display = 'block';
+            
+            try {
+                console.log(`🚀 发送${config.method}请求:`, url, config.method === 'POST' ? apiParams : '');
+                
+                const options = {
+                    method: config.method
+                };
+                
+                if (config.method === 'POST') {
+                    options.headers = {
+                        'Content-Type': 'application/json'
+                    };
+                    options.body = JSON.stringify(apiParams);
+                }
+                
+                const response = await fetch(url, options);
+                const data = await response.json();
+                console.log('✅ 响应数据:', data);
+                
+                // 显示响应
+                displayResponse(response.status, data);
+                
+            } catch (error) {
+                console.error('❌ 请求失败:', error);
+                displayError(error);
+            }
+        }
+
+        // 显示响应结果
+        function displayResponse(status, data) {
+            const container = document.getElementById('responseContainer');
+            const box = document.getElementById('responseBox');
+            
+            let html = '';
+            
+            // 状态码
+            const statusColor = status === 200 ? '#4CAF50' : '#f44336';
+            html += `<div style="margin-bottom: 15px; padding: 10px; background: ${statusColor}; color: white; border-radius: 4px; font-weight: 600;">`;
+            html += `HTTP ${status} ${status === 200 ? '✓ Success' : '✗ Error'}`;
+            html += `</div>`;
+            
+            // 响应数据
+            html += `<pre style="margin: 0; padding: 15px; background: #f5f5f5; border-radius: 4px; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">${JSON.stringify(data, null, 2)}</pre>`;
+            
+            box.innerHTML = html;
+            container.style.display = 'block';
+            
+            // 滚动到响应区域
+            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // 显示错误信息
+        function displayError(error) {
+            const container = document.getElementById('responseContainer');
+            const box = document.getElementById('responseBox');
+            
+            let html = '<div style="padding: 15px; background: #ffebee; border: 1px solid #f44336; border-radius: 4px; color: #c62828;">';
+            html += '<strong style="display: block; margin-bottom: 10px;">❌ 请求失败</strong>';
+            html += `<p>${error.message}</p>`;
+            html += '<p style="margin-top: 10px; font-size: 0.9rem;">可能的原因：</p>';
+            html += '<ul style="margin: 5px 0 0 20px; font-size: 0.9rem;">';
+            html += '<li>plugin-service 服务未启动</li>';
+            html += '<li>服务地址配置错误</li>';
+            html += '<li>网络连接问题</li>';
+            html += '<li>CORS跨域限制</li>';
+            html += '</ul>';
+            html += '</div>';
+            
+            box.innerHTML = html;
+            container.style.display = 'block';
+            
+            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // 清空日志
+        function clearDebugLog() {
+            document.getElementById('requestDetails').style.display = 'none';
+            document.getElementById('responseContainer').style.display = 'none';
+            document.getElementById('requestUrl').textContent = '';
+            document.getElementById('requestPayload').textContent = '';
+            document.getElementById('responseBox').innerHTML = '';
+        }
+
+        // 页面加载时初始化表单
+        window.addEventListener('DOMContentLoaded', () => {
+            updateApiForm();
+        });
+
+        // 复制提示词模板
+        function copyPromptTemplate() {
+            const template = document.getElementById('promptTemplate');
+            const text = template.textContent;
+            
+            // 使用现代API复制
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    // 显示成功提示
+                    const button = event.target;
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '✅ 已复制';
+                    button.style.background = '#4CAF50';
+                    button.style.color = 'white';
+                    
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.style.background = 'white';
+                        button.style.color = '#667eea';
+                    }, 2000);
+                }).catch(err => {
+                    alert('复制失败，请手动选择复制');
+                });
+            } else {
+                // 降级方案：创建临时textarea
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    const button = event.target;
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '✅ 已复制';
+                    button.style.background = '#4CAF50';
+                    button.style.color = 'white';
+                    
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.style.background = 'white';
+                        button.style.color = '#667eea';
+                    }, 2000);
+                } catch (err) {
+                    alert('复制失败，请手动选择复制');
+                }
+                
+                document.body.removeChild(textarea);
+            }
+        }
+    </script>
+</body>
+</html>
+

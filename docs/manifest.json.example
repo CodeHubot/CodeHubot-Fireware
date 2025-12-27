@@ -1,0 +1,19 @@
+{
+  "name": "AIOT ESP32-S3 Firmware",
+  "version": "2.1.3",
+  "home_assistant_domain": "esphome",
+  "funding_url": "https://github.com/your-repo",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-S3",
+      "parts": [
+        {
+          "path": "firmware/aiot-esp32s3-firmware-merged.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}
+

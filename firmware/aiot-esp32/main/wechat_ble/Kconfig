@@ -1,0 +1,91 @@
+menu "WeChat BLE Configuration"
+
+    config WECHAT_BLE_ENABLE
+        bool "Enable WeChat BLE functionality"
+        default y
+        help
+            Enable WeChat Mini Program Bluetooth functionality for device configuration.
+
+    config WECHAT_BLE_DEVICE_NAME
+        string "BLE Device Name"
+        default "AIOT-Device"
+        depends on WECHAT_BLE_ENABLE
+        help
+            The name that will be advertised by the BLE device.
+
+    config WECHAT_BLE_SERVICE_UUID
+        string "BLE Service UUID"
+        default "12345678-1234-1234-1234-123456789abc"
+        depends on WECHAT_BLE_ENABLE
+        help
+            The UUID of the main BLE service.
+
+    config WECHAT_BLE_CHAR_READ_UUID
+        string "BLE Read Characteristic UUID"
+        default "87654321-4321-4321-4321-cba987654321"
+        depends on WECHAT_BLE_ENABLE
+        help
+            The UUID of the read characteristic.
+
+    config WECHAT_BLE_CHAR_WRITE_UUID
+        string "BLE Write Characteristic UUID"
+        default "11111111-2222-3333-4444-555555555555"
+        depends on WECHAT_BLE_ENABLE
+        help
+            The UUID of the write characteristic.
+
+    config WECHAT_BLE_MAX_DATA_LEN
+        int "Maximum data length"
+        default 512
+        range 20 1024
+        depends on WECHAT_BLE_ENABLE
+        help
+            Maximum length of data that can be sent/received in a single BLE packet.
+
+    config WECHAT_BLE_SECURITY_ENABLE
+        bool "Enable BLE Security"
+        default n
+        depends on WECHAT_BLE_ENABLE
+        help
+            Enable BLE security features like pairing and encryption.
+
+    config WECHAT_BLE_PASSKEY
+        int "BLE Passkey"
+        default 123456
+        range 0 999999
+        depends on WECHAT_BLE_SECURITY_ENABLE
+        help
+            The passkey used for BLE pairing (6 digits).
+
+    config WECHAT_BLE_AUTO_DISCONNECT_TIMEOUT
+        int "Auto disconnect timeout (seconds)"
+        default 300
+        range 60 3600
+        depends on WECHAT_BLE_ENABLE
+        help
+            Automatically disconnect BLE connection after this timeout (in seconds).
+
+    config WECHAT_BLE_DEBUG_ENABLE
+        bool "Enable debug output"
+        default n
+        depends on WECHAT_BLE_ENABLE
+        help
+            Enable debug output for WeChat BLE module.
+
+    config WECHAT_BLE_TASK_STACK_SIZE
+        int "Task stack size"
+        default 4096
+        range 2048 8192
+        depends on WECHAT_BLE_ENABLE
+        help
+            Stack size for WeChat BLE task.
+
+    config WECHAT_BLE_TASK_PRIORITY
+        int "Task priority"
+        default 5
+        range 1 25
+        depends on WECHAT_BLE_ENABLE
+        help
+            Priority for WeChat BLE task.
+
+endmenu
