@@ -1011,17 +1011,9 @@ void app_main(void) {
     bool enter_config_mode = false;
     
     for (int countdown = 3; countdown > 0; countdown--) {
-        // OLED显示倒计时
+        // OLED显示倒计时（使用封装函数，避免两次刷新冲突）
         #if OLED_ENABLED
-        oled_clear();
-        vTaskDelay(pdMS_TO_TICKS(50));
-        
-        char buf[16];
-        oled_show_line(2, "[BOOT]", OLED_ALIGN_CENTER);
-        snprintf(buf, sizeof(buf), "%d", countdown);
-        oled_show_line(5, buf, OLED_ALIGN_CENTER);
-        oled_refresh();
-        vTaskDelay(pdMS_TO_TICKS(50));  // 等待刷新完成
+        oled_show_countdown(countdown);
         #endif
         
         ESP_LOGI(TAG, "倒计时: %d 秒...", countdown);
@@ -1080,9 +1072,8 @@ void app_main(void) {
     } else {
         ESP_LOGI(TAG, "未按Boot键，继续正常启动");
         
-        // OLED显示启动中（使用与配网模式相同的封装方式）
+        // OLED显示启动中
         #if OLED_ENABLED
-        vTaskDelay(pdMS_TO_TICKS(100));  // 确保上一帧完全稳定
         oled_show_starting();
         #endif
     }

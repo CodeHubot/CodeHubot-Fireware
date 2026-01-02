@@ -129,6 +129,12 @@ void oled_show_status_screen(
 );
 
 /**
+ * @brief 显示倒计时
+ * @param seconds 倒计时秒数
+ */
+void oled_show_countdown(int seconds);
+
+/**
  * @brief 显示启动提示
  */
 void oled_show_starting(void);
