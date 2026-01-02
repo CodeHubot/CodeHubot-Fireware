@@ -554,6 +554,39 @@ static esp_err_t captive_portal_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
+// 安全的参数提取函数
+static void extract_param(const char *content, const char *param_name, char *output, size_t max_len) {
+    char *start = strstr(content, param_name);
+    if (!start) {
+        output[0] = '\0';
+        return;
+    }
+    
+    start += strlen(param_name);
+    if (*start != '=') {
+        output[0] = '\0';
+        return;
+    }
+    start++;  // 跳过'='
+    
+    // 找到参数值的结束位置（&或字符串结尾）
+    char *end = strchr(start, '&');
+    size_t len;
+    if (end) {
+        len = end - start;
+    } else {
+        len = strlen(start);
+    }
+    
+    // 限制长度，防止溢出
+    if (len >= max_len) {
+        len = max_len - 1;
+    }
+    
+    strncpy(output, start, len);
+    output[len] = '\0';
+}
+
 static esp_err_t config_save_handler(httpd_req_t *req) {
     char content[512];
     int ret = httpd_req_recv(req, content, sizeof(content));
@@ -563,23 +596,18 @@ static esp_err_t config_save_handler(httpd_req_t *req) {
     }
     content[ret] = '\0';
     
-    // 简化的参数解析
+    ESP_LOGI(TAG, "收到配置数据: %s", content);
+    
+    // 安全的参数解析
     char ssid[33] = {0}, pass[65] = {0}, config_srv_input[256] = {0};
     char config_srv_full[300] = {0};  // 完整的配置服务器地址（带http://前缀）
     
-    // 解析POST数据 (简化版，实际应该更严谨)
-    char *p = strstr(content, "ssid=");
-    if (p) {
-        sscanf(p, "ssid=%32[^&]", ssid);
-    }
-    p = strstr(content, "pass=");
-    if (p) {
-        sscanf(p, "pass=%64[^&]", pass);
-    }
-    p = strstr(content, "config_srv=");
-    if (p) {
-        sscanf(p, "config_srv=%255[^&]", config_srv_input);
-        // 自动拼接http://前缀
+    extract_param(content, "ssid", ssid, sizeof(ssid));
+    extract_param(content, "pass", pass, sizeof(pass));
+    extract_param(content, "config_srv", config_srv_input, sizeof(config_srv_input));
+    
+    // 自动拼接http://前缀
+    if (strlen(config_srv_input) > 0) {
         snprintf(config_srv_full, sizeof(config_srv_full), "http://%s", config_srv_input);
     }
     
