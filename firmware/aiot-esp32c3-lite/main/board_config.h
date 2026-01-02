@@ -11,8 +11,8 @@
  * │ OLED SDA    │  I2C_SDA │       GPIO4         │
  * │ OLED SCL    │  I2C_SCL │       GPIO5         │
  * ├─────────────┼──────────┼─────────────────────┤
- * │ LED1(红灯)  │   LED_R  │       GPIO18        │
- * │ LED2(蓝灯)  │   LED_B  │       GPIO19        │
+ * │ LED1        │   LED1   │       GPIO19        │
+ * │ LED2        │   LED2   │       GPIO18        │
  * ├─────────────┼──────────┼─────────────────────┤
  * │ DHT11传感器 │   DHT11  │       GPIO11        │ (实际硬件为GPIO11，但ESP32-C3的GPIO11是Flash，可能有问题)
  * ├─────────────┼──────────┼─────────────────────┤
@@ -74,18 +74,18 @@ extern "C" {
 // ==================== LED配置 ====================
 #define LED_COUNT           2
 
-// LED1配置 (红色LED - GPIO18)
-#define LED1_GPIO_PIN       18      // 实际硬件: GPIO18 (红灯)
+// LED1配置 (GPIO19)
+#define LED1_GPIO_PIN       19      // 实际硬件: GPIO19
 #define LED1_ACTIVE_LEVEL   1       // 高电平有效
 #define LED1_PWM_ENABLED    0       // 纯GPIO控制
-#define LED_RED_PIN         18      // 别名
+#define LED_RED_PIN         19      // 别名
 #define LED_RED             LED1_GPIO_PIN
 
-// LED2配置 (蓝色LED - GPIO19)
-#define LED2_GPIO_PIN       19      // 实际硬件: GPIO19 (蓝灯)
+// LED2配置 (GPIO18)
+#define LED2_GPIO_PIN       18      // 实际硬件: GPIO18
 #define LED2_ACTIVE_LEVEL   1       // 高电平有效
 #define LED2_PWM_ENABLED    0       // 纯GPIO控制
-#define LED_BLUE_PIN        19      // 别名
+#define LED_BLUE_PIN        18      // 别名
 #define LED_BLUE            LED2_GPIO_PIN
 
 // ==================== 继电器配置 ====================
@@ -131,7 +131,8 @@ extern "C" {
 // 注意：这些是开发时的默认值，实际使用时通过配网获取
 #define DEFAULT_WIFI_SSID   ""
 #define DEFAULT_WIFI_PASS   ""
-#define DEFAULT_MQTT_BROKER ""
+#define DEFAULT_CONFIG_SERVER "http://conf.aiot.powertechhub.com:8001"  // 配置服务器（带端口）
+#define DEFAULT_MQTT_BROKER "conf.aiot.powertechhub.com"                // MQTT服务器（不带端口）
 #define DEFAULT_MQTT_PORT   1883
 #define DEFAULT_MQTT_USERNAME ""
 #define DEFAULT_MQTT_PASSWORD ""

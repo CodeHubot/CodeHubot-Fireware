@@ -11,6 +11,8 @@
 #include "ssd1306_oled.h"
 #include "driver/i2c.h"
 #include "esp_log.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include <string.h>
 
 static const char *TAG = "OLED";
@@ -161,9 +163,18 @@ esp_err_t oled_init(void) {
     oled_write_cmd(0x40);
     oled_write_cmd(0xA4);  // Display all ON
     oled_write_cmd(0xA6);  // Normal display
+    
+    // 先清空显示缓冲区和屏幕（在开启显示前）
+    memset(oled_buffer, 0, sizeof(oled_buffer));
+    oled_refresh();
+    vTaskDelay(pdMS_TO_TICKS(50));
+    
     oled_write_cmd(0xAF);  // Display ON
     
+    // 再次清屏确保完全清除
     oled_clear();
+    vTaskDelay(pdMS_TO_TICKS(50));
+    
     ESP_LOGI(TAG, "✅ OLED初始化成功 (SSD1306 128x64)");
     
     return ESP_OK;
@@ -244,6 +255,9 @@ void oled_show_string(uint8_t x, uint8_t y, const char *str) {
 void oled_show_line(uint8_t line, const char *str, oled_align_t align) {
     if (line >= 8) return;
     
+    // 先清空该行的buffer（填充空格）
+    memset(&oled_buffer[line * OLED_WIDTH], 0, OLED_WIDTH);
+    
     int len = strlen(str);
     int x = 0;
     
@@ -265,47 +279,51 @@ void oled_show_line(uint8_t line, const char *str, oled_align_t align) {
     oled_show_string(x, line, str);
 }
 
-// 显示Logo
+// 显示Logo（精简版）
 void oled_show_logo(void) {
-    oled_clear();
-    oled_show_line(2, "AIOT ESP32-C3", OLED_ALIGN_CENTER);
-    oled_show_line(4, "Initializing", OLED_ALIGN_CENTER);
+    // 清空所有内容
+    memset(oled_buffer, 0, sizeof(oled_buffer));
+    
+    // 显示Logo内容
+    oled_show_line(2, "ESP32-C3", OLED_ALIGN_CENTER);
+    oled_show_line(4, "Starting...", OLED_ALIGN_CENTER);
     oled_refresh();
+    vTaskDelay(pdMS_TO_TICKS(50));  // 刷新后延迟
 }
 
-// 显示WiFi状态
+// 显示WiFi状态（精简版）
 void oled_show_wifi_status(const char *ssid, const char *status) {
     char buf[32];
-    snprintf(buf, sizeof(buf), "WiFi: %.10s", ssid);
+    // 精简显示：W:OK 或 W:NO
+    snprintf(buf, sizeof(buf), "W:%s M:", status);
     oled_show_line(0, buf, OLED_ALIGN_LEFT);
-    snprintf(buf, sizeof(buf), "%.15s", status);
-    oled_show_line(1, buf, OLED_ALIGN_LEFT);
 }
 
-// 显示MQTT状态
+// 显示MQTT状态（精简版）
 void oled_show_mqtt_status(const char *status) {
     char buf[32];
-    snprintf(buf, sizeof(buf), "MQTT: %.10s", status);
-    oled_show_line(2, buf, OLED_ALIGN_LEFT);
+    // MQTT状态显示在WiFi同一行
+    snprintf(buf, sizeof(buf), "%s", status);
+    oled_show_string(48, 0, buf);  // 从第48像素开始显示
 }
 
-// 显示传感器数据
+// 显示传感器数据（精简版）
 void oled_show_sensor_data(float temperature, float humidity) {
     char buf[32];
-    snprintf(buf, sizeof(buf), "Temp: %.1fC", temperature);
-    oled_show_line(4, buf, OLED_ALIGN_LEFT);
-    snprintf(buf, sizeof(buf), "Humi: %.1f%%", humidity);
+    snprintf(buf, sizeof(buf), "T:%.1fC", temperature);
+    oled_show_line(2, buf, OLED_ALIGN_LEFT);
+    snprintf(buf, sizeof(buf), "H:%.1f%%", humidity);
+    oled_show_line(3, buf, OLED_ALIGN_LEFT);
+}
+
+// 显示IP地址（精简版）
+void oled_show_ip(const char *ip) {
+    char buf[32];
+    snprintf(buf, sizeof(buf), "%.16s", ip);  // 最多16字符
     oled_show_line(5, buf, OLED_ALIGN_LEFT);
 }
 
-// 显示IP地址
-void oled_show_ip(const char *ip) {
-    char buf[32];
-    snprintf(buf, sizeof(buf), "IP:%.15s", ip);
-    oled_show_line(7, buf, OLED_ALIGN_LEFT);
-}
-
-// 显示完整状态界面
+// 显示完整状态界面（精简版，适配0.96寸屏幕）
 void oled_show_status_screen(
     const char *wifi_ssid,
     bool wifi_connected,
@@ -314,33 +332,42 @@ void oled_show_status_screen(
     float humidity,
     const char *ip_addr
 ) {
-    oled_clear();
+    // 完全清空buffer
+    memset(oled_buffer, 0, sizeof(oled_buffer));
     
-    // WiFi状态
-    oled_show_wifi_status(wifi_ssid, wifi_connected ? "OK" : "NO");
+    // 第0行：WiFi和MQTT状态（合并显示）
+    char buf[32];
+    snprintf(buf, sizeof(buf), "W:%s M:%s", 
+             wifi_connected ? "OK" : "NO",
+             mqtt_connected ? "OK" : "NO");
+    oled_show_line(0, buf, OLED_ALIGN_LEFT);
     
-    // MQTT状态
-    oled_show_mqtt_status(mqtt_connected ? "OK" : "NO");
-    
-    // 传感器数据
+    // 第2-3行：传感器数据
     oled_show_sensor_data(temperature, humidity);
     
-    // IP地址
+    // 第5行：IP地址（只在WiFi连接时显示）
     if (wifi_connected && ip_addr) {
         oled_show_ip(ip_addr);
+    } else {
+        oled_show_line(5, "", OLED_ALIGN_LEFT);  // 清空第5行
     }
     
     oled_refresh();
+    vTaskDelay(pdMS_TO_TICKS(50));  // 刷新后延迟
 }
 
-// 显示配网提示
+// 显示配网提示（优化版）
 void oled_show_config_mode(const char *ap_ssid) {
-    oled_clear();
-    oled_show_line(1, "Config Mode", OLED_ALIGN_CENTER);
-    oled_show_line(3, "Connect to:", OLED_ALIGN_CENTER);
-    oled_show_line(4, ap_ssid, OLED_ALIGN_CENTER);
-    oled_show_line(6, "192.168.4.1", OLED_ALIGN_CENTER);
+    // 完全清空buffer
+    memset(oled_buffer, 0, sizeof(oled_buffer));
+    
+    // 精简显示
+    oled_show_line(1, "SETUP", OLED_ALIGN_CENTER);
+    oled_show_line(3, ap_ssid, OLED_ALIGN_CENTER);
+    oled_show_line(5, "192.168.4.1", OLED_ALIGN_CENTER);
+    
     oled_refresh();
+    vTaskDelay(pdMS_TO_TICKS(50));  // 刷新后延迟
 }
 
 // 画线

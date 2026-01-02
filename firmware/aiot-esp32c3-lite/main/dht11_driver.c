@@ -276,8 +276,6 @@ exit_critical:
              data->temperature, data->humidity);
     
 cleanup:
-    // 恢复中断
-    portEXIT_CRITICAL(&dht11_spinlock);
     // 每次读取结束后，都把总线拉回输出高电平（为下一次起始信号做好准备）
     gpio_set_direction(dht11_gpio, GPIO_MODE_OUTPUT);
     gpio_set_level(dht11_gpio, 1);

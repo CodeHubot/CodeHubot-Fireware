@@ -85,6 +85,7 @@ extern "C" {
 #define NVS_NAMESPACE                   "aiot_c3"
 #define NVS_KEY_WIFI_SSID               "wifi_ssid"
 #define NVS_KEY_WIFI_PASS               "wifi_pass"
+#define NVS_KEY_CONFIG_SERVER           "config_srv"   // 配置服务器地址（HTTP API，端口8001）
 #define NVS_KEY_MQTT_BROKER             "mqtt_broker"
 #define NVS_KEY_MQTT_PORT               "mqtt_port"
 #define NVS_KEY_MQTT_USER               "mqtt_user"

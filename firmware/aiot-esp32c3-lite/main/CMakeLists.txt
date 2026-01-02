@@ -5,6 +5,7 @@ idf_component_register(
         "main.c"
         "ssd1306_oled.c"
         "dht11_driver.c"
+        "device_config.c"
     INCLUDE_DIRS "."
     REQUIRES 
         nvs_flash
@@ -12,11 +13,13 @@ idf_component_register(
         esp_event
         esp_netif
         esp_http_server
+        esp_http_client
         mqtt
         driver
         esp_timer
         app_update
         esp_system
+        json
 )
 
 # 定义编译宏
