@@ -377,8 +377,8 @@ void oled_show_starting(void) {
     // 完全清空buffer
     memset(oled_buffer, 0, sizeof(oled_buffer));
     
-    // 显示READY（换个简短的词，避免潜在问题）
-    oled_show_line(3, "READY", OLED_ALIGN_CENTER);
+    // 显示SETUP
+    oled_show_line(3, "SETUP", OLED_ALIGN_CENTER);
     
     oled_refresh();
     vTaskDelay(pdMS_TO_TICKS(50));  // 刷新后延迟
