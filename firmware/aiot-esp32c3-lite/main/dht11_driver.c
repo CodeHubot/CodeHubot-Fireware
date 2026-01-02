@@ -15,6 +15,18 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
+// 二进制打印宏（用于调试）
+#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
+#define BYTE_TO_BINARY(byte)  \
+  ((byte) & 0x80 ? '1' : '0'), \
+  ((byte) & 0x40 ? '1' : '0'), \
+  ((byte) & 0x20 ? '1' : '0'), \
+  ((byte) & 0x10 ? '1' : '0'), \
+  ((byte) & 0x08 ? '1' : '0'), \
+  ((byte) & 0x04 ? '1' : '0'), \
+  ((byte) & 0x02 ? '1' : '0'), \
+  ((byte) & 0x01 ? '1' : '0')
+
 static const char *TAG = "DHT11";
 
 static gpio_num_t dht11_gpio = DHT11_GPIO_PIN;
@@ -242,11 +254,30 @@ exit_critical:
     // 打印原始数据（用于调试）
     ESP_LOGI(TAG, "📊 原始数据: [0x%02X][0x%02X][0x%02X][0x%02X][0x%02X]", 
              raw_data[0], raw_data[1], raw_data[2], raw_data[3], raw_data[4]);
-    ESP_LOGI(TAG, "📊 十进制: 湿度=%d.%d, 温度=%d.%d, 校验=%d", 
-             raw_data[0], raw_data[1], raw_data[2], raw_data[3], raw_data[4]);
+    ESP_LOGI(TAG, "📊 二进制数据:");
+    for (int i = 0; i < 5; i++) {
+        ESP_LOGI(TAG, "   [%d] = 0x%02X = %3d = " BYTE_TO_BINARY_PATTERN, 
+                 i, raw_data[i], raw_data[i], BYTE_TO_BINARY(raw_data[i]));
+    }
     
-    data->humidity = raw_data[0] + raw_data[1] * 0.1f;
-    data->temperature = raw_data[2] + raw_data[3] * 0.1f;
+    // 尝试两种解析方式
+    // 方式1：DHT11标准格式（小数×0.1）
+    float humi_method1 = raw_data[0] + raw_data[1] * 0.1f;
+    float temp_method1 = raw_data[2] + raw_data[3] * 0.1f;
+    
+    // 方式2：DHT22格式（16位数据÷10）
+    uint16_t humi_raw = (raw_data[0] << 8) | raw_data[1];
+    uint16_t temp_raw = (raw_data[2] << 8) | raw_data[3];
+    float humi_method2 = humi_raw / 10.0f;
+    float temp_method2 = temp_raw / 10.0f;
+    
+    ESP_LOGI(TAG, "📊 解析方式对比:");
+    ESP_LOGI(TAG, "   方式1 (DHT11): 湿度=%.1f%%, 温度=%.1f°C", humi_method1, temp_method1);
+    ESP_LOGI(TAG, "   方式2 (DHT22): 湿度=%.1f%%, 温度=%.1f°C", humi_method2, temp_method2);
+    
+    // 使用方式2（DHT22格式）
+    data->humidity = humi_method2;
+    data->temperature = temp_method2;
     data->timestamp = esp_timer_get_time() / 1000;  // 毫秒
     
     // 温度合理性检查（DHT11规格：0-50°C）
