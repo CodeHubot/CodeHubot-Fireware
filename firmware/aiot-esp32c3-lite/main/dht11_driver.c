@@ -260,36 +260,27 @@ exit_critical:
                  i, raw_data[i], raw_data[i], BYTE_TO_BINARY(raw_data[i]));
     }
     
-    // 尝试两种解析方式
-    // 方式1：DHT11标准格式（小数×0.1）
-    float humi_method1 = raw_data[0] + raw_data[1] * 0.1f;
-    float temp_method1 = raw_data[2] + raw_data[3] * 0.1f;
-    
-    // 方式2：DHT22格式（16位数据÷10）
-    uint16_t humi_raw = (raw_data[0] << 8) | raw_data[1];
-    uint16_t temp_raw = (raw_data[2] << 8) | raw_data[3];
-    float humi_method2 = humi_raw / 10.0f;
-    float temp_method2 = temp_raw / 10.0f;
-    
-    ESP_LOGI(TAG, "📊 解析方式对比:");
-    ESP_LOGI(TAG, "   方式1 (DHT11): 湿度=%.1f%%, 温度=%.1f°C", humi_method1, temp_method1);
-    ESP_LOGI(TAG, "   方式2 (DHT22): 湿度=%.1f%%, 温度=%.1f°C", humi_method2, temp_method2);
-    
-    // 使用方式2（DHT22格式）
-    data->humidity = humi_method2;
-    data->temperature = temp_method2;
+    // DHT11标准格式：整数部分 + 小数部分×0.1
+    data->humidity = raw_data[0] + raw_data[1] * 0.1f;
+    data->temperature = raw_data[2] + raw_data[3] * 0.1f;
     data->timestamp = esp_timer_get_time() / 1000;  // 毫秒
     
-    // 温度合理性检查（DHT11规格：0-50°C）
-    if (data->temperature < -10.0f || data->temperature > 60.0f) {
-        ESP_LOGW(TAG, "❌ 温度超出合理范围: %.1f°C（原始: 0x%02X.0x%02X = %d.%d）", 
+    ESP_LOGI(TAG, "📊 解析结果: 湿度=%.1f%%, 温度=%.1f°C", data->humidity, data->temperature);
+    
+    // 温度合理性检查（扩展范围：-20°C ~ 80°C）
+    // 注意：DHT11 官方规格是 0-50°C，但实际可能测到更高温度（如受 PCB 发热影响）
+    if (data->temperature < -20.0f || data->temperature > 80.0f) {
+        ESP_LOGW(TAG, "❌ 温度超出物理范围: %.1f°C（原始: 0x%02X.0x%02X = %d.%d）", 
                  data->temperature, raw_data[2], raw_data[3], raw_data[2], raw_data[3]);
-        ESP_LOGW(TAG, "⚠️ 可能原因：");
-        ESP_LOGW(TAG, "   1. 传感器靠近 ESP32 芯片或 WiFi 模块，受热影响");
-        ESP_LOGW(TAG, "   2. WiFi 干扰导致数据读取错误");
-        ESP_LOGW(TAG, "   3. 传感器质量问题或损坏");
+        ESP_LOGW(TAG, "⚠️ 传感器可能已损坏或数据读取错误");
         data->valid = false;
         goto cleanup;
+    }
+    
+    // 温度异常警告（但不拒绝数据）
+    if (data->temperature > 50.0f) {
+        ESP_LOGW(TAG, "⚠️ 温度偏高(%.1f°C)，超出DHT11规格范围(0-50°C)", data->temperature);
+        ESP_LOGW(TAG, "💡 可能原因：传感器受PCB发热、WiFi模块或其他热源影响");
     }
     
     // 湿度合理性检查（DHT11规格：20-90%）
@@ -302,8 +293,7 @@ exit_critical:
     }
     
     data->valid = true;
-    
-    ESP_LOGI(TAG, "✅ 温度: %.1f°C, 湿度: %.1f%%", 
+    ESP_LOGI(TAG, "✅ DHT11 读取成功: 温度=%.1f°C, 湿度=%.1f%%", 
              data->temperature, data->humidity);
     
 cleanup:
