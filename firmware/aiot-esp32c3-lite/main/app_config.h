@@ -70,7 +70,7 @@ extern "C" {
 #define BUTTON_DEBOUNCE_MS              50      // 50ms防抖
 
 // ==================== 系统配置 ====================
-#define SYSTEM_MONITOR_INTERVAL_MS      5000    // 系统监控间隔5秒
+#define SYSTEM_MONITOR_INTERVAL_MS      30000   // 系统监控间隔30秒
 #define DEVICE_ID_MAX_LEN               64
 #define DEVICE_UUID_MAX_LEN             64
 
