@@ -462,8 +462,8 @@ void oled_test(void) {
     oled_refresh();
     vTaskDelay(pdMS_TO_TICKS(2000));
     
-    // 测试4: 状态显示
-    oled_show_status_screen("TestWiFi", true, true, 25.5, 60.2, "192.168.1.100");
+    // 测试4: 状态显示（运行时间：1小时1分5秒 = 3665秒）
+    oled_show_status_screen("TestWiFi", true, true, 25.5, 60.2, 3665);
     vTaskDelay(pdMS_TO_TICKS(3000));
     
     ESP_LOGI(TAG, "✅ OLED测试完成");
