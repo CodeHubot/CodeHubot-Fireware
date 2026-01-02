@@ -1082,6 +1082,7 @@ void app_main(void) {
         // OLED显示启动中（清屏以清除倒计时内容）
         #if OLED_ENABLED
         oled_clear();
+        vTaskDelay(pdMS_TO_TICKS(50));  // 等待I2C写入完成
         oled_show_line(3, "Starting", OLED_ALIGN_CENTER);
         oled_refresh();
         #endif
