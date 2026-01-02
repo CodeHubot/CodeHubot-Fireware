@@ -1257,6 +1257,17 @@ void app_main(void) {
             }
         }
         
+        // WiFi初始化后重新配置DHT11 GPIO（WiFi可能改变GPIO配置）
+        #if DHT11_ENABLED
+        ESP_LOGI(TAG, "WiFi连接成功，重新配置DHT11 GPIO...");
+        esp_err_t dht11_ret = dht11_reinit_after_wifi();
+        if (dht11_ret == ESP_OK) {
+            ESP_LOGI(TAG, "✅ DHT11 GPIO重新配置成功");
+        } else {
+            ESP_LOGW(TAG, "⚠️ DHT11 GPIO重新配置失败: %s", esp_err_to_name(dht11_ret));
+        }
+        #endif
+        
         // ==================== 获取设备配置 ====================
         ESP_LOGI(TAG, "=== 获取设备配置 ===");
         

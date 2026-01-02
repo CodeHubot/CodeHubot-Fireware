@@ -421,6 +421,38 @@ esp_err_t dht11_read_average(dht11_data_t *data, int samples) {
     return ESP_OK;
 }
 
+// WiFi初始化后重新配置GPIO（WiFi可能改变GPIO配置）
+esp_err_t dht11_reinit_after_wifi(void) {
+    if (!dht11_initialized) {
+        ESP_LOGW(TAG, "DHT11未初始化，跳过重新配置");
+        return ESP_ERR_INVALID_STATE;
+    }
+    
+    ESP_LOGI(TAG, "WiFi初始化后重新配置DHT11 GPIO...");
+    
+    // 重新配置GPIO（与初始化时相同）
+    gpio_config_t io_conf = {
+        .intr_type = GPIO_INTR_DISABLE,
+        .mode = GPIO_MODE_INPUT_OUTPUT_OD,  // 开漏模式
+        .pin_bit_mask = (1ULL << dht11_gpio),
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .pull_up_en = GPIO_PULLUP_ENABLE,
+    };
+    
+    esp_err_t ret = gpio_config(&io_conf);
+    if (ret != ESP_OK) {
+        ESP_LOGE(TAG, "重新配置GPIO失败: %s", esp_err_to_name(ret));
+        return ret;
+    }
+    
+    // 恢复初始状态
+    gpio_set_direction(dht11_gpio, GPIO_MODE_OUTPUT);
+    gpio_set_level(dht11_gpio, 1);
+    
+    ESP_LOGI(TAG, "✅ DHT11 GPIO重新配置成功");
+    return ESP_OK;
+}
+
 // DHT11测试
 void dht11_test(void) {
     ESP_LOGI(TAG, "开始DHT11测试...");

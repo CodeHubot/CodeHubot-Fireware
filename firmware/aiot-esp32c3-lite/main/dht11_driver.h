@@ -74,6 +74,12 @@ esp_err_t dht11_read_humidity(float *humidity);
 bool dht11_is_available(void);
 
 /**
+ * @brief WiFi初始化后重新配置GPIO（WiFi可能改变GPIO配置）
+ * @return ESP_OK 成功，其他失败
+ */
+esp_err_t dht11_reinit_after_wifi(void);
+
+/**
  * @brief GPIO电平测试
  */
 void dht11_gpio_test(void);
