@@ -1062,8 +1062,10 @@ void app_main(void) {
     #if OLED_ENABLED
     ESP_LOGI(TAG, "初始化OLED显示...");
     if (oled_init() == ESP_OK) {
-        oled_clear();  // 初始化后清屏
         ESP_LOGI(TAG, "✅ OLED显示已就绪");
+        // 显示启动Logo
+        oled_show_logo();
+        vTaskDelay(pdMS_TO_TICKS(1500));  // Logo显示1.5秒
     } else {
         ESP_LOGE(TAG, "❌ OLED初始化失败");
     }
