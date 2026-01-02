@@ -14,6 +14,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include <string.h>
+#include <inttypes.h>
 
 static const char *TAG = "OLED";
 
@@ -348,7 +349,7 @@ void oled_show_status_screen(
     // 第5行：显示系统运行时间（小时:分钟）
     uint32_t hours = uptime_seconds / 3600;
     uint32_t minutes = (uptime_seconds % 3600) / 60;
-    snprintf(buf, sizeof(buf), "Run:%uh%02um", hours, minutes);
+    snprintf(buf, sizeof(buf), "Run:%" PRIu32 "h%02" PRIu32 "m", hours, minutes);
     oled_show_line(5, buf, OLED_ALIGN_LEFT);
     
     oled_refresh();
