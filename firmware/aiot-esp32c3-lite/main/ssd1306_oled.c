@@ -356,6 +356,18 @@ void oled_show_status_screen(
     vTaskDelay(pdMS_TO_TICKS(50));  // 刷新后延迟
 }
 
+// 显示启动提示
+void oled_show_starting(void) {
+    // 完全清空buffer
+    memset(oled_buffer, 0, sizeof(oled_buffer));
+    
+    // 显示Starting
+    oled_show_line(3, "Starting", OLED_ALIGN_CENTER);
+    
+    oled_refresh();
+    vTaskDelay(pdMS_TO_TICKS(50));  // 刷新后延迟
+}
+
 // 显示配网提示（优化版）
 void oled_show_config_mode(const char *ap_ssid) {
     // 完全清空buffer

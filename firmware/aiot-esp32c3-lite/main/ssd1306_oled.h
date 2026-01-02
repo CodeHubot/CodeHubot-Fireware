@@ -129,6 +129,11 @@ void oled_show_status_screen(
 );
 
 /**
+ * @brief 显示启动提示
+ */
+void oled_show_starting(void);
+
+/**
  * @brief 显示配网提示
  * @param ap_ssid AP热点名称
  */
