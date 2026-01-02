@@ -1017,9 +1017,10 @@ void app_main(void) {
         vTaskDelay(pdMS_TO_TICKS(50));
         
         char buf[16];
-        oled_show_line(2, "BOOT:Config", OLED_ALIGN_CENTER);
-        snprintf(buf, sizeof(buf), "%d", countdown);
-        oled_show_line(4, buf, OLED_ALIGN_CENTER);
+        oled_show_line(1, "Press BOOT", OLED_ALIGN_CENTER);
+        oled_show_line(2, "for Config", OLED_ALIGN_CENTER);
+        snprintf(buf, sizeof(buf), "-- %d --", countdown);
+        oled_show_line(5, buf, OLED_ALIGN_CENTER);
         oled_refresh();
         #endif
         
@@ -1036,9 +1037,8 @@ void app_main(void) {
                 #if OLED_ENABLED
                 oled_clear();
                 vTaskDelay(pdMS_TO_TICKS(50));
-                oled_show_line(2, "Entering", OLED_ALIGN_CENTER);
-                oled_show_line(3, "Config Mode", OLED_ALIGN_CENTER);
-                oled_show_line(5, "Please wait...", OLED_ALIGN_CENTER);
+                oled_show_line(2, "Config Mode", OLED_ALIGN_CENTER);
+                oled_show_line(4, "Wait...", OLED_ALIGN_CENTER);
                 oled_refresh();
                 vTaskDelay(pdMS_TO_TICKS(1000));
                 #endif
@@ -1084,7 +1084,7 @@ void app_main(void) {
         #if OLED_ENABLED
         oled_clear();
         vTaskDelay(pdMS_TO_TICKS(50));
-        oled_show_line(3, "Starting...", OLED_ALIGN_CENTER);
+        oled_show_line(3, "Starting", OLED_ALIGN_CENTER);
         oled_refresh();
         vTaskDelay(pdMS_TO_TICKS(500));
         #endif
