@@ -596,7 +596,7 @@ static esp_err_t config_save_handler(httpd_req_t *req) {
     }
     content[ret] = '\0';
     
-    ESP_LOGI(TAG, "收到配置数据: %s", content);
+    ESP_LOGI(TAG, "收到配置请求，数据长度: %d", ret);
     
     // 安全的参数解析
     char ssid[33] = {0}, pass[65] = {0}, config_srv_input[256] = {0};
@@ -667,6 +667,7 @@ static httpd_handle_t start_config_server(void) {
     config.server_port = WIFI_CONFIG_WEB_PORT;
     config.lru_purge_enable = true;
     config.max_uri_handlers = 16;  // 增加URI处理器数量
+    config.stack_size = 8192;      // 增加堆栈大小到8KB（默认4KB）
     
     httpd_handle_t server = NULL;
     if (httpd_start(&server, &config) == ESP_OK) {
