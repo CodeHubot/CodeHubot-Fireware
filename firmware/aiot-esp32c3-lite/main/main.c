@@ -1079,16 +1079,15 @@ void app_main(void) {
     } else {
         ESP_LOGI(TAG, "未按Boot键，继续正常启动");
         
-        // OLED显示启动中
+        // OLED显示启动中（清屏以清除倒计时内容）
         #if OLED_ENABLED
         oled_clear();
         oled_show_line(3, "Starting", OLED_ALIGN_CENTER);
         oled_refresh();
-        vTaskDelay(pdMS_TO_TICKS(500));
         #endif
     }
     
-    // 不清屏，保持"Starting"显示
+    // 保持"Starting"显示，不再清屏
     
     // 初始化DHT11
     #if DHT11_ENABLED
