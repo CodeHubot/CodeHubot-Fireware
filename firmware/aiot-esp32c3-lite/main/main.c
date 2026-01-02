@@ -1021,6 +1021,7 @@ void app_main(void) {
         snprintf(buf, sizeof(buf), "%d", countdown);
         oled_show_line(5, buf, OLED_ALIGN_CENTER);
         oled_refresh();
+        vTaskDelay(pdMS_TO_TICKS(50));  // 等待刷新完成
         #endif
         
         ESP_LOGI(TAG, "倒计时: %d 秒...", countdown);
@@ -1081,6 +1082,7 @@ void app_main(void) {
         
         // OLED显示启动中（使用与配网模式相同的封装方式）
         #if OLED_ENABLED
+        vTaskDelay(pdMS_TO_TICKS(100));  // 确保上一帧完全稳定
         oled_show_starting();
         #endif
     }
