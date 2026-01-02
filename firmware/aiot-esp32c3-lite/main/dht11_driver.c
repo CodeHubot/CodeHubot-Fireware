@@ -169,7 +169,18 @@ esp_err_t dht11_read(dht11_data_t *data) {
     
     uint8_t raw_data[5] = {0};
     
+    // 0. 每次读取前重新配置GPIO（WiFi可能改变了GPIO配置）
+    gpio_config_t io_conf = {
+        .intr_type = GPIO_INTR_DISABLE,
+        .mode = GPIO_MODE_INPUT_OUTPUT_OD,  // 开漏模式
+        .pin_bit_mask = (1ULL << dht11_gpio),
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .pull_up_en = GPIO_PULLUP_ENABLE,
+    };
+    gpio_config(&io_conf);
+    
     // 1. 复位DHT11（完全参考aiot-esp32实现）
+    gpio_set_direction(dht11_gpio, GPIO_MODE_OUTPUT);
     gpio_set_level(dht11_gpio, 0);  // 拉低DQ
     vTaskDelay(pdMS_TO_TICKS(20));  // 拉低至少18ms（使用vTaskDelay，不禁用中断）
     gpio_set_level(dht11_gpio, 1);  // DQ=1
