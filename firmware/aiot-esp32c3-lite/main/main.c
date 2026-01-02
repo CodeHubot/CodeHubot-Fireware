@@ -1088,11 +1088,7 @@ void app_main(void) {
         #endif
     }
     
-    // 清屏准备后续显示
-    #if OLED_ENABLED
-    oled_clear();
-    vTaskDelay(pdMS_TO_TICKS(100));
-    #endif
+    // 不清屏，保持"Starting"显示
     
     // 初始化DHT11
     #if DHT11_ENABLED
