@@ -129,22 +129,29 @@ esp_err_t device_config_get_from_server(
                     if (mqtt_config) {
                         config->has_mqtt_config = true;
                         
-                        cJSON *broker = cJSON_GetObjectItem(mqtt_config, "mqtt_broker");
-                        cJSON *port = cJSON_GetObjectItem(mqtt_config, "mqtt_port");
-                        cJSON *username = cJSON_GetObjectItem(mqtt_config, "mqtt_username");
-                        cJSON *password = cJSON_GetObjectItem(mqtt_config, "mqtt_password");
+                        cJSON *broker = cJSON_GetObjectItem(mqtt_config, "broker");
+                        cJSON *port = cJSON_GetObjectItem(mqtt_config, "port");
+                        cJSON *username = cJSON_GetObjectItem(mqtt_config, "username");
+                        cJSON *password = cJSON_GetObjectItem(mqtt_config, "password");
                         
                         if (broker) strncpy(config->mqtt_broker, broker->valuestring, sizeof(config->mqtt_broker) - 1);
                         if (port) config->mqtt_port = port->valueint;
                         if (username) strncpy(config->mqtt_username, username->valuestring, sizeof(config->mqtt_username) - 1);
                         if (password) strncpy(config->mqtt_password, password->valuestring, sizeof(config->mqtt_password) - 1);
                         
-                        // MQTT主题
-                        cJSON *topic_data = cJSON_GetObjectItem(mqtt_config, "mqtt_topic_data");
-                        cJSON *topic_control = cJSON_GetObjectItem(mqtt_config, "mqtt_topic_control");
-                        
-                        if (topic_data) strncpy(config->mqtt_topic_data, topic_data->valuestring, sizeof(config->mqtt_topic_data) - 1);
-                        if (topic_control) strncpy(config->mqtt_topic_control, topic_control->valuestring, sizeof(config->mqtt_topic_control) - 1);
+                        // MQTT主题（在topics对象中）
+                        cJSON *topics = cJSON_GetObjectItem(mqtt_config, "topics");
+                        if (topics) {
+                            cJSON *topic_data = cJSON_GetObjectItem(topics, "data");
+                            cJSON *topic_control = cJSON_GetObjectItem(topics, "control");
+                            cJSON *topic_status = cJSON_GetObjectItem(topics, "status");
+                            cJSON *topic_heartbeat = cJSON_GetObjectItem(topics, "heartbeat");
+                            
+                            if (topic_data) strncpy(config->mqtt_topic_data, topic_data->valuestring, sizeof(config->mqtt_topic_data) - 1);
+                            if (topic_control) strncpy(config->mqtt_topic_control, topic_control->valuestring, sizeof(config->mqtt_topic_control) - 1);
+                            if (topic_status) strncpy(config->mqtt_topic_status, topic_status->valuestring, sizeof(config->mqtt_topic_status) - 1);
+                            if (topic_heartbeat) strncpy(config->mqtt_topic_heartbeat, topic_heartbeat->valuestring, sizeof(config->mqtt_topic_heartbeat) - 1);
+                        }
                     }
                     
                     cJSON_Delete(root);
@@ -154,6 +161,14 @@ esp_err_t device_config_get_from_server(
                     ESP_LOGI(TAG, "   Device UUID: %s", config->device_uuid);
                     if (config->has_mqtt_config) {
                         ESP_LOGI(TAG, "   MQTT Broker: %s:%d", config->mqtt_broker, config->mqtt_port);
+                        ESP_LOGI(TAG, "   MQTT用户名: %s", config->mqtt_username);
+                        ESP_LOGD(TAG, "   MQTT密码: %s", config->mqtt_password);
+                        if (strlen(config->mqtt_topic_data) > 0) {
+                            ESP_LOGI(TAG, "   数据主题: %s", config->mqtt_topic_data);
+                        }
+                        if (strlen(config->mqtt_topic_control) > 0) {
+                            ESP_LOGI(TAG, "   控制主题: %s", config->mqtt_topic_control);
+                        }
                     }
                     
                     ret = ESP_OK;

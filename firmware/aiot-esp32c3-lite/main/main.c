@@ -858,7 +858,7 @@ static esp_err_t wifi_init_ap(void) {
 
 // ==================== MQTT初始化 ====================
 
-static esp_err_t mqtt_init(const char *broker, const char *client_id) {
+static esp_err_t mqtt_init(const char *broker, const char *client_id, const char *username, const char *password) {
     char uri[256];
     snprintf(uri, sizeof(uri), "mqtt://%s:%d", broker, DEFAULT_MQTT_PORT);
     
@@ -883,7 +883,8 @@ static esp_err_t mqtt_init(const char *broker, const char *client_id) {
     esp_mqtt_client_config_t mqtt_cfg = {
         .broker.address.uri = uri,
         .credentials.client_id = client_id,
-        .credentials.username = DEFAULT_MQTT_USERNAME,
+        .credentials.username = username ? username : DEFAULT_MQTT_USERNAME,
+        .credentials.authentication.password = password,
         .credentials.set_null_client_id = false,
         .session.keepalive = MQTT_KEEPALIVE_S,
         .network.reconnect_timeout_ms = MQTT_RETRY_INTERVAL_MS,
@@ -1369,12 +1370,14 @@ void app_main(void) {
             ESP_LOGI(TAG, "  状态: %s", g_mqtt_topic_status);
             ESP_LOGI(TAG, "  心跳: %s", g_mqtt_topic_heartbeat);
             
-            // 启动MQTT（使用从服务器获取的MQTT地址）
+            // 启动MQTT（使用从服务器获取的MQTT配置）
             if (g_device_config.has_mqtt_config && strlen(g_device_config.mqtt_broker) > 0) {
-                mqtt_init(g_device_config.mqtt_broker, g_device_uuid);
+                ESP_LOGI(TAG, "使用服务器返回的MQTT配置");
+                mqtt_init(g_device_config.mqtt_broker, g_device_uuid, 
+                         g_device_config.mqtt_username, g_device_config.mqtt_password);
             } else {
                 ESP_LOGW(TAG, "⚠️  服务器未返回MQTT配置，使用默认配置");
-                mqtt_init(DEFAULT_MQTT_BROKER, g_device_uuid);
+                mqtt_init(DEFAULT_MQTT_BROKER, g_device_uuid, DEFAULT_MQTT_USERNAME, DEFAULT_MQTT_PASSWORD);
             }
             
             // LED闪烁表示运行正常
