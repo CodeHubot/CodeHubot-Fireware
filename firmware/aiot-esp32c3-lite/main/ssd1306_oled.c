@@ -361,10 +361,10 @@ void oled_show_config_mode(const char *ap_ssid) {
     // 完全清空buffer
     memset(oled_buffer, 0, sizeof(oled_buffer));
     
-    // 精简显示
-    oled_show_line(1, "SETUP", OLED_ALIGN_CENTER);
-    oled_show_line(3, ap_ssid, OLED_ALIGN_CENTER);
-    oled_show_line(5, "192.168.4.1", OLED_ALIGN_CENTER);
+    // 精简显示，增加行间距避免重叠
+    oled_show_line(1, "SETUP MODE", OLED_ALIGN_CENTER);
+    oled_show_line(4, ap_ssid, OLED_ALIGN_CENTER);
+    oled_show_line(6, "192.168.4.1", OLED_ALIGN_CENTER);
     
     oled_refresh();
     vTaskDelay(pdMS_TO_TICKS(50));  // 刷新后延迟
