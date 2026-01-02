@@ -264,21 +264,15 @@ exit_critical:
     // DHT11: 湿度整数.湿度小数.温度整数.温度小数.校验和
     // 注意：DHT11 小数部分通常为 0，DHT22 才会有小数
     
-    // 打印原始数据（用于调试）
-    ESP_LOGI(TAG, "📊 原始数据: [0x%02X][0x%02X][0x%02X][0x%02X][0x%02X]", 
-             raw_data[0], raw_data[1], raw_data[2], raw_data[3], raw_data[4]);
-    ESP_LOGI(TAG, "📊 二进制数据:");
-    for (int i = 0; i < 5; i++) {
-        ESP_LOGI(TAG, "   [%d] = 0x%02X = %3d = " BYTE_TO_BINARY_PATTERN, 
-                 i, raw_data[i], raw_data[i], BYTE_TO_BINARY(raw_data[i]));
-    }
-    
-    // DHT11标准格式：整数部分 + 小数部分×0.1
+    // 解析数据（DHT11标准格式：整数部分 + 小数部分×0.1）
     data->humidity = raw_data[0] + raw_data[1] * 0.1f;
     data->temperature = raw_data[2] + raw_data[3] * 0.1f;
     data->timestamp = esp_timer_get_time() / 1000;  // 毫秒
     
-    ESP_LOGI(TAG, "📊 解析结果: 湿度=%.1f%%, 温度=%.1f°C", data->humidity, data->temperature);
+    // 调试日志（仅在VERBOSE级别输出）
+    ESP_LOGD(TAG, "原始数据: [0x%02X][0x%02X][0x%02X][0x%02X][0x%02X]", 
+             raw_data[0], raw_data[1], raw_data[2], raw_data[3], raw_data[4]);
+    ESP_LOGD(TAG, "解析结果: 湿度=%.1f%%, 温度=%.1f°C", data->humidity, data->temperature);
     
     // 温度合理性检查（扩展范围：-20°C ~ 80°C）
     // 注意：DHT11 官方规格是 0-50°C，但实际可能测到更高温度（如受 PCB 发热影响）
