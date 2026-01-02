@@ -349,7 +349,7 @@ void oled_show_status_screen(
     // 第5行：显示系统运行时间（小时:分钟）
     int hours = (int)(uptime_seconds / 3600);
     int minutes = (int)((uptime_seconds % 3600) / 60);
-    snprintf(buf, sizeof(buf), "R:%dh%02dm", hours, minutes);
+    snprintf(buf, sizeof(buf), "R:%dH%02dM", hours, minutes);
     oled_show_line(5, buf, OLED_ALIGN_LEFT);
     
     oled_refresh();
