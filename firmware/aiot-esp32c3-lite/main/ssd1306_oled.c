@@ -287,7 +287,7 @@ void oled_show_logo(void) {
     
     // 显示Logo内容
     oled_show_line(2, "ESP32-C3", OLED_ALIGN_CENTER);
-    oled_show_line(4, "Starting...", OLED_ALIGN_CENTER);
+    oled_show_line(4, "STARTING...", OLED_ALIGN_CENTER);
     oled_refresh();
     vTaskDelay(pdMS_TO_TICKS(50));  // 刷新后延迟
 }

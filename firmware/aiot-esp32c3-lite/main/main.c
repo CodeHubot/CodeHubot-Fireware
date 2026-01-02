@@ -1092,8 +1092,8 @@ void app_main(void) {
                 #if OLED_ENABLED
                 oled_clear();
                 vTaskDelay(pdMS_TO_TICKS(50));
-                oled_show_line(2, "Config Mode", OLED_ALIGN_CENTER);
-                oled_show_line(4, "Wait...", OLED_ALIGN_CENTER);
+                oled_show_line(2, "CONFIG MODE", OLED_ALIGN_CENTER);
+                oled_show_line(4, "WAIT...", OLED_ALIGN_CENTER);
                 oled_refresh();
                 vTaskDelay(pdMS_TO_TICKS(1000));
                 #endif
@@ -1317,8 +1317,8 @@ void app_main(void) {
         
         #if OLED_ENABLED
         oled_display_safe();
-        oled_show_line(2, "Get Config", OLED_ALIGN_CENTER);
-        oled_show_line(4, "Wait...", OLED_ALIGN_CENTER);
+        oled_show_line(2, "GET CONFIG", OLED_ALIGN_CENTER);
+        oled_show_line(4, "WAIT...", OLED_ALIGN_CENTER);
         oled_refresh();
         #endif
         
@@ -1405,9 +1405,9 @@ void app_main(void) {
             // OLED显示未注册提示
             #if OLED_ENABLED
             oled_display_safe();
-            oled_show_line(1, "Not Register", OLED_ALIGN_CENTER);
+            oled_show_line(1, "NOT REGISTER", OLED_ALIGN_CENTER);
             oled_show_line(3, mac_str, OLED_ALIGN_CENTER);
-            oled_show_line(5, "Pls Register", OLED_ALIGN_CENTER);
+            oled_show_line(5, "PLS REGISTER", OLED_ALIGN_CENTER);
             oled_refresh();
             #endif
             
@@ -1420,8 +1420,8 @@ void app_main(void) {
             
             #if OLED_ENABLED
             oled_display_safe();
-            oled_show_line(3, "Config Fail", OLED_ALIGN_CENTER);
-            oled_show_line(5, "Chk Server", OLED_ALIGN_CENTER);
+            oled_show_line(3, "CONFIG FAIL", OLED_ALIGN_CENTER);
+            oled_show_line(5, "CHK SERVER", OLED_ALIGN_CENTER);
             oled_refresh();
             #endif
             
