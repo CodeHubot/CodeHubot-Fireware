@@ -1082,7 +1082,6 @@ void app_main(void) {
         // OLED显示启动中
         #if OLED_ENABLED
         oled_clear();
-        vTaskDelay(pdMS_TO_TICKS(50));
         oled_show_line(3, "Starting", OLED_ALIGN_CENTER);
         oled_refresh();
         vTaskDelay(pdMS_TO_TICKS(500));
