@@ -46,6 +46,14 @@ esp_err_t dht11_init(gpio_num_t gpio_num);
 esp_err_t dht11_read(dht11_data_t *data);
 
 /**
+ * @brief 多次读取DHT11数据并取平均值（减少误差）
+ * @param data 输出平均值数据
+ * @param samples 样本数量（1-10）
+ * @return ESP_OK 成功，其他失败
+ */
+esp_err_t dht11_read_average(dht11_data_t *data, int samples);
+
+/**
  * @brief 读取DHT11温度
  * @param temperature 输出温度
  * @return ESP_OK 成功，其他失败
@@ -64,6 +72,11 @@ esp_err_t dht11_read_humidity(float *humidity);
  * @return true可用，false不可用
  */
 bool dht11_is_available(void);
+
+/**
+ * @brief GPIO电平测试
+ */
+void dht11_gpio_test(void);
 
 /**
  * @brief DHT11测试
