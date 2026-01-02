@@ -361,8 +361,8 @@ void oled_show_starting(void) {
     // 完全清空buffer
     memset(oled_buffer, 0, sizeof(oled_buffer));
     
-    // 显示Starting
-    oled_show_line(3, "Starting", OLED_ALIGN_CENTER);
+    // 显示Starting（第2行，覆盖倒计时[BOOT]的位置）
+    oled_show_line(2, "Starting", OLED_ALIGN_CENTER);
     
     oled_refresh();
     vTaskDelay(pdMS_TO_TICKS(50));  // 刷新后延迟
