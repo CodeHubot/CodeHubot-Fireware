@@ -14,6 +14,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -554,6 +555,31 @@ static esp_err_t captive_portal_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
+// URL解码函数
+static void url_decode(char *dst, const char *src) {
+    char a, b;
+    while (*src) {
+        if ((*src == '%') &&
+            ((a = src[1]) && (b = src[2])) &&
+            (isxdigit(a) && isxdigit(b))) {
+            if (a >= 'a') a -= 'a'-'A';
+            if (a >= 'A') a -= ('A' - 10);
+            else a -= '0';
+            if (b >= 'a') b -= 'a'-'A';
+            if (b >= 'A') b -= ('A' - 10);
+            else b -= '0';
+            *dst++ = 16*a+b;
+            src+=3;
+        } else if (*src == '+') {
+            *dst++ = ' ';
+            src++;
+        } else {
+            *dst++ = *src++;
+        }
+    }
+    *dst = '\0';
+}
+
 // 安全的参数提取函数
 static void extract_param(const char *content, const char *param_name, char *output, size_t max_len) {
     char *start = strstr(content, param_name);
@@ -583,8 +609,16 @@ static void extract_param(const char *content, const char *param_name, char *out
         len = max_len - 1;
     }
     
-    strncpy(output, start, len);
-    output[len] = '\0';
+    // 先复制URL编码的字符串到临时缓冲区
+    char temp[256];
+    if (len >= sizeof(temp)) {
+        len = sizeof(temp) - 1;
+    }
+    strncpy(temp, start, len);
+    temp[len] = '\0';
+    
+    // URL解码到输出缓冲区
+    url_decode(output, temp);
 }
 
 static esp_err_t config_save_handler(httpd_req_t *req) {
