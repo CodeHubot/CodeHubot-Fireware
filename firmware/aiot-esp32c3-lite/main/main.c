@@ -183,7 +183,6 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base,
                 // 检查新格式（portKey + action）
                 if (strstr(data, "\"portKey\"")) {
                     bool is_on = (strstr(data, "\"action\":\"on\"") || strstr(data, "\"action\": \"on\""));
-                    bool is_off = (strstr(data, "\"action\":\"off\"") || strstr(data, "\"action\": \"off\""));
                     
                     if (strstr(data, "\"led_1\"") || strstr(data, "\"LED1\"")) {
                         // LED1 = 红灯
@@ -1307,8 +1306,13 @@ void app_main(void) {
             ESP_LOGI(TAG, "  状态: %s", g_mqtt_topic_status);
             ESP_LOGI(TAG, "  心跳: %s", g_mqtt_topic_heartbeat);
             
-            // 启动MQTT（使用device_uuid作为client_id）
-            mqtt_init(mqtt_broker, g_device_uuid);
+            // 启动MQTT（使用从服务器获取的MQTT地址）
+            if (g_device_config.has_mqtt_config && strlen(g_device_config.mqtt_broker) > 0) {
+                mqtt_init(g_device_config.mqtt_broker, g_device_uuid);
+            } else {
+                ESP_LOGW(TAG, "⚠️  服务器未返回MQTT配置，使用默认配置");
+                mqtt_init(DEFAULT_MQTT_BROKER, g_device_uuid);
+            }
             
             // LED闪烁表示运行正常
             for (int i = 0; i < 3; i++) {
