@@ -14,6 +14,7 @@
 #include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "rom/ets_sys.h"  // 使用 ets_delay_us
 
 // 二进制打印宏（用于调试）
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
@@ -33,9 +34,10 @@ static gpio_num_t dht11_gpio = DHT11_GPIO_PIN;
 static bool dht11_initialized = false;
 static portMUX_TYPE dht11_spinlock = portMUX_INITIALIZER_UNLOCKED;  // 保护读数据阶段的短临界区
 
-// 微秒级延时
+// 微秒级延时 - 使用 ets_delay_us 而不是 esp_rom_delay_us
+// ets_delay_us 基于CPU周期，不受APB时钟影响
 static inline void delay_us(uint32_t us) {
-    esp_rom_delay_us(us);
+    ets_delay_us(us);
 }
 
 // 设置GPIO为输出模式
@@ -120,7 +122,7 @@ static uint8_t dht11_read_bit(void) {
     // 等待变为低电平
     while (dht11_gpio_read() && retry < 100) {
         retry++;
-        esp_rom_delay_us(1);
+        ets_delay_us(1);
     }
     
     retry = 0;
@@ -128,11 +130,11 @@ static uint8_t dht11_read_bit(void) {
     // 等待变高电平
     while (!dht11_gpio_read() && retry < 100) {
         retry++;
-        esp_rom_delay_us(1);
+        ets_delay_us(1);
     }
     
     // 等待40us
-    esp_rom_delay_us(40);
+    ets_delay_us(40);
     
     if (dht11_gpio_read()) {
         return 1;
@@ -171,7 +173,7 @@ esp_err_t dht11_read(dht11_data_t *data) {
     gpio_set_level(dht11_gpio, 0);  // 拉低DQ
     vTaskDelay(pdMS_TO_TICKS(20));  // 拉低至少18ms（使用vTaskDelay，不禁用中断）
     gpio_set_level(dht11_gpio, 1);  // DQ=1
-    esp_rom_delay_us(30);           // 主机拉高20~40us
+    ets_delay_us(30);               // 主机拉高20~40us
     gpio_set_direction(dht11_gpio, GPIO_MODE_INPUT);  // 释放总线给DHT11
     
     // 2. 检查DHT11响应（参考aiot-esp32实现）
@@ -185,7 +187,7 @@ esp_err_t dht11_read(dht11_data_t *data) {
     // DHT11会拉低40~80us
     while (dht11_gpio_read() && retry < 100) {
         retry++;
-        esp_rom_delay_us(1);
+        ets_delay_us(1);
     }
     
     if (retry >= 100) {
@@ -197,7 +199,7 @@ esp_err_t dht11_read(dht11_data_t *data) {
     // DHT11拉低后会再次拉高80us
     while (!dht11_gpio_read() && retry < 100) {
         retry++;
-        esp_rom_delay_us(1);
+        ets_delay_us(1);
     }
     
     if (retry >= 100) {
