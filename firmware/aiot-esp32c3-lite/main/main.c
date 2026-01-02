@@ -391,11 +391,12 @@ static const char* config_page_html =
     "</div>"
     "<div class='form-group'>"
     "<label>⚙️ 配置服务器</label>"
-    "<input type='text' name='config_srv' value='http://conf.aiot.powertechhub.com:8001' required>"
+    "<div style='display:flex;align-items:center'>"
+    "<span style='padding:12px;background:#f0f0f0;border:2px solid #e0e0e0;border-right:none;"
+    "border-radius:8px 0 0 8px;color:#666;font-size:14px'>http://</span>"
+    "<input type='text' name='config_srv' value='conf.aiot.powertechhub.com:8001' required "
+    "style='flex:1;border-radius:0 8px 8px 0;border-left:none'>"
     "</div>"
-    "<div class='form-group'>"
-    "<label>🌐 MQTT服务器</label>"
-    "<input type='text' name='mqtt' value='conf.aiot.powertechhub.com' required>"
     "</div>"
     "<button type='submit' class='btn-primary'>💾 保存配置</button>"
     "<button type='button' class='btn-secondary' onclick='scanWifi()'>🔄 重新扫描</button>"
@@ -564,7 +565,8 @@ static esp_err_t config_save_handler(httpd_req_t *req) {
     content[ret] = '\0';
     
     // 简化的参数解析
-    char ssid[33] = {0}, pass[65] = {0}, config_srv[256] = {0}, mqtt[129] = {0};
+    char ssid[33] = {0}, pass[65] = {0}, config_srv_input[256] = {0};
+    char config_srv_full[300] = {0};  // 完整的配置服务器地址（带http://前缀）
     
     // 解析POST数据 (简化版，实际应该更严谨)
     char *p = strstr(content, "ssid=");
@@ -577,25 +579,23 @@ static esp_err_t config_save_handler(httpd_req_t *req) {
     }
     p = strstr(content, "config_srv=");
     if (p) {
-        sscanf(p, "config_srv=%255[^&]", config_srv);
-    }
-    p = strstr(content, "mqtt=");
-    if (p) {
-        sscanf(p, "mqtt=%128s", mqtt);
+        sscanf(p, "config_srv=%255[^&]", config_srv_input);
+        // 自动拼接http://前缀
+        snprintf(config_srv_full, sizeof(config_srv_full), "http://%s", config_srv_input);
     }
     
-    // 保存到NVS
+    // 保存到NVS（MQTT地址不再保存，从服务器获取）
     nvs_handle_t nvs_handle;
     if (nvs_open(NVS_NAMESPACE, NVS_READWRITE, &nvs_handle) == ESP_OK) {
         nvs_set_str(nvs_handle, NVS_KEY_WIFI_SSID, ssid);
         nvs_set_str(nvs_handle, NVS_KEY_WIFI_PASS, pass);
-        nvs_set_str(nvs_handle, NVS_KEY_CONFIG_SERVER, config_srv);
-        nvs_set_str(nvs_handle, NVS_KEY_MQTT_BROKER, mqtt);
+        nvs_set_str(nvs_handle, NVS_KEY_CONFIG_SERVER, config_srv_full);
+        nvs_erase_key(nvs_handle, NVS_KEY_MQTT_BROKER);  // 清除旧的MQTT配置
         nvs_set_u8(nvs_handle, NVS_KEY_CONFIG_DONE, 1);
         nvs_commit(nvs_handle);
         nvs_close(nvs_handle);
         
-        ESP_LOGI(TAG, "配置已保存: SSID=%s, ConfigServer=%s, MQTT=%s", ssid, config_srv, mqtt);
+        ESP_LOGI(TAG, "配置已保存: SSID=%s, ConfigServer=%s", ssid, config_srv_full);
     }
     
     // 简洁的配置成功页面
@@ -617,14 +617,14 @@ static esp_err_t config_save_handler(httpd_req_t *req) {
         "<div class='info'>"
         "<div>WiFi: <strong>%s</strong></div>"
         "<div>配置服务器: <strong>%s</strong></div>"
-        "<div>MQTT: <strong>%s</strong></div>"
+        "<div>MQTT: 从服务器获取</div>"
         "</div>"
         "<p>设备将在3秒后重启...</p>"
         "</div></body></html>";
     
     // 构建响应
     char final_response[1536];  // 增加缓冲区大小以容纳更长的配置服务器地址
-    snprintf(final_response, sizeof(final_response), response, ssid, config_srv, mqtt);
+    snprintf(final_response, sizeof(final_response), response, ssid, config_srv_full);
     
     httpd_resp_send(req, final_response, strlen(final_response));
     
@@ -1208,7 +1208,7 @@ void app_main(void) {
     }
     
     // 正常模式：读取配置并连接
-    char ssid[33] = {0}, pass[65] = {0}, config_server[256] = {0}, mqtt_broker[129] = {0};
+    char ssid[33] = {0}, pass[65] = {0}, config_server[256] = {0};
     if (nvs_open(NVS_NAMESPACE, NVS_READONLY, &nvs_handle) == ESP_OK) {
         size_t len;
         len = sizeof(ssid);
@@ -1219,10 +1219,7 @@ void app_main(void) {
         if (nvs_get_str(nvs_handle, NVS_KEY_CONFIG_SERVER, config_server, &len) != ESP_OK) {
             strcpy(config_server, DEFAULT_CONFIG_SERVER);
         }
-        len = sizeof(mqtt_broker);
-        if (nvs_get_str(nvs_handle, NVS_KEY_MQTT_BROKER, mqtt_broker, &len) != ESP_OK) {
-            strcpy(mqtt_broker, DEFAULT_MQTT_BROKER);
-        }
+        // MQTT地址不再从NVS读取，而是从配置服务器获取
         nvs_close(nvs_handle);
     }
     
