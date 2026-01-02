@@ -117,7 +117,7 @@ void oled_show_ip(const char *ip);
  * @param mqtt_connected MQTT连接状态
  * @param temperature 温度
  * @param humidity 湿度
- * @param ip_addr IP地址
+ * @param uptime_seconds 系统运行时间（秒）
  */
 void oled_show_status_screen(
     const char *wifi_ssid,
@@ -125,7 +125,7 @@ void oled_show_status_screen(
     bool mqtt_connected,
     float temperature,
     float humidity,
-    const char *ip_addr
+    uint32_t uptime_seconds
 );
 
 /**

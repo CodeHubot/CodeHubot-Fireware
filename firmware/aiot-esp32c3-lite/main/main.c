@@ -946,7 +946,7 @@ static void system_monitor_task(void *pvParameters) {
                             g_mqtt_connected,
                             temp,
                             humi,
-                            g_ip_address
+                            uptime
                         );
                     }
                     #endif

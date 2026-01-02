@@ -330,7 +330,7 @@ void oled_show_status_screen(
     bool mqtt_connected,
     float temperature,
     float humidity,
-    const char *ip_addr
+    uint32_t uptime_seconds
 ) {
     // 完全清空buffer
     memset(oled_buffer, 0, sizeof(oled_buffer));
@@ -345,12 +345,11 @@ void oled_show_status_screen(
     // 第2-3行：传感器数据
     oled_show_sensor_data(temperature, humidity);
     
-    // 第5行：IP地址（只在WiFi连接时显示）
-    if (wifi_connected && ip_addr) {
-        oled_show_ip(ip_addr);
-    } else {
-        oled_show_line(5, "", OLED_ALIGN_LEFT);  // 清空第5行
-    }
+    // 第5行：显示系统运行时间（小时:分钟）
+    uint32_t hours = uptime_seconds / 3600;
+    uint32_t minutes = (uptime_seconds % 3600) / 60;
+    snprintf(buf, sizeof(buf), "Run:%luh%02lum", hours, minutes);
+    oled_show_line(5, buf, OLED_ALIGN_LEFT);
     
     oled_refresh();
     vTaskDelay(pdMS_TO_TICKS(50));  // 刷新后延迟
