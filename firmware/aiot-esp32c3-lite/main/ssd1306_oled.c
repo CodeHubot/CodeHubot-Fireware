@@ -286,11 +286,11 @@ void oled_show_logo(void) {
     // 清空所有内容
     memset(oled_buffer, 0, sizeof(oled_buffer));
     
-    // 获取MAC地址
+    // 获取MAC地址（紧凑格式，无冒号）
     uint8_t mac[6];
     esp_read_mac(mac, ESP_MAC_WIFI_STA);
-    char mac_str[18];
-    snprintf(mac_str, sizeof(mac_str), "%02X:%02X:%02X:%02X:%02X:%02X",
+    char mac_str[13];  // 12字符 + '\0'
+    snprintf(mac_str, sizeof(mac_str), "%02X%02X%02X%02X%02X%02X",
              mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     
     // 显示Logo内容
@@ -386,11 +386,11 @@ void oled_show_starting(void) {
     // 完全清空buffer
     memset(oled_buffer, 0, sizeof(oled_buffer));
     
-    // 获取MAC地址
+    // 获取MAC地址（紧凑格式，无冒号）
     uint8_t mac[6];
     esp_read_mac(mac, ESP_MAC_WIFI_STA);
-    char mac_str[18];
-    snprintf(mac_str, sizeof(mac_str), "%02X:%02X:%02X:%02X:%02X:%02X",
+    char mac_str[13];  // 12字符 + '\0'
+    snprintf(mac_str, sizeof(mac_str), "%02X%02X%02X%02X%02X%02X",
              mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     
     // 显示SETUP
@@ -406,11 +406,11 @@ void oled_show_config_mode(const char *ap_ssid) {
     // 完全清空buffer
     memset(oled_buffer, 0, sizeof(oled_buffer));
     
-    // 获取MAC地址
+    // 获取MAC地址（紧凑格式，无冒号）
     uint8_t mac[6];
     esp_read_mac(mac, ESP_MAC_WIFI_STA);
-    char mac_str[18];
-    snprintf(mac_str, sizeof(mac_str), "%02X:%02X:%02X:%02X:%02X:%02X",
+    char mac_str[13];  // 12字符 + '\0'
+    snprintf(mac_str, sizeof(mac_str), "%02X%02X%02X%02X%02X%02X",
              mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     
     // 精简显示，增加行间距避免重叠
