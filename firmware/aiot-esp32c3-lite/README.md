@@ -91,9 +91,25 @@ git checkout release/v5.4
 
 ### 2. 编译固件
 
-```bash
-cd /Users/zhangqixun/AICodeing/AIOT-Admin-Server/firmware/aiot-esp32c3-lite
+**方式一：使用便捷脚本（推荐）**
 
+```bash
+# 编译固件
+./build.sh build
+
+# 编译并生成合并固件（推荐用于生产）
+./build.sh merge
+
+# 烧录
+./build.sh flash
+
+# 烧录并监控
+./build.sh flash-monitor
+```
+
+**方式二：使用idf.py命令**
+
+```bash
 # 设置目标芯片
 idf.py set-target esp32c3
 
@@ -222,16 +238,60 @@ rtc_clk_cpu_freq_mhz_to_config(80, &config);
 rtc_clk_cpu_freq_set_config(&config);
 ```
 
-## 📦 固件升级方式
+## 📦 固件编译与烧录
+
+### 合并固件生成（推荐用于生产）
+
+生成单一的合并固件文件，便于批量烧录和分发：
+
+```bash
+# 编译并生成合并固件
+./build.sh merge
+
+# 或单独运行合并脚本
+./merge_firmware.sh
+```
+
+**输出文件位置：** `build/merged/`
+- `aiot-esp32c3-lite_merged.bin` - 合并固件（4MB完整镜像）
+- `aiot-esp32c3-lite_v1.0.0_YYYYMMDD.bin` - 带版本号的固件
+- `FLASH_INSTRUCTIONS.txt` - 详细烧录说明
+
+### 烧录合并固件
+
+**使用esptool.py（最通用）：**
+```bash
+python -m esptool --chip esp32c3 --port /dev/cu.usbserial-* --baud 460800 \
+    --before default_reset --after hard_reset write_flash \
+    --flash_mode dio --flash_size 4MB --flash_freq 80m \
+    0x0 build/merged/aiot-esp32c3-lite_merged.bin
+```
+
+**使用乐鑫Flash下载工具：**
+1. 下载：https://www.espressif.com/zh-hans/support/download/other-tools
+2. 选择ESP32-C3芯片
+3. 添加固件文件，地址设为 `0x0`
+4. SPI配置：DIO, 80MHz, 4MB
+5. 点击START烧录
+
+**使用Web工具：**
+- 访问：https://espressif.github.io/esptool-js/
+- 选择固件，烧录地址 `0x0`
+
+### 固件升级方式
 
 由于精简版不支持OTA，固件升级方式:
 
-### 方式一: USB串口升级 (推荐)
+**方式一: USB串口升级（推荐）**
 ```bash
+# 使用分离固件（开发调试）
 idf.py -p /dev/cu.usbserial-* flash
+
+# 使用合并固件（生产环境）
+python -m esptool --chip esp32c3 --port PORT write_flash 0x0 merged.bin
 ```
 
-### 方式二: 自定义升级
+**方式二: 自定义升级**
 如果需要远程升级，建议:
 1. 使用外部MCU做代理
 2. 或使用ESP32-C3的ROM Bootloader

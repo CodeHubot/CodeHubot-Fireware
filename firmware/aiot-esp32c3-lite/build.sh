@@ -110,29 +110,20 @@ case "${1:-build}" in
     
     merge)
         echo "🔀 合并固件为单个文件..."
-        idf.py set-target esp32c3
-        idf.py build
         
-        # 合并固件
-        if command -v esptool.py &> /dev/null; then
-            VERSION="1.0.0"
-            OUTPUT="build/ESP32-C3-Lite-${VERSION}.bin"
-            
-            esptool.py --chip esp32c3 merge_bin \
-                -o "$OUTPUT" \
-                --flash_mode dio \
-                --flash_freq 80m \
-                --flash_size 4MB \
-                0x0 build/bootloader/bootloader.bin \
-                0x8000 build/partition_table/partition-table.bin \
-                0x10000 build/aiot-esp32c3-lite.bin
-            
-            if [ -f "$OUTPUT" ]; then
-                SIZE=$(du -h "$OUTPUT" | cut -f1)
-                echo "✅ 合并完成: $OUTPUT ($SIZE)"
-            fi
+        # 首先确保固件已编译
+        if [ ! -f "build/aiot-esp32c3-lite.bin" ]; then
+            echo "📦 固件未编译，开始编译..."
+            idf.py set-target esp32c3
+            idf.py build
+        fi
+        
+        # 调用合并脚本
+        if [ -f "./merge_firmware.sh" ]; then
+            ./merge_firmware.sh
         else
-            echo "❌ 未找到esptool.py"
+            echo "❌ 未找到 merge_firmware.sh 脚本"
+            exit 1
         fi
         ;;
     
