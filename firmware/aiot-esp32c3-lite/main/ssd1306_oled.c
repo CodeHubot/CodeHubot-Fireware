@@ -386,8 +386,16 @@ void oled_show_starting(void) {
     // 完全清空buffer
     memset(oled_buffer, 0, sizeof(oled_buffer));
     
+    // 获取MAC地址
+    uint8_t mac[6];
+    esp_read_mac(mac, ESP_MAC_WIFI_STA);
+    char mac_str[18];
+    snprintf(mac_str, sizeof(mac_str), "%02X:%02X:%02X:%02X:%02X:%02X",
+             mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+    
     // 显示SETUP
-    oled_show_line(3, "SETUP", OLED_ALIGN_CENTER);
+    oled_show_line(2, "SETUP", OLED_ALIGN_CENTER);
+    oled_show_line(5, mac_str, OLED_ALIGN_CENTER);
     
     oled_refresh();
     vTaskDelay(pdMS_TO_TICKS(50));  // 刷新后延迟
@@ -398,10 +406,18 @@ void oled_show_config_mode(const char *ap_ssid) {
     // 完全清空buffer
     memset(oled_buffer, 0, sizeof(oled_buffer));
     
+    // 获取MAC地址
+    uint8_t mac[6];
+    esp_read_mac(mac, ESP_MAC_WIFI_STA);
+    char mac_str[18];
+    snprintf(mac_str, sizeof(mac_str), "%02X:%02X:%02X:%02X:%02X:%02X",
+             mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+    
     // 精简显示，增加行间距避免重叠
-    oled_show_line(1, "SETUP MODE", OLED_ALIGN_CENTER);
-    oled_show_line(4, ap_ssid, OLED_ALIGN_CENTER);
-    oled_show_line(6, "192.168.4.1", OLED_ALIGN_CENTER);
+    oled_show_line(0, "SETUP MODE", OLED_ALIGN_CENTER);
+    oled_show_line(2, ap_ssid, OLED_ALIGN_CENTER);
+    oled_show_line(4, "192.168.4.1", OLED_ALIGN_CENTER);
+    oled_show_line(6, mac_str, OLED_ALIGN_CENTER);
     
     oled_refresh();
     vTaskDelay(pdMS_TO_TICKS(50));  // 刷新后延迟
