@@ -11,6 +11,7 @@
 #include "ssd1306_oled.h"
 #include "driver/i2c.h"
 #include "esp_log.h"
+#include "esp_mac.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include <string.h>
@@ -285,9 +286,17 @@ void oled_show_logo(void) {
     // 清空所有内容
     memset(oled_buffer, 0, sizeof(oled_buffer));
     
+    // 获取MAC地址
+    uint8_t mac[6];
+    esp_read_mac(mac, ESP_MAC_WIFI_STA);
+    char mac_str[18];
+    snprintf(mac_str, sizeof(mac_str), "%02X:%02X:%02X:%02X:%02X:%02X",
+             mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+    
     // 显示Logo内容
-    oled_show_line(2, "ESP32-C3", OLED_ALIGN_CENTER);
-    oled_show_line(4, "STARTING...", OLED_ALIGN_CENTER);
+    oled_show_line(1, "ESP32-C3", OLED_ALIGN_CENTER);
+    oled_show_line(3, "STARTING...", OLED_ALIGN_CENTER);
+    oled_show_line(6, mac_str, OLED_ALIGN_CENTER);
     oled_refresh();
     vTaskDelay(pdMS_TO_TICKS(50));  // 刷新后延迟
 }
