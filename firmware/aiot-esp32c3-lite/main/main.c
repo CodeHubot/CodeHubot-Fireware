@@ -973,6 +973,28 @@ static void system_monitor_task(void *pvParameters) {
             if (!read_success) {
                 ESP_LOGE(TAG, "❌ DHT11连续3次读取失败");
                 g_sensor_data.valid = false;
+                
+                // 运行时读取失败：更新OLED显示错误提示
+                #if OLED_ENABLED
+                if (g_wifi_connected) {
+                    char temp_str[20], humi_str[20];
+                    snprintf(temp_str, sizeof(temp_str), "T:--.-C");
+                    snprintf(humi_str, sizeof(humi_str), "H:--.-%% ");
+                    
+                    // 显示错误状态（不显示具体数值）
+                    oled_clear();
+                    oled_show_line(0, "WiFi", OLED_ALIGN_LEFT);
+                    oled_show_line(0, g_mqtt_connected ? "MQTT" : "----", OLED_ALIGN_RIGHT);
+                    oled_show_line(2, "SENSOR ERROR", OLED_ALIGN_CENTER);
+                    oled_show_line(4, temp_str, OLED_ALIGN_CENTER);
+                    oled_show_line(5, humi_str, OLED_ALIGN_CENTER);
+                    
+                    char uptime_str[20];
+                    snprintf(uptime_str, sizeof(uptime_str), "%lus", uptime);
+                    oled_show_line(7, uptime_str, OLED_ALIGN_RIGHT);
+                    oled_refresh();
+                }
+                #endif
             }
         }
         #endif
@@ -1196,9 +1218,9 @@ void app_main(void) {
         }
         
         if (!read_success) {
-            ESP_LOGE(TAG, "❌ DHT11连续3次读取失败，使用默认值");
-            temp = 25.0;
-            humi = 60.0;
+            ESP_LOGE(TAG, "❌ DHT11连续3次读取失败，显示错误提示");
+            temp = -999.0;  // 使用特殊值标记读取失败
+            humi = -999.0;
         }
         
         // 点亮LED（显示温湿度期间）
@@ -1211,10 +1233,19 @@ void app_main(void) {
         oled_display_safe();
         char buf[20];
         
-        snprintf(buf, sizeof(buf), "T:%.1fC", temp);
+        // 如果读取失败，显示 "--.-" 而不是数值
+        if (read_success) {
+            snprintf(buf, sizeof(buf), "T:%.1fC", temp);
+        } else {
+            snprintf(buf, sizeof(buf), "T:--.-C");
+        }
         oled_show_line(3, buf, OLED_ALIGN_CENTER);
         
-        snprintf(buf, sizeof(buf), "H:%.1f%%", humi);
+        if (read_success) {
+            snprintf(buf, sizeof(buf), "H:%.1f%%", humi);
+        } else {
+            snprintf(buf, sizeof(buf), "H:--.-%% ");
+        }
         oled_show_line(4, buf, OLED_ALIGN_CENTER);
         
         oled_refresh();
