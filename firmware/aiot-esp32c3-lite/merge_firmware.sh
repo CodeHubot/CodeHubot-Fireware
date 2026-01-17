@@ -69,7 +69,7 @@ echo -e "  ${BLUE}应用程序:${NC}       $(ls -lh $APP_BIN | awk '{print $5}')
 # 定义输出文件
 OUTPUT_DIR="build/merged"
 MERGED_BIN="$OUTPUT_DIR/aiot-esp32c3-lite_merged.bin"
-MERGED_WITH_VERSION="$OUTPUT_DIR/aiot-esp32c3-lite_v1.1.1_$(date +%Y%m%d).bin"
+MERGED_WITH_VERSION="$OUTPUT_DIR/aiot-esp32c3-lite_v1.2.1_$(date +%Y%m%d).bin"
 
 # 创建输出目录
 mkdir -p "$OUTPUT_DIR"
