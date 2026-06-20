@@ -223,11 +223,26 @@ idf.py -p /dev/cu.usbserial-XXXX flash monitor
 
 ### 6.5 生成合并固件（生产烧录 / 分发）
 
-合并固件便于使用烧录工具一次性写入，适合批量生产：
+**推荐一键发布：**
+
+```bash
+cd ~/CodeHubot-Fireware
+./firmware/tools/publish_merged_firmware.sh s3 --build
+```
+
+或：
+
+```bash
+cd firmware/aiot-esp32
+./build_esp_idf.sh publish
+```
+
+详细发布流程见：**[MERGED_FIRMWARE_RELEASE.md](MERGED_FIRMWARE_RELEASE.md)**
+
+手动合并：
 
 ```bash
 cd ~/CodeHubot-Fireware/firmware/aiot-esp32
-
 python -m esptool --chip esp32s3 merge_bin \
   -o build/ESP32-S3-Rain-01-merged.bin \
   --flash_mode dio --flash_freq 80m --flash_size 16MB \
@@ -462,7 +477,7 @@ idf.py build
 | `README.md` | 项目总览 |
 | `firmware/aiot-esp32/README.md` | S3 固件详细说明 |
 | `firmware/aiot-esp32/BOARD_SELECTION_GUIDE.md` | S3 板型切换 |
-| `firmware/aiot-esp32/OTA_GUIDE.md` | OTA 升级 |
+| `docs/MERGED_FIRMWARE_RELEASE.md` | **合并固件发布流程（推荐阅读）** |
 | `firmware/aiot-esp32/DEVICE_API_REFERENCE.md` | MQTT 协议 |
 | `firmware/aiot-esp32c3-lite/README.md` | C3 精简固件说明 |
 | `firmware/aiot-esp32c3-lite/MERGED_FIRMWARE_GUIDE.md` | C3 合并固件烧录 |

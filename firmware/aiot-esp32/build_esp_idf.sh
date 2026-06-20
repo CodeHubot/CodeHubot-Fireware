@@ -106,6 +106,8 @@ show_help() {
     echo "  monitor     - Monitor serial output"
     echo "  flash-mon   - Flash and monitor"
     echo "  clean       - Clean build"
+    echo "  merge       - Merge firmware (add --publish to release)"
+    echo "  publish     - Build, merge and copy to docs/firmware/"
     echo "  help        - Show this help"
     echo ""
     echo "Examples:"
@@ -147,6 +149,17 @@ case "$1" in
     "clean")
         check_esp_idf
         clean
+        ;;
+    "merge")
+        check_esp_idf
+        chmod +x merge_firmware.sh 2>/dev/null || true
+        shift
+        ./merge_firmware.sh "$@"
+        ;;
+    "publish")
+        check_esp_idf
+        chmod +x merge_firmware.sh 2>/dev/null || true
+        ./merge_firmware.sh --build --publish
         ;;
     "help"|"--help"|"-h")
         show_help

@@ -17,7 +17,25 @@ NC='\033[0m' # No Color
 
 # 项目目录
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$PROJECT_DIR/../.." && pwd)"
 cd "$PROJECT_DIR"
+
+DO_PUBLISH=false
+DO_BUILD=false
+for arg in "$@"; do
+    case "$arg" in
+        --publish) DO_PUBLISH=true ;;
+        --build)   DO_BUILD=true ;;
+    esac
+done
+
+read_product_code() {
+    grep '#define PRODUCT_CODE' main/board_config.h | head -1 | sed -E 's/.*"([^"]+)".*/\1/'
+}
+
+read_firmware_version() {
+    grep '#define FIRMWARE_VERSION' main/app_config.h | head -1 | sed -E 's/.*"([^"]+)".*/\1/'
+}
 
 echo -e "${GREEN}========================================"
 echo "  ESP32-C3 固件合并工具"
@@ -35,6 +53,12 @@ if [ -z "$IDF_PATH" ]; then
     fi
 else
     echo -e "${GREEN}✅ ESP-IDF路径: $IDF_PATH${NC}"
+fi
+
+if $DO_BUILD; then
+    echo -e "\n${YELLOW}🔨 编译固件...${NC}"
+    idf.py set-target esp32c3
+    idf.py build
 fi
 
 # 检查编译文件
@@ -67,9 +91,14 @@ echo -e "  ${BLUE}分区表:${NC}         $(ls -lh $PARTITION_TABLE | awk '{prin
 echo -e "  ${BLUE}应用程序:${NC}       $(ls -lh $APP_BIN | awk '{print $5}')"
 
 # 定义输出文件
+PRODUCT_CODE="$(read_product_code)"
+FW_VERSION="$(read_firmware_version)"
+RELEASE_NAME="${PRODUCT_CODE}-v${FW_VERSION}"
 OUTPUT_DIR="build/merged"
-MERGED_BIN="$OUTPUT_DIR/aiot-esp32c3-lite_merged.bin"
-MERGED_WITH_VERSION="$OUTPUT_DIR/aiot-esp32c3-lite_v1.2.1_$(date +%Y%m%d).bin"
+MERGED_BIN="$OUTPUT_DIR/${RELEASE_NAME}.bin"
+MERGED_WITH_VERSION="$OUTPUT_DIR/${RELEASE_NAME}_$(date +%Y%m%d).bin"
+
+echo -e "${BLUE}产品:${NC} ${PRODUCT_CODE}  ${BLUE}版本:${NC} v${FW_VERSION}"
 
 # 创建输出目录
 mkdir -p "$OUTPUT_DIR"
@@ -130,8 +159,9 @@ with open('$MERGED_BIN', 'r+b') as merged:
         print(f'✅ 已写入应用程序 ({len(data)} bytes)')
 "
 
-# 复制一份带版本号的文件
+# 复制一份带日期的文件
 cp "$MERGED_BIN" "$MERGED_WITH_VERSION"
+ln -sf "$(basename "$MERGED_BIN")" "${OUTPUT_DIR}/latest-merged.bin"
 
 # 生成烧录说明文件
 FLASH_README="$OUTPUT_DIR/FLASH_INSTRUCTIONS.txt"
@@ -261,10 +291,21 @@ fi
 
 if [ -n "$MD5_CMD" ]; then
     cd "$OUTPUT_DIR"
-    $MD5_CMD aiot-esp32c3-lite_merged.bin > aiot-esp32c3-lite_merged.bin.md5
+    $MD5_CMD "$(basename "$MERGED_BIN")" > "$(basename "$MERGED_BIN").md5"
     $MD5_CMD "$(basename $MERGED_WITH_VERSION)" > "$(basename $MERGED_WITH_VERSION).md5"
     cd "$PROJECT_DIR"
     echo -e "${GREEN}✅ 已生成MD5校验文件${NC}"
+fi
+
+# 发布到 docs/firmware/
+if $DO_PUBLISH; then
+    PUBLISH_DIR="${REPO_ROOT}/docs/firmware"
+    mkdir -p "$PUBLISH_DIR"
+    cp "$MERGED_BIN" "${PUBLISH_DIR}/$(basename "$MERGED_BIN")"
+    if [ -f "${MERGED_BIN}.md5" ]; then
+        cp "${OUTPUT_DIR}/$(basename "$MERGED_BIN").md5" "${PUBLISH_DIR}/$(basename "$MERGED_BIN").md5"
+    fi
+    echo -e "${GREEN}✅ 已发布到: ${PUBLISH_DIR}/$(basename "$MERGED_BIN")${NC}"
 fi
 
 # 显示最终结果

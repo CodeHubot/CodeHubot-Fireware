@@ -111,20 +111,23 @@ case "${1:-build}" in
     merge)
         echo "🔀 合并固件为单个文件..."
         
-        # 首先确保固件已编译
         if [ ! -f "build/aiot-esp32c3-lite.bin" ]; then
             echo "📦 固件未编译，开始编译..."
             idf.py set-target esp32c3
             idf.py build
         fi
         
-        # 调用合并脚本
         if [ -f "./merge_firmware.sh" ]; then
-            ./merge_firmware.sh
+            ./merge_firmware.sh "$@"
         else
             echo "❌ 未找到 merge_firmware.sh 脚本"
             exit 1
         fi
+        ;;
+    
+    publish)
+        echo "📦 编译、合并并发布固件..."
+        ./merge_firmware.sh --build --publish
         ;;
     
     *)
@@ -140,7 +143,8 @@ case "${1:-build}" in
         echo "  erase [端口]    - 擦除Flash"
         echo "  size            - 分析固件大小"
         echo "  all             - 完整清理并编译"
-        echo "  merge           - 合并为单个固件文件"
+        echo "  merge [opts]    - 合并为单个固件（支持 --publish）"
+        echo "  publish         - 编译+合并+发布到 docs/firmware/"
         echo ""
         echo "示例:"
         echo "  $0 build                    # 编译"
